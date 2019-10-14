@@ -24,10 +24,12 @@ Public Class Question
 
     Property NextReviewDate As Date
         Get
-            Return Convert.ToDateTime(mDBValue.NextReviewDate)
+            Return Convert.ToDateTime(mDBObject.NextReviewDate)
         End Get
         Set(value As Date)
-            mDBValue.NextReviewDate = value.ToString
+            If mDBObject.NextReviewDate <> Convert.ToDateTime(value) Then
+                mDBObject.NextReviewDate = value.ToString
+            End If
         End Set
     End Property
     Property RememberQuality As Double
@@ -41,18 +43,17 @@ Public Class Question
 
 
     Private mMapperToDB As Mapper
-    Private mDBValue As Question
+    Private mDBObject As Question
     Shared mMapperFromDB As Mapper
 
     Public Sub New(dbContext As DBContext)
-        'Dim mDBValue As Question = New Question()
         Dim mapConfigToDB As MapperConfiguration = New MapperConfiguration(Function(x) x.CreateMap(Of WindowsApp1.Question, WindowsApp1.Question.Question)())
         Dim mapConfigFromDB As MapperConfiguration = New MapperConfiguration(Function(x) x.CreateMap(Of WindowsApp1.Question.Question, WindowsApp1.Question)())
         mMapperToDB = mapConfigToDB.CreateMapper()
         mMapperFromDB = mapConfigFromDB.CreateMapper()
-        mDBValue = New Question
+        mDBObject = New Question
 
-        Me.Id = mDBValue.Id
+        Me.Id = mDBObject.Id
         mDb = dbContext
         mIsSTored = False
 
@@ -96,7 +97,7 @@ Public Class Question
         dbobjects = dbContext.Table(Of WindowsApp1.Question.Question).Where(x).ToList()
         For Each item As Question In dbobjects
             Dim modelObj As New WindowsApp1.Question(dbContext)
-            modelObj.mDBValue = mapperFromDB.Map(Of Question)(item)
+            mapperFromDB.Map(item, modelObj.mDBObject, GetType(Question), GetType(Question))
             modelObjects.Add(modelObj)
         Next
         Return modelObjects

@@ -11,7 +11,7 @@ Public Class StartUp
         Dim aQuestion As Question = New Question(dbContext)
         'Dim aTopic As Topic = New Topic(dbContext)
 
-        'aQuestion = Question.FetchObjects(dbContext, Function(x) x.Id <> 5).FirstOrDefault()
+        aQuestion = Question.FetchBusinessObjects(dbContext, Function(x) x.Id <> 5).FirstOrDefault()
         'MessageBox.Show(dbContext.Table(Of WindowsApp1.Question.Question).Where(Function(x) x.Id = 5).ToList().Count)
 
 
@@ -20,7 +20,7 @@ Public Class StartUp
         aQuestion.NextReviewDate = Convert.ToDateTime("3/4/2020")
         aQuestion.Save()
 
-        aQuestion = dbContext.Table(Of Question)().Where(Function(x) x.Id = 2).ToList().Item(0)
+        'aQuestion = dbContext.Table(Of Question)().Where(Function(x) x.Id = 2).ToList().Item(0)
         'Debug.WriteLine(aQuestion.GetAll().Count.ToString)
         'Console.WriteLine(aQuestion.GetAll().Count.ToString)
         'Console.ReadKey()
