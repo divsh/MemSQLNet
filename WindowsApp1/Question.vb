@@ -34,7 +34,7 @@ Public Class Question
     Property TopicID As Integer
     Property MaintTime As Date
 
-    hh
+
 
     Private mDb As DBContext
     Private mIsSTored As Boolean
@@ -84,29 +84,22 @@ Public Class Question
         Return True
     End Function
 
-    'Function GetAll() As List(Of WindowsApp1.Question)
-    '    Return mDb.Table(Of WindowsApp1.Question)().ToList
-
-    'End Function
-
     Private Shared Function ModelObject(ByVal dbObject As WindowsApp1.Question.Question) As WindowsApp1.Question
         Return mMapperFromDB.Map(Of WindowsApp1.Question)(dbObject)
     End Function
 
-    Shared Function FetchObjects(dbContext As DBContext, x As Func(Of WindowsApp1.Question.Question, Boolean)) As List(Of WindowsApp1.Question)
-        Dim mapConfigFromDB As MapperConfiguration = New MapperConfiguration(Function(ax) ax.CreateMap(Of Question, WindowsApp1.Question)())
+    Shared Function FetchBusinessObjects(dbContext As DBContext, x As Func(Of WindowsApp1.Question.Question, Boolean)) As List(Of WindowsApp1.Question)
+        Dim mapConfigFromDB As MapperConfiguration = New MapperConfiguration(Function(ax) ax.CreateMap(Of Question, Question)())
         Dim mapperFromDB As Mapper = mapConfigFromDB.CreateMapper()
         Dim dbobjects As List(Of Question)
         Dim modelObjects As List(Of WindowsApp1.Question) = New List(Of WindowsApp1.Question)
         dbobjects = dbContext.Table(Of WindowsApp1.Question.Question).Where(x).ToList()
         For Each item As Question In dbobjects
-            Dim a As WindowsApp1.Question
-            a = mapperFromDB.Map(Of WindowsApp1.Question)(item)
-            modelObjects.Add(a)
+            Dim modelObj As New WindowsApp1.Question(dbContext)
+            modelObj.mDBValue = mapperFromDB.Map(Of Question)(item)
+            modelObjects.Add(modelObj)
         Next
-        'modelObjects = dbobjects.Select(Of WindowsApp1.Question)(Function(m) DirectCast(mMapperFromDB.Map(Of WindowsApp1.Question)(m), WindowsApp1.Question))
         Return modelObjects
     End Function
-
 
 End Class

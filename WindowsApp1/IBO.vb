@@ -2,4 +2,5 @@
     Class DBObjectTYpe
 
     End Class
+
 End Interface
