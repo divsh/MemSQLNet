@@ -103,7 +103,7 @@ Public Class clsQuestion
 
     Public Function IBO_loadFromStorage() As Boolean Implements IBO.IBO_loadFromStorage
         Dim dbObject As Question
-        dbObject = FetchBusinessObjects(mDbContext, Function(x) x.Id = IBO_Id).FirstOrDefault().DBObject
+        dbObject = FetchBusinessObjects(mDbContext, Function(x) x.Id = IBO_Id).FirstOrDefault().mDBObject
         mMapperFromDB.Map(dbObject, mDBObject)
         If (dbObject IsNot Nothing) Then
             mIsSTored = True
@@ -114,10 +114,10 @@ Public Class clsQuestion
 
     Public Function Save() As Boolean Implements IBO.IBO_Save
         If mIsStored Then
-            Return mDbContext.Update(DBObject)
+            Return mDbContext.Update(mDBObject)
         Else
             Dim IDCreated As Integer
-            mDbContext.Save(DBObject, IDCreated)
+            mDbContext.Save(mDBObject, IDCreated)
             mID = IDCreated
             mIsStored = True
             Return True
@@ -125,7 +125,7 @@ Public Class clsQuestion
     End Function
 
     Public Function Delete() As Boolean Implements IBO.IBO_Delete
-        Return mDbContext.Delete(DBObject)
+        Return mDbContext.Delete(mDBObject)
     End Function
 
 
@@ -135,9 +135,9 @@ Public Class clsQuestion
 #End Region
 
 #Region "Model methods"
-    Private Function DBObject() As Question
-        Return mMapperToDB.Map(Of Question)(Me)
-    End Function
+    'Private Function DBObject() As Question
+    '    Return mMapperToDB.Map(Of Question)(Me)
+    'End Function
 
     Public Sub New(dbContext As DBContext)
         mDbContext = dbContext
@@ -180,5 +180,7 @@ Public Class clsQuestion
     'todo: work on associations
     'todo: db script for creating referencial constraint on the database tables
     'todo: test saving and retriving RTF from db.
-
+    'todo: think the UI
+    'todo: find repetition algorithm
+    'todo: appropriate datatype for answer field
 End Class
