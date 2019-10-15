@@ -82,7 +82,8 @@ Public Class clsTopic
         If mIsStored Then
             Return mDbContext.Update(DBObject)
         Else
-            mDbContext.Save(DBObject)
+            Dim IDCreated As Integer
+            mDbContext.Save(DBObject, IDCreated)
             mIsStored = True
             Return True
         End If

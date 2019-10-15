@@ -29,9 +29,28 @@ Public Class clsQuestion
 #End Region
 
 #Region "Model Properties and associations"
+    Dim mID As Integer
     ReadOnly Property Id As Integer
+        Get
+            Return mID
+        End Get
+    End Property
     Property Name As String
+        Get
+            Return mDBObject.Name
+        End Get
+        Set(value As String)
+            mDBObject.Name = value
+        End Set
+    End Property
     Property Ans As String
+        Get
+            Return mDBObject.Ans
+        End Get
+        Set(value As String)
+            mDBObject.Ans = value
+        End Set
+    End Property
     Property NextReviewDate As Date
         Get
             Return Convert.ToDateTime(mDBObject.NextReviewDate)
@@ -97,7 +116,9 @@ Public Class clsQuestion
         If mIsStored Then
             Return mDbContext.Update(DBObject)
         Else
-            mDbContext.Save(DBObject)
+            Dim IDCreated As Integer
+            mDbContext.Save(DBObject, IDCreated)
+            mID = IDCreated
             mIsStored = True
             Return True
         End If
@@ -158,5 +179,6 @@ Public Class clsQuestion
 #End Region
     'todo: work on associations
     'todo: db script for creating referencial constraint on the database tables
+    'todo: test saving and retriving RTF from db.
 
 End Class

@@ -10,9 +10,12 @@ Public Class DBContext
     ''' <summary>
     ''' Creates a new entry every time regardless of existing ID.
     ''' </summary>
-    Public Function Save(ByVal obj As IDBObject) As Boolean
+    Public Function Save(ByVal obj As IDBObject, ByRef IDCreated As Integer) As Boolean
         obj.MaintTime = Now.ToString
-        Return mDBConnection.Insert(obj) > 0
+        Dim noOfRecords As Integer
+        noOfRecords = mDBConnection.Insert(obj)
+        IDCreated = obj.ID
+        Return noOfRecords > 0
     End Function
 
     ''' <summary>
