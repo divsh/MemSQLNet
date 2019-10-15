@@ -10,9 +10,9 @@ Public Class DBContext
     ''' <summary>
     ''' Creates a new entry every time regardless of existing ID.
     ''' </summary>
-    Public Function Save(ByVal obj As IDBObject)
+    Public Function Save(ByVal obj As IDBObject) As Boolean
         obj.MaintTime = Now.ToString
-        mDBConnection.Insert(obj)
+        Return mDBConnection.Insert(obj) > 0
     End Function
 
     ''' <summary>
@@ -20,13 +20,12 @@ Public Class DBContext
     ''' </summary>
     ''' <param name="obj"></param>
     ''' <returns></returns>
-    Public Function Update(ByVal obj As Object)
-        mDBConnection.Update(obj)
+    Public Function Update(ByVal obj As Object) As Boolean
+        Return mDBConnection.Update(obj) > 0
     End Function
 
-    Public Function Delete(ByVal obj As Object)
-        mDBConnection.Delete(obj)
-        Return True
+    Public Function Delete(ByVal obj As Object) As Boolean
+        Return mDBConnection.Delete(obj) > 0
     End Function
 
     Public Function Table(Of T As New)() As TableQuery(Of T)
@@ -34,7 +33,7 @@ Public Class DBContext
     End Function
     Private Sub CreateDB(ByVal dbName As String)
         mDBConnection = New SQLiteConnection(dbName)
-        mDBConnection.CreateTable(Of Topic)()
-        mDBConnection.CreateTable(Of WindowsApp1.Question.Question)()
+        mDBConnection.CreateTable(Of clsTopic)()
+        mDBConnection.CreateTable(Of WindowsApp1.clsQuestion.Question)()
     End Sub
 End Class

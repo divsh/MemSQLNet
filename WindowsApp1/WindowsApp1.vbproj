@@ -119,9 +119,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Question.vb" />
+    <Compile Include="clsQuestion.vb" />
     <Compile Include="StartUp.vb" />
-    <Compile Include="Topic.vb" />
+    <Compile Include="clsTopic.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

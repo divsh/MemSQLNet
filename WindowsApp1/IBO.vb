@@ -2,7 +2,9 @@
     Class DBObjectTYpe
 
     End Class
-    Property IBO_dirty As Boolean
+    Sub IBO_Initialize()
+    ReadOnly Property IBO_isStored As Boolean
+    ReadOnly Property IBO_dirty As Boolean
     Function IBO_Save() As Boolean
     Function IBO_Delete() As Boolean
     ReadOnly Property IBO_Id As Integer

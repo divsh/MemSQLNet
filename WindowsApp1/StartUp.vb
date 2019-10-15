@@ -8,10 +8,10 @@ Public Class StartUp
 
     Private Sub Run()
         Dim dbContext As DBContext = New DBContext("C:\A1\work\MemSQLNet\foofoo.db")
-        Dim aQuestion As Question = New Question(dbContext)
+        Dim aQuestion As clsQuestion = New clsQuestion(dbContext)
         'Dim aTopic As Topic = New Topic(dbContext)
 
-        aQuestion = Question.FetchBusinessObjects(dbContext, Function(x) x.Id <> 5).FirstOrDefault()
+        aQuestion = clsQuestion.FetchBusinessObjects(dbContext, Function(x) x.Id <> 5).FirstOrDefault()
         'MessageBox.Show(dbContext.Table(Of WindowsApp1.Question.Question).Where(Function(x) x.Id = 5).ToList().Count)
 
 
