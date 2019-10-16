@@ -16,12 +16,22 @@ Public Class clsQuestion
         Property RememberQuality As Double
         <Indexed>
         Property TopicID As Integer
+        Property extra As Integer
+        Property extra2 As Integer
     End Class
     '>>Custom declarations
     '<<Custom declarations
-
+#Region "Enum"
+    Public Enum RecallStrength
+        Null
+        Poor
+        Average
+        Good
+        Best
+    End Enum
+#End Region
 #Region "Model variables"
-    Private Shared nextID As Integer = 0
+    Private Shared nextAvailableID As Integer = 0
     Private mDbContext As DBContext
     Private mMapperToDB As Mapper
     Private mDBObject As Question
@@ -106,7 +116,7 @@ Public Class clsQuestion
         dbObject = FetchBusinessObjects(mDbContext, Function(x) x.Id = IBO_Id).FirstOrDefault().mDBObject
         mMapperFromDB.Map(dbObject, mDBObject)
         If (dbObject IsNot Nothing) Then
-            mIsSTored = True
+            mIsStored = True
             Return True
         End If
         Return False
@@ -151,8 +161,8 @@ Public Class clsQuestion
         mMapperToDB = mapConfigToDB.CreateMapper()
 
         mDBObject = New Question()
-        mDBObject.Id = nextID
-        nextID -= 1
+        mDBObject.Id = nextAvailableID
+        nextAvailableID -= 1
 
         mIsStored = False
     End Sub
@@ -183,4 +193,5 @@ Public Class clsQuestion
     'todo: think the UI
     'todo: find repetition algorithm
     'todo: appropriate datatype for answer field
+    'todo: introduce enums
 End Class

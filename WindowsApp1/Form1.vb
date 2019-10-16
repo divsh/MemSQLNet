@@ -5,7 +5,9 @@
         a.Ans = RichTextBox1.Rtf
         a.Name = "richtext example"
         a.Save()
+        Dim abc As clsQuestion = New clsQuestion(dbContext)
         RichTextBox1.Clear()
+        Dim t As New clsTopic(dbContext)
 
         Dim b As clsQuestion
         b = clsQuestion.FetchBusinessObjects(dbContext, Function(x) x.Id = a.Id).FirstOrDefault()

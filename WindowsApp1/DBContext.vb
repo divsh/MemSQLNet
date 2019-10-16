@@ -36,7 +36,7 @@ Public Class DBContext
     End Function
     Private Sub CreateDB(ByVal dbName As String)
         mDBConnection = New SQLiteConnection(dbName)
-        mDBConnection.CreateTable(Of clsTopic)()
-        mDBConnection.CreateTable(Of WindowsApp1.clsQuestion.Question)()
+        mDBConnection.CreateTable(Of clsTopic.Topic)()
+        mDBConnection.CreateTable(Of clsQuestion.Question)()
     End Sub
 End Class
