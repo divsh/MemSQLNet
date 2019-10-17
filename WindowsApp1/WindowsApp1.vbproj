@@ -104,6 +104,7 @@
     </Compile>
     <Compile Include="IBO.vb" />
     <Compile Include="IDBObject.vb" />
+    <Compile Include="Interfaces.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -120,8 +121,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="clsQuestion.vb" />
+    <Compile Include="QuestionGridView.vb" />
     <Compile Include="StartUp.vb" />
     <Compile Include="clsTopic.vb" />
+    <Compile Include="TopicQuestionView.vb" />
+    <Compile Include="TopicView.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">

@@ -28,4 +28,15 @@ Public Class StartUp
 
     End Sub
 
+    Private Sub Run1()
+        Dim topicControl As Control = New Control
+        Dim questionGridControl As Control = New Control
+        Dim TopicView As ITopicView = New TopicView(topicControl)
+        Dim questionGridView As IQuestionGridView = New QuestionGridView(questionGridControl)
+
+        Dim aTopicQuestionView As ITopicQuestionView
+        aTopicQuestionView = New TopicQuestionView(TopicView, questionGridView)
+        aTopicQuestionView.Show()
+    End Sub
+
 End Class
