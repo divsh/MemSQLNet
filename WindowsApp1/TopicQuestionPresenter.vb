@@ -40,6 +40,11 @@ Public Class TopicQuestionPresenter
         Throw New NotImplementedException()
     End Sub
 
+    Public Sub OnQuestionDoubleClicked(questionID As Integer) Implements ITopicQuestionPresenter.OnQuestionDoubleClicked
+        Dim QuestionView As IQuestionView = New frmQuestionView(mdbContext)
+        QuestionView.Display(questionID)
+    End Sub
+
     Public Function GetAllTopics() As List(Of clsTopic) Implements ITopicQuestionPresenter.GetAllTopics
         Dim allTopics = clsTopic.FetchBusinessObjects(mdbContext, Function(x) x.ID > 0)
         Return allTopics

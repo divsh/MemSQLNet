@@ -102,6 +102,12 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="frmQuestionView.Designer.vb">
+      <DependentUpon>frmQuestionView.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmQuestionView.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="frmTopicQuestionView.Designer.vb">
       <DependentUpon>frmTopicQuestionView.vb</DependentUpon>
     </Compile>
@@ -128,6 +134,7 @@
     </Compile>
     <Compile Include="clsQuestion.vb" />
     <Compile Include="QuestionGridView.vb" />
+    <Compile Include="QuestionPresenter.vb" />
     <Compile Include="StartUp.vb" />
     <Compile Include="clsTopic.vb" />
     <Compile Include="TopicQuestionPresenter.vb" />
@@ -144,6 +151,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmQuestionView.resx">
+      <DependentUpon>frmQuestionView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTopicQuestionView.resx">
       <DependentUpon>frmTopicQuestionView.vb</DependentUpon>

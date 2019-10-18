@@ -8,6 +8,7 @@ End Interface
 
 Public Interface ITopicQuestionPresenter
     Function GetAllTopics() As List(Of clsTopic)
+    Sub OnQuestionDoubleClicked(questionID As Integer)
     Sub OnTopicSelectionChanged(selectedTopicID As Integer)
     Sub OnQuestionsDroppedOnTopic(questionIDs As List(Of Integer))
     Sub OnTopicRenamed(topicIDRenamed As Integer, newName As String)
@@ -16,41 +17,33 @@ Public Interface ITopicQuestionPresenter
     Sub OnQuestionDelete(questionID As Integer)
 End Interface
 
+Public Interface IQuestionView
+    Sub Display(questionID As Integer)
+    ReadOnly Property DisplayedBusinessObject As clsQuestion
+    ReadOnly Property DisplayedBusinessObjectTopic As clsTopic
+    Sub DisplayBusinessObject(question As clsQuestion)
+    Sub ChangeState(state As Object)
+    Sub SetMode(mode As QuestionViewMode)
+End Interface
+
+
+Public Interface IQuestionPresenter
+    Function getQuestion(questionID As Integer) As clsQuestion
+    Sub OnSaveClicked(questionID As Integer)
+    Sub OnResponseSelected(questionID As Integer, response As clsQuestion.RecallStrength)
+    Sub OnCancelSelected(questionID As Integer, mode As QuestionViewMode)
+    Sub OnPrevNextSelected(nextQuestionID As Integer)
+    Sub OnReviewSelected()
+    Sub OnNewSelected()
+End Interface
 #End Region
 
-Public Interface ITopicView
-    Event SelectedTopicChanged(changedToTopicID As Integer)
-    Event DroppedOnTopic(droppedOnTopicID As Integer, typeOFItemDropped As DroppedItemType, droppedObjects As List(Of Object))
-    Sub RenameTopic(topicID As Integer, newName As String)
-    Sub ChangeParentTopic(childTopicID As Integer, parentTopicID As Integer)
-    Sub PopulateTopics()
-End Interface
-Public Interface IQuestionGridView
-    Event RequestToOpenQuestionView(questionID As Integer)
-    Sub PopulateQuestions(questions As List(Of Object))
-    Sub SelectQuestions(questions() As Integer)
-End Interface
-
-
-
-Public Interface ITopicViewController
-    Sub getAllTopics()
-End Interface
-
-Public Interface IQuestionGridViewController
-
-End Interface
-Public Interface ITopicQuestionViewController
-
-End Interface
-
-Public Interface IQuestionView
-
-End Interface
-
-Public Interface IQuestionViewController
-
-End Interface
+Public Enum QuestionViewMode
+    Create
+    Detail
+    Edit
+    Review
+End Enum
 
 Public Enum DroppedItemType
     Topic

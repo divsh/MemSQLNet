@@ -106,4 +106,16 @@ Public Class frmTopicQuestionView
     Private Sub trvTopic_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles trvTopic.AfterLabelEdit
         myPresenter.OnTopicRenamed(e.Node.Tag, e.Label)
     End Sub
+
+    Private Sub grdQuestion_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseDoubleClick
+        myPresenter.OnQuestionDoubleClicked(DirectCast(grdQuestion.SelectedRows(0).DataBoundItem, clsQuestion).Id)
+    End Sub
+
+    Private Sub grdQuestion_MouseClick(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseClick
+
+    End Sub
+
+    Private Sub grdQuestion_MouseDown(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseDown
+
+    End Sub
 End Class
