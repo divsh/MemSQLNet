@@ -23,8 +23,8 @@ Partial Class frmTopicQuestionView
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.TableLayoutPanel1 = New System.Windows.Forms.TableLayoutPanel()
-        Me.trvTopic = New System.Windows.Forms.TreeView()
         Me.grdQuestion = New System.Windows.Forms.DataGridView()
+        Me.trvTopic = New System.Windows.Forms.TreeView()
         Me.TableLayoutPanel1.SuspendLayout()
         CType(Me.grdQuestion, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -44,14 +44,6 @@ Partial Class frmTopicQuestionView
         Me.TableLayoutPanel1.Size = New System.Drawing.Size(1078, 579)
         Me.TableLayoutPanel1.TabIndex = 2
         '
-        'trvTopic
-        '
-        Me.trvTopic.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.trvTopic.Location = New System.Drawing.Point(3, 3)
-        Me.trvTopic.Name = "trvTopic"
-        Me.trvTopic.Size = New System.Drawing.Size(355, 573)
-        Me.trvTopic.TabIndex = 1
-        '
         'grdQuestion
         '
         Me.grdQuestion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
@@ -61,6 +53,15 @@ Partial Class frmTopicQuestionView
         Me.grdQuestion.RowTemplate.Height = 30
         Me.grdQuestion.Size = New System.Drawing.Size(711, 573)
         Me.grdQuestion.TabIndex = 2
+        '
+        'trvTopic
+        '
+        Me.trvTopic.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.trvTopic.LabelEdit = True
+        Me.trvTopic.Location = New System.Drawing.Point(3, 3)
+        Me.trvTopic.Name = "trvTopic"
+        Me.trvTopic.Size = New System.Drawing.Size(355, 573)
+        Me.trvTopic.TabIndex = 1
         '
         'frmTopicQuestionView
         '

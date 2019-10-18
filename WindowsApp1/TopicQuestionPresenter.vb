@@ -3,16 +3,18 @@
 Public Class TopicQuestionPresenter
     Implements ITopicQuestionPresenter
     Private mdbContext As DBContext
-    Private mFrmTopicQuestionView As ITopicQuestionView
+    Private MyView As ITopicQuestionView
     Public Sub New(dbcontext As DBContext, view As ITopicQuestionView)
         mdbContext = dbcontext
-        mfrmTopicQuestionView = view
+        MyView = view
     End Sub
 
 
 #Region "Presenter Interface Implementation"
     Public Sub OnTopicSelectionChanged(selectedTopicID As Integer) Implements ITopicQuestionPresenter.OnTopicSelectionChanged
-        Throw New NotImplementedException()
+        Dim questions As List(Of clsQuestion)
+        questions = clsQuestion.FetchBusinessObjects(mdbContext, Function(x) x.TopicID = selectedTopicID)
+        MyView.RefeshQuestionsGrid(questions)
     End Sub
 
     Public Sub OnQuestionsDroppedOnTopic(questionIDs As List(Of Integer)) Implements ITopicQuestionPresenter.OnQuestionsDroppedOnTopic
@@ -24,7 +26,10 @@ Public Class TopicQuestionPresenter
     End Sub
 
     Public Sub OnTopicRenamed(topicIDRenamed As Integer, newName As String) Implements ITopicQuestionPresenter.OnTopicRenamed
-        Throw New NotImplementedException()
+        Dim topic As clsTopic
+        topic = clsTopic.FetchBusinessObjects(mdbContext, Function(x) x.ID = topicIDRenamed).FirstOrDefault()
+        topic.Name = newName
+        topic.Save()
     End Sub
 
     Public Sub OnTopicParentTopicChanged(topicIDChanged As Integer, newParentTopicID As Integer) Implements ITopicQuestionPresenter.OnTopicParentTopicChanged

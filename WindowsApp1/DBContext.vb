@@ -24,7 +24,11 @@ Public Class DBContext
     ''' <param name="obj"></param>
     ''' <returns></returns>
     Public Function Update(ByVal obj As Object) As Boolean
-        Return mDBConnection.Update(obj) > 0
+        Try
+            Return mDBConnection.Update(obj) > 0
+        Catch ex As Exception
+            Throw ex
+        End Try
     End Function
 
     Public Function Delete(ByVal obj As Object) As Boolean
