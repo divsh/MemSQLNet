@@ -8,6 +8,7 @@ Public Class TopicQuestionView
     Public Sub New(ByVal questionGridView As IQuestionGridView, ByVal topicView As ITopicView)
         mquestionGridView = questionGridView
         mTopicView = topicView
+        mTopicView.PopulateTopics()
     End Sub
 
     Public Sub QuestionsDroppedOnTopic(quesions() As Integer, droppedOnTopicID As Integer) Implements ITopicQuestionView.QuestionsDroppedOnTopic

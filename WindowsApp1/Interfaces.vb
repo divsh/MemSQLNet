@@ -3,7 +3,7 @@
     Event DroppedOnTopic(droppedOnTopicID As Integer, typeOFItemDropped As DroppedItemType, droppedObjects As List(Of Object))
     Sub RenameTopic(topicID As Integer, newName As String)
     Sub ChangeParentTopic(childTopicID As Integer, parentTopicID As Integer)
-    Sub PopulateTopics(alltopics As List(Of Tuple(Of Integer, String)))
+    Sub PopulateTopics()
 End Interface
 Public Interface IQuestionGridView
     Event RequestToOpenQuestionView(questionID As Integer)
@@ -16,6 +16,13 @@ Public Interface ITopicQuestionView
     Sub Show()
 End Interface
 
+Public Interface ITopicViewController
+    Sub getAllTopics()
+End Interface
+
+Public Interface IQuestionGridViewController
+
+End Interface
 Public Interface ITopicQuestionViewController
 
 End Interface

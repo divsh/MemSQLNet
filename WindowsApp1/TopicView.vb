@@ -6,11 +6,13 @@ Public Class TopicView
     Public Event SelectedTopicChanged(changedToTopicID As Integer) Implements ITopicView.SelectedTopicChanged
     Public Event DroppedOnTopic(droppedOnTopicID As Integer, typeOFItemDropped As DroppedItemType, droppedObjects As List(Of Object)) Implements ITopicView.DroppedOnTopic
 
-    Public Sub New(TopicControl As Windows.Forms.Control)
-
+    Private mTopicControl As ucTreeView
+    Public Sub New(TopicControl As ucTreeView)
+        mTopicControl = TopicControl
     End Sub
 
     Public Sub RenameTopic(topicID As Integer, newName As String) Implements ITopicView.RenameTopic
+
         Throw New NotImplementedException()
     End Sub
 
@@ -18,7 +20,7 @@ Public Class TopicView
         Throw New NotImplementedException()
     End Sub
 
-    Public Sub PopulateTopics(alltopics As List(Of Tuple(Of Integer, String))) Implements ITopicView.PopulateTopics
-        Throw New NotImplementedException()
+    Public Sub PopulateTopics() Implements ITopicView.PopulateTopics
+
     End Sub
 End Class
