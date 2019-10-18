@@ -1,4 +1,24 @@
-﻿Public Interface ITopicView
+﻿#Region "MVP"
+Public Interface ITopicQuestionView
+    Sub Display()
+    Sub RefeshQuestionsGrid(questions As List(Of clsQuestion))
+    Function getSelectedTopicID() As Integer
+    Sub populateTopicTree(topics As List(Of clsTopic))
+End Interface
+
+Public Interface ITopicQuestionPresenter
+    Function GetAllTopics() As List(Of clsTopic)
+    Sub OnTopicSelectionChanged(selectedTopicID As Integer)
+    Sub OnQuestionsDroppedOnTopic(questionIDs As List(Of Integer))
+    Sub OnTopicRenamed(topicIDRenamed As Integer, newName As String)
+    Sub OnTopicParentTopicChanged(topicIDChanged As Integer, newParentTopicID As Integer)
+    Sub OnQuestionsDroppedOnTopic(quesions As Integer(), droppedOnTopicID As Integer)
+    Sub OnQuestionDelete(questionID As Integer)
+End Interface
+
+#End Region
+
+Public Interface ITopicView
     Event SelectedTopicChanged(changedToTopicID As Integer)
     Event DroppedOnTopic(droppedOnTopicID As Integer, typeOFItemDropped As DroppedItemType, droppedObjects As List(Of Object))
     Sub RenameTopic(topicID As Integer, newName As String)
@@ -11,10 +31,7 @@ Public Interface IQuestionGridView
     Sub SelectQuestions(questions() As Integer)
 End Interface
 
-Public Interface ITopicQuestionView
-    Sub QuestionsDroppedOnTopic(quesions As Integer(), droppedOnTopicID As Integer)
-    Sub Show()
-End Interface
+
 
 Public Interface ITopicViewController
     Sub getAllTopics()

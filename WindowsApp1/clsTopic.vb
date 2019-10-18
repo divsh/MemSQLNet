@@ -23,12 +23,30 @@ Public Class clsTopic
 #End Region
 
 #Region "Model Properties and associations"
-    <PrimaryKey, AutoIncrement>
-    Property ID As Integer
-    <NotNull>
+    Dim mID As Integer
+    ReadOnly Property Id As Integer
+        Get
+            Return mDBObject.ID
+        End Get
+    End Property
+
     Property Name As String
-    <Indexed>
+        Get
+            Return mDBObject.Name
+        End Get
+        Set(value As String)
+            mDBObject.Name = value
+        End Set
+    End Property
+
     Property ParentTopicID As Integer
+        Get
+            Return mDBObject.ParentTopicID
+        End Get
+        Set(value As Integer)
+            mDBObject.ParentTopicID = value
+        End Set
+    End Property
 
     Public Function Questions() As List(Of clsQuestion)
         Return clsQuestion.FetchBusinessObjects(mDbContext, Function(x) x.TopicID = mDBObject.ID)
@@ -80,10 +98,11 @@ Public Class clsTopic
 
     Public Function Save() As Boolean Implements IBO.IBO_Save
         If mIsStored Then
-            Return mDbContext.Update(DBObject)
+            Return mDbContext.Update(mDBObject)
         Else
             Dim IDCreated As Integer
-            mDbContext.Save(DBObject, IDCreated)
+            mDbContext.Save(mDBObject, IDCreated)
+            'Mid = IDCreated
             mIsStored = True
             Return True
         End If
