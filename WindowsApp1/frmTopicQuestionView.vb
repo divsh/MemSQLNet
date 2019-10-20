@@ -108,7 +108,10 @@ Public Class frmTopicQuestionView
     End Sub
 
     Private Sub grdQuestion_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseDoubleClick
-        myPresenter.OnQuestionDoubleClicked(DirectCast(grdQuestion.SelectedRows(0).DataBoundItem, clsQuestion).Id)
+        Try
+            myPresenter.OnQuestionDoubleClicked(DirectCast(grdQuestion.SelectedRows(0).DataBoundItem, clsQuestion).Id)
+        Catch
+        End Try
     End Sub
 
     Private Sub grdQuestion_MouseClick(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseClick
@@ -118,4 +121,23 @@ Public Class frmTopicQuestionView
     Private Sub grdQuestion_MouseDown(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseDown
 
     End Sub
+
+    Public Function SelectNthRowFromCurrent(positionFromCurrent As Integer) As clsQuestion Implements ITopicQuestionView.SelectNthRowFromCurrent
+
+        Dim newIndex As Integer = grdQuestion.SelectedRows().Item(0).Index + positionFromCurrent
+        If newIndex < 0 Then
+            grdQuestion.ClearSelection()
+            grdQuestion.Rows().Item(0).Selected = True
+            Return DirectCast(grdQuestion.Rows().Item(0).DataBoundItem, clsQuestion)
+        ElseIf newIndex > grdQuestion.Rows().Count - 1 Then
+            grdQuestion.ClearSelection()
+            grdQuestion.Rows().Item(grdQuestion.Rows().Count - 1).Selected = True
+            Return DirectCast(grdQuestion.Rows().Item(grdQuestion.Rows().Count - 1).DataBoundItem, clsQuestion)
+        Else
+            grdQuestion.ClearSelection()
+            grdQuestion.Rows().Item(newIndex).Selected = True
+            Return DirectCast(grdQuestion.Rows().Item(newIndex).DataBoundItem, clsQuestion)
+        End If
+
+    End Function
 End Class

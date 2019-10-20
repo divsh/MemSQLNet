@@ -42,7 +42,7 @@ Public Class clsQuestion
     Dim mID As Integer
     ReadOnly Property Id As Integer
         Get
-            Return mID
+            Return mDBObject.Id
         End Get
     End Property
     Property Name As String
@@ -73,6 +73,13 @@ Public Class clsQuestion
     End Property
     Property RememberQuality As Double
     Property TopicID As Integer
+        Get
+            Return mDBObject.TopicID
+        End Get
+        Set(value As Integer)
+            mDBObject.TopicID = value
+        End Set
+    End Property
 
     Public Function Topics() As List(Of clsTopic)
         Return clsTopic.FetchBusinessObjects(mDbContext, Function(x) x.ID = TopicID)

@@ -25,21 +25,35 @@ Partial Class frmQuestionView
         Me.lblTopic = New System.Windows.Forms.Label()
         Me.lblQuestion = New System.Windows.Forms.Label()
         Me.lblAnswer = New System.Windows.Forms.Label()
-        Me.TextBox1 = New System.Windows.Forms.TextBox()
-        Me.TextBox2 = New System.Windows.Forms.TextBox()
-        Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
-        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtTopic = New System.Windows.Forms.TextBox()
+        Me.txtQuestion = New System.Windows.Forms.TextBox()
+        Me.rtbAnswer = New System.Windows.Forms.RichTextBox()
+        Me.plnBrowseMode = New System.Windows.Forms.Panel()
         Me.btnNew = New System.Windows.Forms.Button()
         Me.btnReview = New System.Windows.Forms.Button()
         Me.btnPrev = New System.Windows.Forms.Button()
         Me.btnNext = New System.Windows.Forms.Button()
-        Me.Panel1.SuspendLayout()
+        Me.plnEditMode = New System.Windows.Forms.Panel()
+        Me.btnSave = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
+        Me.plnReviewMode = New System.Windows.Forms.Panel()
+        Me.grbResponse = New System.Windows.Forms.GroupBox()
+        Me.optExcellent = New System.Windows.Forms.RadioButton()
+        Me.optGood = New System.Windows.Forms.RadioButton()
+        Me.optAverage = New System.Windows.Forms.RadioButton()
+        Me.optPoor = New System.Windows.Forms.RadioButton()
+        Me.optNull = New System.Windows.Forms.RadioButton()
+        Me.btnStop = New System.Windows.Forms.Button()
+        Me.plnBrowseMode.SuspendLayout()
+        Me.plnEditMode.SuspendLayout()
+        Me.plnReviewMode.SuspendLayout()
+        Me.grbResponse.SuspendLayout()
         Me.SuspendLayout()
         '
         'lblTopic
         '
         Me.lblTopic.AutoSize = True
-        Me.lblTopic.Location = New System.Drawing.Point(0, 0)
+        Me.lblTopic.Location = New System.Drawing.Point(8, 3)
         Me.lblTopic.Name = "lblTopic"
         Me.lblTopic.Size = New System.Drawing.Size(58, 24)
         Me.lblTopic.TabIndex = 0
@@ -48,7 +62,7 @@ Partial Class frmQuestionView
         'lblQuestion
         '
         Me.lblQuestion.AutoSize = True
-        Me.lblQuestion.Location = New System.Drawing.Point(0, 39)
+        Me.lblQuestion.Location = New System.Drawing.Point(8, 44)
         Me.lblQuestion.Name = "lblQuestion"
         Me.lblQuestion.Size = New System.Drawing.Size(86, 24)
         Me.lblQuestion.TabIndex = 1
@@ -57,56 +71,62 @@ Partial Class frmQuestionView
         'lblAnswer
         '
         Me.lblAnswer.AutoSize = True
-        Me.lblAnswer.Location = New System.Drawing.Point(0, 84)
+        Me.lblAnswer.Location = New System.Drawing.Point(8, 102)
         Me.lblAnswer.Name = "lblAnswer"
         Me.lblAnswer.Size = New System.Drawing.Size(74, 24)
         Me.lblAnswer.TabIndex = 2
         Me.lblAnswer.Text = "Answer"
         '
-        'TextBox1
+        'txtTopic
         '
-        Me.TextBox1.Location = New System.Drawing.Point(133, 0)
-        Me.TextBox1.Name = "TextBox1"
-        Me.TextBox1.ReadOnly = True
-        Me.TextBox1.Size = New System.Drawing.Size(100, 28)
-        Me.TextBox1.TabIndex = 3
+        Me.txtTopic.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtTopic.Location = New System.Drawing.Point(72, 3)
+        Me.txtTopic.Multiline = True
+        Me.txtTopic.Name = "txtTopic"
+        Me.txtTopic.ReadOnly = True
+        Me.txtTopic.Size = New System.Drawing.Size(1203, 38)
+        Me.txtTopic.TabIndex = 3
         '
-        'TextBox2
+        'txtQuestion
         '
-        Me.TextBox2.Location = New System.Drawing.Point(133, 34)
-        Me.TextBox2.Name = "TextBox2"
-        Me.TextBox2.ReadOnly = True
-        Me.TextBox2.Size = New System.Drawing.Size(100, 28)
-        Me.TextBox2.TabIndex = 4
+        Me.txtQuestion.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtQuestion.Location = New System.Drawing.Point(12, 71)
+        Me.txtQuestion.Multiline = True
+        Me.txtQuestion.Name = "txtQuestion"
+        Me.txtQuestion.ReadOnly = True
+        Me.txtQuestion.Size = New System.Drawing.Size(1266, 28)
+        Me.txtQuestion.TabIndex = 4
         '
-        'RichTextBox1
+        'rtbAnswer
         '
-        Me.RichTextBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+        Me.rtbAnswer.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RichTextBox1.Location = New System.Drawing.Point(133, 84)
-        Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.ReadOnly = True
-        Me.RichTextBox1.Size = New System.Drawing.Size(968, 436)
-        Me.RichTextBox1.TabIndex = 5
-        Me.RichTextBox1.Text = ""
+        Me.rtbAnswer.Location = New System.Drawing.Point(12, 129)
+        Me.rtbAnswer.Name = "rtbAnswer"
+        Me.rtbAnswer.ReadOnly = True
+        Me.rtbAnswer.Size = New System.Drawing.Size(1266, 459)
+        Me.rtbAnswer.TabIndex = 5
+        Me.rtbAnswer.Text = ""
         '
-        'Panel1
+        'plnBrowseMode
         '
-        Me.Panel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+        Me.plnBrowseMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Panel1.Controls.Add(Me.btnNew)
-        Me.Panel1.Controls.Add(Me.btnReview)
-        Me.Panel1.Controls.Add(Me.btnPrev)
-        Me.Panel1.Controls.Add(Me.btnNext)
-        Me.Panel1.Location = New System.Drawing.Point(133, 526)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(968, 100)
-        Me.Panel1.TabIndex = 15
+        Me.plnBrowseMode.Controls.Add(Me.btnNew)
+        Me.plnBrowseMode.Controls.Add(Me.btnReview)
+        Me.plnBrowseMode.Controls.Add(Me.btnPrev)
+        Me.plnBrowseMode.Controls.Add(Me.btnNext)
+        Me.plnBrowseMode.Location = New System.Drawing.Point(9, 594)
+        Me.plnBrowseMode.Name = "plnBrowseMode"
+        Me.plnBrowseMode.Size = New System.Drawing.Size(1266, 100)
+        Me.plnBrowseMode.TabIndex = 15
         '
         'btnNew
         '
-        Me.btnNew.Location = New System.Drawing.Point(15, 27)
+        Me.btnNew.Location = New System.Drawing.Point(3, 27)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(157, 47)
         Me.btnNew.TabIndex = 17
@@ -115,7 +135,7 @@ Partial Class frmQuestionView
         '
         'btnReview
         '
-        Me.btnReview.Location = New System.Drawing.Point(178, 27)
+        Me.btnReview.Location = New System.Drawing.Point(166, 27)
         Me.btnReview.Name = "btnReview"
         Me.btnReview.Size = New System.Drawing.Size(157, 47)
         Me.btnReview.TabIndex = 18
@@ -125,7 +145,7 @@ Partial Class frmQuestionView
         'btnPrev
         '
         Me.btnPrev.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnPrev.Location = New System.Drawing.Point(645, 27)
+        Me.btnPrev.Location = New System.Drawing.Point(943, 27)
         Me.btnPrev.Name = "btnPrev"
         Me.btnPrev.Size = New System.Drawing.Size(157, 47)
         Me.btnPrev.TabIndex = 15
@@ -135,28 +155,155 @@ Partial Class frmQuestionView
         'btnNext
         '
         Me.btnNext.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnNext.Location = New System.Drawing.Point(808, 27)
+        Me.btnNext.Location = New System.Drawing.Point(1106, 27)
         Me.btnNext.Name = "btnNext"
         Me.btnNext.Size = New System.Drawing.Size(157, 47)
         Me.btnNext.TabIndex = 16
         Me.btnNext.Text = "Next"
         Me.btnNext.UseVisualStyleBackColor = True
         '
+        'plnEditMode
+        '
+        Me.plnEditMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.plnEditMode.Controls.Add(Me.btnSave)
+        Me.plnEditMode.Controls.Add(Me.btnCancel)
+        Me.plnEditMode.Location = New System.Drawing.Point(12, 347)
+        Me.plnEditMode.Name = "plnEditMode"
+        Me.plnEditMode.Size = New System.Drawing.Size(1266, 100)
+        Me.plnEditMode.TabIndex = 16
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Location = New System.Drawing.Point(943, 27)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(157, 47)
+        Me.btnSave.TabIndex = 15
+        Me.btnSave.Text = "Save"
+        Me.btnSave.UseVisualStyleBackColor = True
+        '
+        'btnCancel
+        '
+        Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnCancel.Location = New System.Drawing.Point(1106, 27)
+        Me.btnCancel.Name = "btnCancel"
+        Me.btnCancel.Size = New System.Drawing.Size(157, 47)
+        Me.btnCancel.TabIndex = 16
+        Me.btnCancel.Text = "Cancel"
+        Me.btnCancel.UseVisualStyleBackColor = True
+        '
+        'plnReviewMode
+        '
+        Me.plnReviewMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.plnReviewMode.Controls.Add(Me.grbResponse)
+        Me.plnReviewMode.Controls.Add(Me.btnStop)
+        Me.plnReviewMode.Location = New System.Drawing.Point(18, 169)
+        Me.plnReviewMode.Name = "plnReviewMode"
+        Me.plnReviewMode.Size = New System.Drawing.Size(1266, 100)
+        Me.plnReviewMode.TabIndex = 17
+        '
+        'grbResponse
+        '
+        Me.grbResponse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.grbResponse.Controls.Add(Me.optExcellent)
+        Me.grbResponse.Controls.Add(Me.optGood)
+        Me.grbResponse.Controls.Add(Me.optAverage)
+        Me.grbResponse.Controls.Add(Me.optPoor)
+        Me.grbResponse.Controls.Add(Me.optNull)
+        Me.grbResponse.Location = New System.Drawing.Point(464, 0)
+        Me.grbResponse.Name = "grbResponse"
+        Me.grbResponse.Size = New System.Drawing.Size(632, 100)
+        Me.grbResponse.TabIndex = 21
+        Me.grbResponse.TabStop = False
+        '
+        'optExcellent
+        '
+        Me.optExcellent.AutoSize = True
+        Me.optExcellent.Location = New System.Drawing.Point(494, 37)
+        Me.optExcellent.Name = "optExcellent"
+        Me.optExcellent.Size = New System.Drawing.Size(113, 28)
+        Me.optExcellent.TabIndex = 5
+        Me.optExcellent.TabStop = True
+        Me.optExcellent.Text = "Excellent"
+        Me.optExcellent.UseVisualStyleBackColor = True
+        '
+        'optGood
+        '
+        Me.optGood.AutoSize = True
+        Me.optGood.Location = New System.Drawing.Point(377, 37)
+        Me.optGood.Name = "optGood"
+        Me.optGood.Size = New System.Drawing.Size(82, 28)
+        Me.optGood.TabIndex = 4
+        Me.optGood.TabStop = True
+        Me.optGood.Text = "Good"
+        Me.optGood.UseVisualStyleBackColor = True
+        '
+        'optAverage
+        '
+        Me.optAverage.AutoSize = True
+        Me.optAverage.Location = New System.Drawing.Point(236, 37)
+        Me.optAverage.Name = "optAverage"
+        Me.optAverage.Size = New System.Drawing.Size(106, 28)
+        Me.optAverage.TabIndex = 3
+        Me.optAverage.TabStop = True
+        Me.optAverage.Text = "Average"
+        Me.optAverage.UseVisualStyleBackColor = True
+        '
+        'optPoor
+        '
+        Me.optPoor.AutoSize = True
+        Me.optPoor.Location = New System.Drawing.Point(126, 37)
+        Me.optPoor.Name = "optPoor"
+        Me.optPoor.Size = New System.Drawing.Size(75, 28)
+        Me.optPoor.TabIndex = 2
+        Me.optPoor.TabStop = True
+        Me.optPoor.Text = "Poor"
+        Me.optPoor.UseVisualStyleBackColor = True
+        '
+        'optNull
+        '
+        Me.optNull.AutoSize = True
+        Me.optNull.Location = New System.Drawing.Point(23, 37)
+        Me.optNull.Name = "optNull"
+        Me.optNull.Size = New System.Drawing.Size(68, 28)
+        Me.optNull.TabIndex = 1
+        Me.optNull.TabStop = True
+        Me.optNull.Text = "Null"
+        Me.optNull.UseVisualStyleBackColor = True
+        '
+        'btnStop
+        '
+        Me.btnStop.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnStop.Location = New System.Drawing.Point(1103, 28)
+        Me.btnStop.Name = "btnStop"
+        Me.btnStop.Size = New System.Drawing.Size(157, 47)
+        Me.btnStop.TabIndex = 16
+        Me.btnStop.Text = "Stop"
+        Me.btnStop.UseVisualStyleBackColor = True
+        '
         'frmQuestionView
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(10.0!, 22.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1113, 634)
-        Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.RichTextBox1)
-        Me.Controls.Add(Me.TextBox2)
-        Me.Controls.Add(Me.TextBox1)
+        Me.ClientSize = New System.Drawing.Size(1290, 706)
+        Me.Controls.Add(Me.plnReviewMode)
+        Me.Controls.Add(Me.plnEditMode)
+        Me.Controls.Add(Me.plnBrowseMode)
+        Me.Controls.Add(Me.rtbAnswer)
+        Me.Controls.Add(Me.txtQuestion)
+        Me.Controls.Add(Me.txtTopic)
         Me.Controls.Add(Me.lblAnswer)
         Me.Controls.Add(Me.lblQuestion)
         Me.Controls.Add(Me.lblTopic)
         Me.Name = "frmQuestionView"
         Me.Text = "frmQuestionView"
-        Me.Panel1.ResumeLayout(False)
+        Me.plnBrowseMode.ResumeLayout(False)
+        Me.plnEditMode.ResumeLayout(False)
+        Me.plnReviewMode.ResumeLayout(False)
+        Me.grbResponse.ResumeLayout(False)
+        Me.grbResponse.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -165,12 +312,23 @@ Partial Class frmQuestionView
     Friend WithEvents lblTopic As Label
     Friend WithEvents lblQuestion As Label
     Friend WithEvents lblAnswer As Label
-    Friend WithEvents TextBox1 As TextBox
-    Friend WithEvents TextBox2 As TextBox
-    Friend WithEvents RichTextBox1 As RichTextBox
-    Friend WithEvents Panel1 As Panel
+    Friend WithEvents txtTopic As TextBox
+    Friend WithEvents txtQuestion As TextBox
+    Friend WithEvents rtbAnswer As RichTextBox
+    Friend WithEvents plnBrowseMode As Panel
     Friend WithEvents btnNew As Button
     Friend WithEvents btnReview As Button
     Friend WithEvents btnPrev As Button
     Friend WithEvents btnNext As Button
+    Friend WithEvents plnEditMode As Panel
+    Friend WithEvents btnSave As Button
+    Friend WithEvents btnCancel As Button
+    Friend WithEvents plnReviewMode As Panel
+    Friend WithEvents btnStop As Button
+    Friend WithEvents grbResponse As GroupBox
+    Friend WithEvents optExcellent As RadioButton
+    Friend WithEvents optGood As RadioButton
+    Friend WithEvents optAverage As RadioButton
+    Friend WithEvents optPoor As RadioButton
+    Friend WithEvents optNull As RadioButton
 End Class

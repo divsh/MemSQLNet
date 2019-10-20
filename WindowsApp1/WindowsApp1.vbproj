@@ -133,13 +133,12 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="clsQuestion.vb" />
-    <Compile Include="QuestionGridView.vb" />
     <Compile Include="QuestionPresenter.vb" />
+    <Compile Include="QuestionReviewPlan.vb" />
     <Compile Include="StartUp.vb" />
     <Compile Include="clsTopic.vb" />
     <Compile Include="TopicQuestionPresenter.vb" />
     <Compile Include="TopicQuestionView.vb" />
-    <Compile Include="TopicView.vb" />
     <Compile Include="TopicViewController.vb" />
     <Compile Include="ucTreeView.Designer.vb">
       <DependentUpon>ucTreeView.vb</DependentUpon>

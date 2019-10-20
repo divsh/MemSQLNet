@@ -39,10 +39,12 @@ Public Class TopicQuestionPresenter
     Public Sub OnQuestionDelete(questionID As Integer) Implements ITopicQuestionPresenter.OnQuestionDelete
         Throw New NotImplementedException()
     End Sub
-
+    Private mQuestionView As IQuestionView
     Public Sub OnQuestionDoubleClicked(questionID As Integer) Implements ITopicQuestionPresenter.OnQuestionDoubleClicked
-        Dim QuestionView As IQuestionView = New frmQuestionView(mdbContext)
-        QuestionView.Display(questionID)
+        If mQuestionView Is Nothing OrElse DirectCast(mQuestionView, Form).IsDisposed Then
+            mQuestionView = New frmQuestionView(mdbContext, MyView)
+        End If
+        mQuestionView.Display(questionID)
     End Sub
 
     Public Function GetAllTopics() As List(Of clsTopic) Implements ITopicQuestionPresenter.GetAllTopics

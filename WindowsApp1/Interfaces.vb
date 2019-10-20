@@ -4,6 +4,7 @@ Public Interface ITopicQuestionView
     Sub RefeshQuestionsGrid(questions As List(Of clsQuestion))
     Function getSelectedTopicID() As Integer
     Sub populateTopicTree(topics As List(Of clsTopic))
+    Function SelectNthRowFromCurrent(positionFromCurrent As Integer) As clsQuestion
 End Interface
 
 Public Interface ITopicQuestionPresenter
@@ -19,24 +20,40 @@ End Interface
 
 Public Interface IQuestionView
     Sub Display(questionID As Integer)
-    ReadOnly Property DisplayedBusinessObject As clsQuestion
-    ReadOnly Property DisplayedBusinessObjectTopic As clsTopic
+    ReadOnly Property CurrentMode As QuestionViewMode
+    ReadOnly Property DisplayedQuestion As clsQuestion
+    ReadOnly Property DisplayedTopic As clsTopic
+    Sub SetBusinessObjectOnView(question As clsQuestion)
     Sub DisplayBusinessObject(question As clsQuestion)
     Sub ChangeState(state As Object)
     Sub SetMode(mode As QuestionViewMode)
+
 End Interface
 
 
 Public Interface IQuestionPresenter
     Function getQuestion(questionID As Integer) As clsQuestion
-    Sub OnSaveClicked(questionID As Integer)
+    Function GetTopic(questionID As Integer) As clsTopic
+    Function GetTopicFromTopicID(topicID As Integer) As clsTopic
+    Sub OnSaveClicked(displayedBusinessObject As clsQuestion)
     Sub OnResponseSelected(questionID As Integer, response As clsQuestion.RecallStrength)
     Sub OnCancelSelected(questionID As Integer, mode As QuestionViewMode)
     Sub OnPrevNextSelected(nextQuestionID As Integer)
-    Sub OnReviewSelected()
+    Sub OnReviewSelected(topicID As Integer)
     Sub OnNewSelected()
+    Sub OnDisplayedQuestionChange(lastquestion As clsQuestion)
 End Interface
 #End Region
+
+Interface IQuestionReviewPlan
+    ReadOnly Property ReviewPlan As IEnumerable(Of clsQuestion)
+End Interface
+Public Interface IQuestionPlannable
+    ReadOnly Property LastRecallGrade As Integer
+    ReadOnly Property AverageRecallScaled100K As Integer
+    ReadOnly Property ReviewCount As Integer
+    ReadOnly Property LastReviewDateTime As Date
+End Interface
 
 Public Enum QuestionViewMode
     Create
