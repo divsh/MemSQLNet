@@ -12,8 +12,6 @@ Public Class QuestionPresenter
         MyView = view
     End Sub
 
-
-
     Public Sub OnCancelSelected(questionID As Integer, mode As QuestionViewMode) Implements IQuestionPresenter.OnCancelSelected
         MyView.SetMode(QuestionViewMode.Detail)
         If MyView.CurrentMode = QuestionViewMode.Create Then
@@ -49,8 +47,10 @@ Public Class QuestionPresenter
 
     Public Sub OnResponseSelected(questionID As Integer, response As clsQuestion.RecallStrength) Implements IQuestionPresenter.OnResponseSelected
         mCurrentQuestionOnReviewPlan += 1
+        If mCurrentQuestionOnReviewPlan > mFakeReviewPlan.Count - 1 Then Return
         MyView.ResetResponse()
         MyView.HideAnswer()
+
         MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
         Return
         mReviewPlan.ReviewPlan.GetEnumerator.MoveNext()

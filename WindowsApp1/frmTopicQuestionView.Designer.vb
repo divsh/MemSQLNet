@@ -22,6 +22,7 @@ Partial Class frmTopicQuestionView
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.trvTopic = New System.Windows.Forms.TreeView()
         Me.grdQuestion = New System.Windows.Forms.DataGridView()
@@ -52,6 +53,7 @@ Partial Class frmTopicQuestionView
         'trvTopic
         '
         Me.trvTopic.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.trvTopic.Font = New System.Drawing.Font("Verdana", 10.02532!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.trvTopic.LabelEdit = True
         Me.trvTopic.Location = New System.Drawing.Point(0, 0)
         Me.trvTopic.Name = "trvTopic"
@@ -62,11 +64,26 @@ Partial Class frmTopicQuestionView
         '
         Me.grdQuestion.AllowUserToAddRows = False
         Me.grdQuestion.AllowUserToOrderColumns = True
+        Me.grdQuestion.BackgroundColor = System.Drawing.Color.White
+        Me.grdQuestion.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.grdQuestion.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
+        Me.grdQuestion.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
         Me.grdQuestion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Verdana", 10.02532!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.GradientActiveCaption
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.Desktop
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.grdQuestion.DefaultCellStyle = DataGridViewCellStyle1
         Me.grdQuestion.Dock = System.Windows.Forms.DockStyle.Fill
         Me.grdQuestion.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically
+        Me.grdQuestion.GridColor = System.Drawing.SystemColors.ScrollBar
         Me.grdQuestion.Location = New System.Drawing.Point(0, 0)
         Me.grdQuestion.Name = "grdQuestion"
+        Me.grdQuestion.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
+        Me.grdQuestion.RowHeadersVisible = False
         Me.grdQuestion.RowTemplate.Height = 30
         Me.grdQuestion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.grdQuestion.Size = New System.Drawing.Size(674, 579)
