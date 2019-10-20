@@ -57,6 +57,7 @@ Public Class frmQuestionView
         txtQuestion.Text = DisplayedQuestion.Name
         rtbAnswer.Rtf = DisplayedQuestion.Ans
         MyPresenter.OnDisplayedQuestionChange(currQuestion)
+        Me.Focus()
     End Sub
 
     Public Sub SetBusinessObjectOnView(question As clsQuestion) Implements IQuestionView.SetBusinessObjectOnView
@@ -86,6 +87,7 @@ Public Class frmQuestionView
 
                 txtQuestion.ReadOnly = False
                 rtbAnswer.ReadOnly = False
+                rtbAnswer.Show()
             Case QuestionViewMode.Detail
                 plnBrowseMode.Visible = True
                 plnBrowseMode.Enabled = True
@@ -165,5 +167,51 @@ Public Class frmQuestionView
     Private Sub btnReview_Click(sender As Object, e As EventArgs) Handles btnReview.Click
         If DisplayedTopic Is Nothing OrElse DisplayedTopic.Id <= 0 Then Return
         MyPresenter.OnReviewSelected(DisplayedTopic.Id)
+    End Sub
+
+    Public Sub HideAnswer() Implements IQuestionView.HideAnswer
+        rtbAnswer.Hide()
+        btnShowAnswer.Show()
+        grbResponse.Hide()
+
+    End Sub
+
+    Public Sub ShowAnswer() Implements IQuestionView.ShowAnswer
+        rtbAnswer.Show()
+        btnShowAnswer.Hide()
+        grbResponse.Show()
+    End Sub
+
+    Private Sub btnStop_Click(sender As Object, e As EventArgs) Handles btnStop.Click
+        MyPresenter.OnStopReviewSelected()
+    End Sub
+
+    Public Sub ResetResponse() Implements IQuestionView.ResetResponse
+        optAverage.Checked = False
+        optExcellent.Checked = False
+        optGood.Checked = False
+        optNull.Checked = False
+        optPoor.Checked = False
+    End Sub
+
+    Private Sub btnShowAnswer_Click(sender As Object, e As EventArgs) Handles btnShowAnswer.Click
+        ShowAnswer()
+    End Sub
+
+    Private Sub optAverage_Click(sender As Object, e As EventArgs) Handles optAverage.Click, optPoor.Click, optNull.Click, optExcellent.Click, optGood.Click
+        Dim responseSelected As clsQuestion.RecallStrength
+        Select Case DirectCast(sender, Control).Name
+            Case "optAverage"
+                responseSelected = clsQuestion.RecallStrength.Average
+            Case "optPoor"
+                responseSelected = clsQuestion.RecallStrength.Poor
+            Case "optNull"
+                responseSelected = clsQuestion.RecallStrength.Null
+            Case "optExcellent"
+                responseSelected = clsQuestion.RecallStrength.Best
+            Case "optGood"
+                responseSelected = clsQuestion.RecallStrength.Good
+        End Select
+        MyPresenter.OnResponseSelected(DisplayedQuestion.Id, responseSelected)
     End Sub
 End Class

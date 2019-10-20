@@ -12,9 +12,7 @@ Public Class QuestionPresenter
         MyView = view
     End Sub
 
-    Public Sub OnResponseSelected(questionID As Integer, response As clsQuestion.RecallStrength) Implements IQuestionPresenter.OnResponseSelected
-        Throw New NotImplementedException()
-    End Sub
+
 
     Public Sub OnCancelSelected(questionID As Integer, mode As QuestionViewMode) Implements IQuestionPresenter.OnCancelSelected
         MyView.SetMode(QuestionViewMode.Detail)
@@ -30,13 +28,37 @@ Public Class QuestionPresenter
     End Sub
 
     Private mReviewPlan As IQuestionReviewPlan
+    Private mFakeReviewPlan As List(Of clsQuestion)
+    Private mCurrentQuestionOnReviewPlan As Integer = -1
     Public Sub OnReviewSelected(topicID As Integer) Implements IQuestionPresenter.OnReviewSelected
+        If mFakeReviewPlan Is Nothing Then
+            mFakeReviewPlan = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.TopicID = topicID)
+        End If
+        mCurrentQuestionOnReviewPlan += 1
+        MyView.HideAnswer()
+        'todo: index out of bound exception may happen
+        MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
+        MyView.SetMode(QuestionViewMode.Review)
+        Return
         'Create Question review plan
         MyView.SetMode(QuestionViewMode.Review)
-        'mReviewPlan.ReviewPlan.GetEnumerator.MoveNext()
-        'MyView.DisplayBusinessObject(mReviewPlan.ReviewPlan.GetEnumerator.Current)
+        mReviewPlan.ReviewPlan.GetEnumerator.MoveNext()
+        MyView.HideAnswer()
+        MyView.DisplayBusinessObject(mReviewPlan.ReviewPlan.GetEnumerator.Current)
     End Sub
 
+    Public Sub OnResponseSelected(questionID As Integer, response As clsQuestion.RecallStrength) Implements IQuestionPresenter.OnResponseSelected
+        mCurrentQuestionOnReviewPlan += 1
+        MyView.ResetResponse()
+        MyView.HideAnswer()
+        MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
+        Return
+        mReviewPlan.ReviewPlan.GetEnumerator.MoveNext()
+        MyView.ResetResponse()
+        mReviewPlan.ReviewPlan.GetEnumerator.MoveNext()
+        MyView.HideAnswer
+        MyView.DisplayBusinessObject(mReviewPlan.ReviewPlan.GetEnumerator.Current)
+    End Sub
 
     Public Sub OnNewSelected() Implements IQuestionPresenter.OnNewSelected
         Dim newQuestion As clsQuestion = New clsQuestion(mDBContext)
@@ -71,4 +93,8 @@ Public Class QuestionPresenter
     Public Function GetTopicFromTopicID(topicID As Integer) As clsTopic Implements IQuestionPresenter.GetTopicFromTopicID
         Return clsTopic.FetchBusinessObjects(mDBContext, Function(x) x.ID = topicID).FirstOrDefault
     End Function
+
+    Public Sub OnStopReviewSelected() Implements IQuestionPresenter.OnStopReviewSelected
+        MyView.SetMode(QuestionViewMode.Detail)
+    End Sub
 End Class

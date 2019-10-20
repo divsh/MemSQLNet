@@ -44,6 +44,7 @@ Partial Class frmQuestionView
         Me.optPoor = New System.Windows.Forms.RadioButton()
         Me.optNull = New System.Windows.Forms.RadioButton()
         Me.btnStop = New System.Windows.Forms.Button()
+        Me.btnShowAnswer = New System.Windows.Forms.Button()
         Me.plnBrowseMode.SuspendLayout()
         Me.plnEditMode.SuspendLayout()
         Me.plnReviewMode.SuspendLayout()
@@ -197,6 +198,7 @@ Partial Class frmQuestionView
         '
         Me.plnReviewMode.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.plnReviewMode.Controls.Add(Me.btnShowAnswer)
         Me.plnReviewMode.Controls.Add(Me.grbResponse)
         Me.plnReviewMode.Controls.Add(Me.btnStop)
         Me.plnReviewMode.Location = New System.Drawing.Point(18, 169)
@@ -283,6 +285,16 @@ Partial Class frmQuestionView
         Me.btnStop.Text = "Stop"
         Me.btnStop.UseVisualStyleBackColor = True
         '
+        'btnShowAnswer
+        '
+        Me.btnShowAnswer.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnShowAnswer.Location = New System.Drawing.Point(12, 28)
+        Me.btnShowAnswer.Name = "btnShowAnswer"
+        Me.btnShowAnswer.Size = New System.Drawing.Size(1078, 47)
+        Me.btnShowAnswer.TabIndex = 22
+        Me.btnShowAnswer.Text = "Show Answer"
+        Me.btnShowAnswer.UseVisualStyleBackColor = True
+        '
         'frmQuestionView
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(10.0!, 22.0!)
@@ -331,4 +343,5 @@ Partial Class frmQuestionView
     Friend WithEvents optAverage As RadioButton
     Friend WithEvents optPoor As RadioButton
     Friend WithEvents optNull As RadioButton
+    Friend WithEvents btnShowAnswer As Button
 End Class

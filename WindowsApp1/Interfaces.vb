@@ -27,7 +27,9 @@ Public Interface IQuestionView
     Sub DisplayBusinessObject(question As clsQuestion)
     Sub ChangeState(state As Object)
     Sub SetMode(mode As QuestionViewMode)
-
+    Sub HideAnswer()
+    Sub ShowAnswer()
+    Sub ResetResponse()
 End Interface
 
 
@@ -41,6 +43,7 @@ Public Interface IQuestionPresenter
     Sub OnPrevNextSelected(nextQuestionID As Integer)
     Sub OnReviewSelected(topicID As Integer)
     Sub OnNewSelected()
+    Sub OnStopReviewSelected()
     Sub OnDisplayedQuestionChange(lastquestion As clsQuestion)
 End Interface
 #End Region
