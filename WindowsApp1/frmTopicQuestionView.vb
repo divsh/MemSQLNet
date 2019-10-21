@@ -93,7 +93,7 @@ Public Class frmTopicQuestionView
         Try
             Application.Run(Me)
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
         End Try
     End Sub
 

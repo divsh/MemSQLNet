@@ -122,7 +122,7 @@ Public Class frmQuestionView
             Me.SetMode(QuestionViewMode.Detail)
             Me.Show()
         Catch ex As Exception
-            MessageBox.Show(ex.Message)
+            MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
         End Try
     End Sub
 
@@ -136,7 +136,7 @@ Public Class frmQuestionView
         Try
             MyPresenter.OnNewSelected()
         Catch ex As Exception
-            MessageBox.Show("Error:" & ex.Message)
+            MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
         End Try
     End Sub
 
@@ -150,7 +150,7 @@ Public Class frmQuestionView
         Try
             MyPresenter.OnCancelSelected(DisplayedQuestion.Id, CurrentMode)
         Catch ex As Exception
-            MessageBox.Show("Error:" & ex.Message)
+            MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
         End Try
     End Sub
 
