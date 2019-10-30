@@ -2,6 +2,8 @@
 Public Class StartUp
     Public Shared Function Main() As Int32
         Dim app As StartUp = New StartUp
+        Application.EnableVisualStyles()
+        Application.SetCompatibleTextRenderingDefault(False)
         app.Run()
         Return 0
     End Function

@@ -110,10 +110,6 @@ Public Class frmQuestionView
         mCurrentMode = mode
     End Sub
 
-    Private Sub frmQuestionView_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
-
     Public Sub Display(questionID As Integer) Implements IQuestionView.Display
         Dim q As clsQuestion
         Try
@@ -125,12 +121,6 @@ Public Class frmQuestionView
             MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
         End Try
     End Sub
-
-    Private Sub optExcellent_CheckedChanged(sender As Object, e As EventArgs)
-
-    End Sub
-
-
 
     Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
         Try
