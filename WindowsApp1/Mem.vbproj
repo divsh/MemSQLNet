@@ -7,8 +7,8 @@
     <ProjectGuid>{59549C51-C78D-4456-9AC0-0691623C2DCF}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <StartupObject>Sub Main</StartupObject>
-    <RootNamespace>WindowsApp1</RootNamespace>
-    <AssemblyName>WindowsApp1</AssemblyName>
+    <RootNamespace>Mem</RootNamespace>
+    <AssemblyName>Mem</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsFormsWithCustomSubMain</MyType>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
@@ -23,7 +23,7 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>WindowsApp1.xml</DocumentationFile>
+    <DocumentationFile>Mem.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -33,7 +33,7 @@
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>WindowsApp1.xml</DocumentationFile>
+    <DocumentationFile>Mem.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
   </PropertyGroup>
   <PropertyGroup>
@@ -102,36 +102,37 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DBAccess.vb" />
-    <Compile Include="DBContext.vb" />
-    <Compile Include="Form1.vb">
+    <Compile Include="Model\clsReviewInterval.vb" />
+    <Compile Include="Infra\DBAccess.vb" />
+    <Compile Include="Infra\DBContext.vb" />
+    <Compile Include="Experiment\Form1.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.vb">
+    <Compile Include="Experiment\Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmQuestionView.Designer.vb">
+    <Compile Include="View\frmQuestionView.Designer.vb">
       <DependentUpon>frmQuestionView.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmQuestionView.vb">
+    <Compile Include="View\frmQuestionView.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmQuestionViewV2.Designer.vb">
+    <Compile Include="View\frmQuestionViewV2.Designer.vb">
       <DependentUpon>frmQuestionViewV2.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmQuestionViewV2.vb">
+    <Compile Include="View\frmQuestionViewV2.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmTopicQuestionView.Designer.vb">
+    <Compile Include="View\frmTopicQuestionView.Designer.vb">
       <DependentUpon>frmTopicQuestionView.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmTopicQuestionView.vb">
+    <Compile Include="View\frmTopicQuestionView.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IBO.vb" />
-    <Compile Include="IDBObject.vb" />
-    <Compile Include="Interfaces.vb" />
+    <Compile Include="Interface\IBO.vb" />
+    <Compile Include="Interface\IDBObject.vb" />
+    <Compile Include="Interface\Interfaces.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -147,32 +148,32 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="clsQuestion.vb" />
-    <Compile Include="QuestionPresenter.vb" />
-    <Compile Include="QuestionReviewPlan.vb" />
+    <Compile Include="Model\clsQuestion.vb" />
+    <Compile Include="Presenter\QuestionPresenter.vb" />
+    <Compile Include="Experiment\QuestionReviewPlan.vb" />
     <Compile Include="StartUp.vb" />
-    <Compile Include="clsTopic.vb" />
-    <Compile Include="TopicQuestionPresenter.vb" />
-    <Compile Include="TopicQuestionView.vb" />
-    <Compile Include="TopicViewController.vb" />
-    <Compile Include="ucTreeView.Designer.vb">
+    <Compile Include="Model\clsTopic.vb" />
+    <Compile Include="Presenter\TopicQuestionPresenter.vb" />
+    <Compile Include="Experiment\TopicQuestionView.vb" />
+    <Compile Include="Experiment\TopicViewController.vb" />
+    <Compile Include="Experiment\ucTreeView.Designer.vb">
       <DependentUpon>ucTreeView.vb</DependentUpon>
     </Compile>
-    <Compile Include="ucTreeView.vb">
+    <Compile Include="Experiment\ucTreeView.vb">
       <SubType>UserControl</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="Experiment\Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmQuestionView.resx">
+    <EmbeddedResource Include="View\frmQuestionView.resx">
       <DependentUpon>frmQuestionView.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmQuestionViewV2.resx">
+    <EmbeddedResource Include="View\frmQuestionViewV2.resx">
       <DependentUpon>frmQuestionViewV2.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmTopicQuestionView.resx">
+    <EmbeddedResource Include="View\frmTopicQuestionView.resx">
       <DependentUpon>frmTopicQuestionView.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -181,7 +182,7 @@
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="ucTreeView.resx">
+    <EmbeddedResource Include="Experiment\ucTreeView.resx">
       <DependentUpon>ucTreeView.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
@@ -201,6 +202,7 @@
   <ItemGroup>
     <Content Include="Register.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <Import Project="..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.13\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets" Condition="Exists('..\packages\SQLitePCLRaw.lib.e_sqlite3.linux.1.1.13\build\net35\SQLitePCLRaw.lib.e_sqlite3.linux.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
