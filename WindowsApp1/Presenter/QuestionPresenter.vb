@@ -48,15 +48,22 @@ Public Class QuestionPresenter
     Public Sub OnResponseSelected(questionID As Integer, response As clsQuestion.RecallStrength) Implements IQuestionPresenter.OnResponseSelected
         mCurrentQuestionOnReviewPlan += 1
         If mCurrentQuestionOnReviewPlan > mFakeReviewPlan.Count - 1 Then Return
-        MyView.ResetResponse()
-        MyView.HideAnswer()
+
+        'Save Review Response To Review table
+        Dim rr As clsReview = New clsReview(mDBContext)
+        rr.QuestionID = questionID
+            rr.Response = response
+            rr.ReviewDateTime = Date.Now
+            rr.Save()
+            MyView.ResetResponse()
+            MyView.HideAnswer()
 
         MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
         Return
         mReviewPlan.ReviewPlan.GetEnumerator.MoveNext()
         MyView.ResetResponse()
         mReviewPlan.ReviewPlan.GetEnumerator.MoveNext()
-        MyView.HideAnswer
+        MyView.HideAnswer()
         MyView.DisplayBusinessObject(mReviewPlan.ReviewPlan.GetEnumerator.Current)
     End Sub
 

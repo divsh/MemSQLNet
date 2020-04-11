@@ -42,5 +42,6 @@ Public Class DBContext
         mDBConnection = New SQLiteConnection(dbName)
         mDBConnection.CreateTable(Of clsTopic.Topic)()
         mDBConnection.CreateTable(Of clsQuestion.Question)()
+        mDBConnection.CreateTable(Of clsReview.Review)()
     End Sub
 End Class

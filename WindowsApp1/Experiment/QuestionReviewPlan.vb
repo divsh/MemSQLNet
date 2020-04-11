@@ -26,7 +26,7 @@ Public Class QuestionReviewPlan
     End Property
 
     Private Function retriveQuestionsForReviewFromDB() As List(Of IQuestionPlannable)
-        clsQuestion.FetchBusinessObjects(mDbContext, Function(x) x.re)
+        'clsQuestion.FetchBusinessObjects(mDbContext, Function(x) x.re)
     End Function
 
 

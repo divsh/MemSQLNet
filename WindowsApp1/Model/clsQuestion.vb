@@ -45,6 +45,9 @@ Public Class clsQuestion
             Return mDBObject.Id
         End Get
     End Property
+
+    ReadOnly Property MaintTime As Date
+
     Property Name As String
         Get
             Return mDBObject.Name
@@ -81,12 +84,11 @@ Public Class clsQuestion
         End Set
     End Property
 
-    Public Function Topics() As List(Of clsTopic)
-        Return clsTopic.FetchBusinessObjects(mDbContext, Function(x) x.ID = TopicID)
-    End Function
-
-    Property MaintTime As Date
-
+    ReadOnly Property Topic As clsTopic
+        Get
+            Return clsTopic.FetchBusinessObjects(mDbContext, Function(x) x.ID = TopicID).FirstOrDefault
+        End Get
+    End Property
 
 #End Region
 

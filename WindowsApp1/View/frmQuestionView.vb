@@ -55,10 +55,22 @@ Public Class frmQuestionView
         mDisplayedQuestion = question
         txtTopic.Text = If(mDisplayedQuestion.TopicID > 0, MyPresenter.GetTopicFromTopicID(mDisplayedQuestion.TopicID).Name, "")
         txtQuestion.Text = DisplayedQuestion.Name
-        rtbAnswer.Rtf = DisplayedQuestion.Ans
+        Try
+            rtbAnswer.Rtf = DisplayedQuestion.Ans
+        Catch ex As Exception
+            rtbAnswer.Rtf = FormatAsRTF(DisplayedQuestion.Ans)
+        End Try
+
         MyPresenter.OnDisplayedQuestionChange(currQuestion)
         Me.Focus()
     End Sub
+
+    Private Function FormatAsRTF(dirtyText As String) As String
+        Dim rtf As System.Windows.Forms.RichTextBox = New RichTextBox()
+        rtf.Text = dirtyText
+        Return rtf.Rtf
+    End Function
+
 
     Public Sub SetBusinessObjectOnView(question As clsQuestion) Implements IQuestionView.SetBusinessObjectOnView
         mDisplayedQuestion = question

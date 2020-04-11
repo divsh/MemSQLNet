@@ -96,14 +96,14 @@ Public Class frmTopicQuestionView
             MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
         End Try
     End Sub
-
-
 #End Region
+
     Private Sub trvTopic_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles trvTopic.AfterSelect
         myPresenter.OnTopicSelectionChanged(e.Node.Tag)
     End Sub
 
     Private Sub trvTopic_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles trvTopic.AfterLabelEdit
+        If e.Label Is Nothing OrElse e.Label.Length > 0 Then Return
         myPresenter.OnTopicRenamed(e.Node.Tag, e.Label)
     End Sub
 
@@ -122,6 +122,9 @@ Public Class frmTopicQuestionView
 
     End Sub
 
+    ''' <summary>
+    ''' used to select question from list  
+    ''' </summary>
     Public Function SelectNthRowFromCurrent(positionFromCurrent As Integer) As clsQuestion Implements ITopicQuestionView.SelectNthRowFromCurrent
 
         Dim newIndex As Integer = grdQuestion.SelectedRows().Item(0).Index + positionFromCurrent

@@ -102,6 +102,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\clsReview.vb" />
     <Compile Include="Model\clsReviewInterval.vb" />
     <Compile Include="Infra\DBAccess.vb" />
     <Compile Include="Infra\DBContext.vb" />
@@ -187,6 +188,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="foofoo.db" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
