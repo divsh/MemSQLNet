@@ -30,6 +30,9 @@ Public Class QuestionPresenter
     Private mCurrentQuestionOnReviewPlan As Integer = -1
     Private mQuestionReviewList As List(Of clsQuestion)
     Private mQuestionReviewListEnumerator As IEnumerator
+    Private mLastOverDueQuestionID As Integer
+    Private mLastOverDueQuestionPlayed As Boolean = False
+    Private mUserSelectedToKeepReviewing As Boolean = False
 
     Public Sub OnReviewSelected_Old(topicID As Integer)
         If mFakeReviewPlan Is Nothing Then
@@ -51,6 +54,8 @@ Public Class QuestionPresenter
     End Sub
 
     Public Sub OnReviewSelected(topicID As Integer) Implements IQuestionPresenter.OnReviewSelected
+        mLastOverDueQuestionPlayed = False
+        mUserSelectedToKeepReviewing = False
         mQuestionReviewList = getQuestionsOverdueForReview()
         mQuestionReviewListEnumerator = mQuestionReviewList.GetEnumerator()
         If mQuestionReviewListEnumerator.MoveNext() Then
@@ -68,6 +73,8 @@ Public Class QuestionPresenter
         Dim result As List(Of clsQuestion)
         'fetch overdue to review questions 
         result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0 OrElse Convert.ToDateTime(x.LastReviewDate).AddDays(clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.Sno = x.NextReviewIntervalSNo).FirstOrDefault().Interval) >= Today)
+        mLastOverDueQuestionID = result.LastOrDefault().Id
+
         clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Null).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
         clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Poor).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
         clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Average).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
@@ -80,38 +87,59 @@ Public Class QuestionPresenter
         Dim q As clsQuestion = DirectCast(question, clsQuestion)
 
         'Save Review Response To Review table
-        Dim rr As clsReview = New clsReview(mDBContext)
-        rr.QuestionID = q.Id
-        rr.Response = response
-        rr.ReviewDateTime = Date.Now
-        rr.Save()
+        saveReviewInstance(question, response)
+
         MyView.ResetResponse()
         MyView.HideAnswer()
 
-
+        ' Adjust the slope and review interval and schedule next review interval on the question
         UpdateAdjustReviewScheduleAndInterval(q, response)
 
-
-        If mQuestionReviewListEnumerator.MoveNext() Then
+        If mLastOverDueQuestionPlayed Then
+            If Not mUserSelectedToKeepReviewing Then
+                Dim user As DialogResult
+                user = MessageBox.Show("All overdued question reviewed. Do you still want to keep om reviewing?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+                If user = DialogResult.No Then
+                    OnStopReviewSelected()
+                    mUserSelectedToKeepReviewing = False
+                Else
+                    mUserSelectedToKeepReviewing = True
+                End If
+            End If
+        ElseIf mQuestionReviewListEnumerator.MoveNext() Then
             MyView.DisplayBusinessObject(mQuestionReviewListEnumerator.Current)
+            If mQuestionReviewListEnumerator.Current.id = mLastOverDueQuestionID Then mLastOverDueQuestionPlayed = True
         Else
-            MessageBox.Show("Alert", "Review Completes! The Review will stop now.")
+            MessageBox.Show("Review Completes! The Review will stop now.", "Information!")
             OnStopReviewSelected()
         End If
     End Sub
 
+    'Save this instance of review to Review table
+    Private Sub saveReviewInstance(question As clsQuestion, response As clsQuestion.RecallStrength)
+        Dim rr As clsReview = New clsReview(mDBContext)
+        rr.QuestionID = question.Id
+        rr.Response = response
+        rr.ReviewDateTime = Date.Now
+        rr.Save()
+    End Sub
+
+    ''' <summary>
+    ''' Adjust the slope and review interval and schedule next review interval on the question
+    ''' </summary>
     Private Sub UpdateAdjustReviewScheduleAndInterval(question As clsQuestion, response As clsQuestion.RecallStrength)
         If response >= 4 Then
             question.LastReviewDate = Now
             question.LastReviewResponse = response
+            If question.NextReviewIntervalSNo = 0 Then question.NextReviewIntervalSNo += 1
             question.Save()
             Return
         End If
         If question.NextReviewIntervalSNo = 0 Then
             question.NextReviewIntervalSNo += 1
-        Else
-            'Update Next Review schedules and adjust Review Inervals
-            'Calculate Slope(M)
+        ElseIf DateDiff(DateInterval.Day, question.LastReviewDate, Date.Today) > 0 Then
+
+            'Calculate Slope(M)a and review interval(Ri)
             Dim m As Double
             Dim ri As Integer
             m = (100 - (Convert.ToInt32(response) * 100) / 5) / DateDiff(DateInterval.Day, question.LastReviewDate, Date.Today)
@@ -123,14 +151,17 @@ Public Class QuestionPresenter
             NewRi = (revInt.Interval * revInt.TotalSample + ri) / (revInt.TotalSample + 1)
             revInt.Interval = NewRi
             revInt.Slope = m
+            revInt.TotalSample += 1
+            revInt.Save()
 
-            Dim totalJumpedInterval As Integer
+            'Schedule next review on the question.
             If DateDiff(DateInterval.Day, question.LastReviewDate, Date.Today) > revInt.Interval Then
-                'post-Term
+                'Post-term review
                 Dim daysGap As Integer = DateDiff(DateInterval.Day, question.LastReviewDate, Today)
                 Dim rTmp As List(Of clsReviewInterval)
                 rTmp = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.Sno >= question.NextReviewIntervalSNo)
 
+                Dim totalJumpedInterval As Integer
                 Dim sumOfDays As Integer = 0
                 For Each r As clsReviewInterval In rTmp
                     sumOfDays += r.Interval
@@ -145,12 +176,17 @@ Public Class QuestionPresenter
                 Else
                     question.NextReviewIntervalSNo -= totalJumpedInterval
                 End If
-            Else
-                question.NextReviewIntervalSNo += 1
+            Else 'Pre-term review
+
+                'This review must be after previous interval for question to progress to next review interval
+                revInt = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.Sno = question.NextReviewIntervalSNo).FirstOrDefault()
+                If DateDiff(DateInterval.Day, question.LastReviewDate, Date.Today) >= revInt.Interval Then
+                    question.NextReviewIntervalSNo += 1
+                End If
             End If
-            revInt.TotalSample += 1
-            revInt.Save()
         End If
+
+        'update the question
         question.LastReviewDate = Now
         question.LastReviewResponse = response
         question.Save()
@@ -207,7 +243,6 @@ Public Class QuestionPresenter
         End Try
         Return t
     End Function
-
     Public Function GetTopicFromTopicID(topicID As Integer) As clsTopic Implements IQuestionPresenter.GetTopicFromTopicID
         Return clsTopic.FetchBusinessObjects(mDBContext, Function(x) x.ID = topicID).FirstOrDefault
     End Function
