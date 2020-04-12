@@ -64,8 +64,8 @@ Public Class QuestionPresenter
 
         'todo: index out of bound exception may happen
         ' MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
-        MyView.HideAnswer()
         MyView.SetMode(QuestionViewMode.Review)
+        MyView.HideAnswer()
         Return
     End Sub
 

@@ -53,6 +53,7 @@ Public Class clsTopic
     End Function
 
     Public Function ParentTopic() As clsTopic
+        If ParentTopicID = 0 Then Return Nothing
         Return clsTopic.FetchBusinessObjects(mDbContext, Function(x) x.ID = ParentTopicID).FirstOrDefault()
     End Function
 #End Region

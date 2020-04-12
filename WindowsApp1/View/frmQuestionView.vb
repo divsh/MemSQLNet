@@ -60,9 +60,8 @@ Public Class frmQuestionView
         Catch ex As Exception
             rtbAnswer.Rtf = FormatAsRTF(DisplayedQuestion.Ans)
         End Try
-
         MyPresenter.OnDisplayedQuestionChange(currQuestion)
-        Me.Focus()
+
     End Sub
 
     Private Function FormatAsRTF(dirtyText As String) As String
@@ -81,7 +80,6 @@ Public Class frmQuestionView
     Public Sub ChangeState(state As Object) Implements IQuestionView.ChangeState
         Throw New NotImplementedException()
     End Sub
-
 
     Public Sub SetMode(mode As QuestionViewMode) Implements IQuestionView.SetMode
         plnEditMode.Visible = False
@@ -178,14 +176,15 @@ Public Class frmQuestionView
     Public Sub HideAnswer() Implements IQuestionView.HideAnswer
         rtbAnswer.Hide()
         btnShowAnswer.Show()
+        btnShowAnswer.Focus()
         grbResponse.Hide()
-
     End Sub
 
     Public Sub ShowAnswer() Implements IQuestionView.ShowAnswer
         rtbAnswer.Show()
         btnShowAnswer.Hide()
         grbResponse.Show()
+        grbResponse.Focus()
     End Sub
 
     Private Sub btnStop_Click(sender As Object, e As EventArgs) Handles btnStop.Click
@@ -219,5 +218,23 @@ Public Class frmQuestionView
                 responseSelected = clsQuestion.RecallStrength.Good
         End Select
         MyPresenter.OnResponseSelected(DisplayedQuestion, responseSelected)
+    End Sub
+
+    Private Sub grbResponse_KeyDown(sender As Object, e As KeyEventArgs) Handles grbResponse.KeyDown
+        Select Case e.KeyCode
+            Case Keys.D5 : optAverage_Click(optExcellent, Nothing)
+            Case Keys.D4 : optAverage_Click(optGood, Nothing)
+            Case Keys.D3 : optAverage_Click(optAverage, Nothing)
+            Case Keys.D2 : optAverage_Click(optPoor, Nothing)
+            Case Keys.D1 : optAverage_Click(optNull, Nothing)
+        End Select
+    End Sub
+
+    Private Sub grbResponse_GotFocus(sender As Object, e As EventArgs) Handles grbResponse.GotFocus
+        grbResponse.BackColor = Color.Yellow
+    End Sub
+
+    Private Sub grbResponse_LostFocus(sender As Object, e As EventArgs) Handles grbResponse.LostFocus
+        grbResponse.BackColor = Color.BurlyWood
     End Sub
 End Class
