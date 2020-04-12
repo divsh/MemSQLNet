@@ -43,5 +43,6 @@ Public Class DBContext
         mDBConnection.CreateTable(Of clsTopic.Topic)()
         mDBConnection.CreateTable(Of clsQuestion.Question)()
         mDBConnection.CreateTable(Of clsReview.Review)()
+        mDBConnection.CreateTable(Of clsReviewInterval.ReviewInterval)()
     End Sub
 End Class

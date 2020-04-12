@@ -14,6 +14,8 @@ Public Class clsReviewInterval
         <notnull>
         Property Interval As Integer
         Property Slope As Double
+
+        Property TotalSample As Long
         Property MemoryPercentage As Double
 
     End Class
@@ -46,7 +48,6 @@ Public Class clsReviewInterval
         End Set
     End Property
 
-
     Property Interval As Integer
         Get
             Return mDBObject.Interval
@@ -58,7 +59,32 @@ Public Class clsReviewInterval
 
 
     Property Slope As Double
+        Get
+            Return mDBObject.Slope
+
+        End Get
+        Set(value As Double)
+            mDBObject.Slope = value
+        End Set
+    End Property
+
     Property MemoryPercentage As Double
+        Get
+            Return mDBObject.MemoryPercentage
+        End Get
+        Set(value As Double)
+            mDBObject.MemoryPercentage = value
+        End Set
+    End Property
+
+    Property TotalSample As Long
+        Get
+            Return mDBObject.TotalSample
+        End Get
+        Set(value As Long)
+            mDBObject.TotalSample = value
+        End Set
+    End Property
 
     Public ReadOnly Property IBO_isStored As Boolean Implements IBO.IBO_isStored
         Get
@@ -84,12 +110,20 @@ Public Class clsReviewInterval
         Throw New NotImplementedException()
     End Sub
 
-    Public Function IBO_Save() As Boolean Implements IBO.IBO_Save
-        Throw New NotImplementedException()
+    Public Function Save() As Boolean Implements IBO.IBO_Save
+        If mIsStored Then
+            Return mDbContext.Update(mDBObject)
+        Else
+            Dim IDCreated As Integer
+            mDbContext.Save(mDBObject, IDCreated)
+            mID = IDCreated
+            mIsStored = True
+            Return True
+        End If
     End Function
 
-    Public Function IBO_Delete() As Boolean Implements IBO.IBO_Delete
-        Throw New NotImplementedException()
+    Public Function Delete() As Boolean Implements IBO.IBO_Delete
+        Return mDbContext.Delete(mDBObject)
     End Function
 
     Public Function IBO_loadFromStorage() As Boolean Implements IBO.IBO_loadFromStorage

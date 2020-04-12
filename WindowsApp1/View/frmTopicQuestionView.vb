@@ -82,7 +82,6 @@ Public Class frmTopicQuestionView
 
     End Sub
 
-
     Public Function getSelectedTopicID() As Integer Implements ITopicQuestionView.getSelectedTopicID
         Throw New NotImplementedException()
     End Function

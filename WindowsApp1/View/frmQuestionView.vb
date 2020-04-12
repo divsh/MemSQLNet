@@ -167,8 +167,12 @@ Public Class frmQuestionView
     End Sub
 
     Private Sub btnReview_Click(sender As Object, e As EventArgs) Handles btnReview.Click
-        If DisplayedTopic Is Nothing OrElse DisplayedTopic.Id <= 0 Then Return
-        MyPresenter.OnReviewSelected(DisplayedTopic.Id)
+        Try
+            If DisplayedTopic Is Nothing OrElse DisplayedTopic.Id <= 0 Then Return
+            MyPresenter.OnReviewSelected(DisplayedTopic.Id)
+        Catch ex As Exception
+            MessageBox.Show("Err:" & ex.Message)
+        End Try
     End Sub
 
     Public Sub HideAnswer() Implements IQuestionView.HideAnswer
@@ -214,6 +218,6 @@ Public Class frmQuestionView
             Case "optGood"
                 responseSelected = clsQuestion.RecallStrength.Good
         End Select
-        MyPresenter.OnResponseSelected(DisplayedQuestion.Id, responseSelected)
+        MyPresenter.OnResponseSelected(DisplayedQuestion, responseSelected)
     End Sub
 End Class

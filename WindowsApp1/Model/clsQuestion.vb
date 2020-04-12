@@ -14,6 +14,12 @@ Public Class clsQuestion
         Property Ans As String
         Property NextReviewDate As String
         Property RememberQuality As Double
+
+        Property LastReviewResponse As clsQuestion.RecallStrength
+
+        Property LastReviewDate As String
+
+        Property NextReviewIntervalSNo As Integer
         <Indexed>
         Property TopicID As Integer
         Property extra As Integer
@@ -88,6 +94,33 @@ Public Class clsQuestion
         Get
             Return clsTopic.FetchBusinessObjects(mDbContext, Function(x) x.ID = TopicID).FirstOrDefault
         End Get
+    End Property
+
+    Property LastReviewDate As Date
+        Get
+            Return Convert.ToDateTime(mDBObject.LastReviewDate)
+        End Get
+        Set(value As Date)
+            mDBObject.LastReviewDate = value.ToString
+        End Set
+    End Property
+
+    Property NextReviewIntervalSNo As Integer
+        Get
+            Return mDBObject.NextReviewIntervalSNo
+        End Get
+        Set(value As Integer)
+            mDBObject.NextReviewIntervalSNo = value
+        End Set
+    End Property
+
+    Property LastReviewResponse As RecallStrength
+        Get
+            Return mDBObject.LastReviewResponse
+        End Get
+        Set(value As RecallStrength)
+            mDBObject.LastReviewResponse = value
+        End Set
     End Property
 
 #End Region
