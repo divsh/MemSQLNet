@@ -55,6 +55,8 @@ Public Class frmQuestionView
         mDisplayedQuestion = question
         txtTopic.Text = If(mDisplayedQuestion.TopicID > 0, MyPresenter.GetTopicFromTopicID(mDisplayedQuestion.TopicID).Name, "")
         txtQuestion.Text = DisplayedQuestion.Name
+        txtTimeSinceLastReview.Text = DateDiff(DateInterval.Day, DisplayedQuestion.LastReviewDate, Now).ToString
+        txtPrevRecall.Text = Convert.ToInt32(DisplayedQuestion.LastReviewResponse).ToString
         Try
             rtbAnswer.Rtf = DisplayedQuestion.Ans
         Catch ex As Exception
