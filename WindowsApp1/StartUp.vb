@@ -31,7 +31,7 @@ Public Class StartUp
     End Sub
 
     Private Sub Run()
-        Dim dbContext As DBContext = New DBContext("C:\A1\work\MemSQLNet\foofoo.db")
+        Dim dbContext As DBContext = New DBContext("C:\A1\Work\MemSQLNet\WindowsApp1\foofoo.db")
         'createsomeTopics(dbContext)
         Dim topicQuestionView As ITopicQuestionView = New frmTopicQuestionView(dbContext)
         topicQuestionView.Display()

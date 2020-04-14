@@ -53,19 +53,23 @@ Public Class QuestionPresenter
 
     End Sub
 
-    Public Sub OnReviewSelected(topicID As Integer) Implements IQuestionPresenter.OnReviewSelected
-        mLastOverDueQuestionPlayed = False
-        mUserSelectedToKeepReviewing = False
-        mQuestionReviewList = getQuestionsOverdueForReview()
-        mQuestionReviewListEnumerator = mQuestionReviewList.GetEnumerator()
-        If mQuestionReviewListEnumerator.MoveNext() Then
-            MyView.DisplayBusinessObject(mQuestionReviewListEnumerator.Current)
-        End If
+    Private mReviewPlanner As ReviewPlanner
 
-        'todo: index out of bound exception may happen
-        ' MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
-        MyView.SetMode(QuestionViewMode.Review)
-        MyView.HideAnswer()
+    Public Sub OnReviewSelected(topicID As Integer) Implements IQuestionPresenter.OnReviewSelected
+        mReviewPlanner = New ReviewPlanner(mDBContext, True)
+        mUserConfirmedExtraQuestions = False
+        displayNextQuestion()
+
+        'mLastOverDueQuestionPlayed = False
+        'mUserSelectedToKeepReviewing = False
+        'mQuestionReviewList = getQuestionsOverdueForReview()
+        'mQuestionReviewListEnumerator = mQuestionReviewList.GetEnumerator()
+        'If mQuestionReviewListEnumerator.MoveNext() Then
+        '    MyView.DisplayBusinessObject(mQuestionReviewListEnumerator.Current)
+        'End If
+
+        ''todo: index out of bound exception may happen
+        '' MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
         Return
     End Sub
 
@@ -82,40 +86,69 @@ Public Class QuestionPresenter
         Return result
     End Function
 
+    Private mUserConfirmedExtraQuestions As Boolean
     Public Sub OnResponseSelected(question As IBO, response As clsQuestion.RecallStrength) Implements IQuestionPresenter.OnResponseSelected
-        If mQuestionReviewListEnumerator Is Nothing Then Return
-        Dim q As clsQuestion = DirectCast(question, clsQuestion)
+        mReviewPlanner.updateUserResponse(DirectCast(question, clsQuestion), response)
 
-        'Save Review Response To Review table
-        saveReviewInstance(question, response)
-
-        MyView.ResetResponse()
-        MyView.HideAnswer()
-
-        ' Adjust the slope and review interval and schedule next review interval on the question
-        UpdateAdjustReviewScheduleAndInterval(q, response)
-
-        If mLastOverDueQuestionPlayed Then
-            If Not mUserSelectedToKeepReviewing Then
+        If mReviewPlanner.LastOverDuedQuetionFetched Then
+            If mUserConfirmedExtraQuestions Then
+                displayNextQuestion()
+            Else
                 Dim user As DialogResult
                 user = MessageBox.Show("All overdued question reviewed. Do you still want to keep om reviewing?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
                 If user = DialogResult.No Then
                     OnStopReviewSelected()
-                    mUserSelectedToKeepReviewing = False
                 Else
-                    mUserSelectedToKeepReviewing = True
+                    mUserConfirmedExtraQuestions = True
+                    displayNextQuestion()
                 End If
             End If
-        ElseIf mQuestionReviewListEnumerator.MoveNext() Then
-            MyView.DisplayBusinessObject(mQuestionReviewListEnumerator.Current)
-            If mQuestionReviewListEnumerator.Current.id = mLastOverDueQuestionID Then mLastOverDueQuestionPlayed = True
         Else
-            MessageBox.Show("Review Completes! The Review will stop now.", "Information!")
-            OnStopReviewSelected()
+            MyView.DisplayBusinessObject(mReviewPlanner.fetchNextQuestionForReview)
         End If
     End Sub
 
-    'Save this instance of review to Review table
+
+    Private Sub displayNextQuestion()
+        Dim nextQ As clsQuestion = mReviewPlanner.fetchNextQuestionForReview
+        If nextQ Is Nothing Then
+            MessageBox.Show("Review Completes! The Review will stop now.", "Information!")
+            OnStopReviewSelected()
+        Else
+            MyView.ResetResponse()
+            MyView.SetMode(QuestionViewMode.Review)
+            MyView.HideAnswer()
+            MyView.DisplayBusinessObject(nextQ)
+        End If
+    End Sub
+    Private muserResponse As Boolean = False
+    Private malreadyPrompted As Boolean = False
+
+    Function askUserContinueReviewingPastOverDue() As Boolean
+
+        If Not mLastOverDueQuestionPlayed Then Return True
+        If malreadyPrompted Then Return muserResponse
+        If mLastOverDueQuestionPlayed Then
+            mLastOverDueQuestionPlayed = True
+
+            Dim user As DialogResult
+            user = MessageBox.Show("All overdued question reviewed. Do you still want to keep om reviewing?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+            If user = DialogResult.No Then
+                muserResponse = False
+            Else
+                muserResponse = True
+            End If
+
+            malreadyPrompted = True
+            Return muserResponse
+        End If
+
+    End Function
+
+
+    ''' <summary>
+    ''' Save this instance of review to Review table
+    ''' </summary>
     Private Sub saveReviewInstance(question As clsQuestion, response As clsQuestion.RecallStrength)
         Dim rr As clsReview = New clsReview(mDBContext)
         rr.QuestionID = question.Id

@@ -113,6 +113,7 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ReviewPlanner.vb" />
     <Compile Include="View\frmQuestionView.Designer.vb">
       <DependentUpon>frmQuestionView.vb</DependentUpon>
     </Compile>

@@ -1,2 +1,13 @@
 ﻿Mem Plan Doc - https://docs.google.com/document/d/1JjxqeBWb2WZ019zn_ly2U2-nViw5_buLtJS3sCfPO_c/edit#
 Mem Functions - https://trello.com/b/TomCejAe/mem-functions
+
+Todos in order
+1. fix message prompt on review past overdue questions
+2. finalize table columns.column names, size etc.finalieze database structure, so it will not require any change later
+3. clean and finalize model class code/structure
+4. clean code and make it final for the first cut.
+5. Add questions and practice...
+
+Todos after first cut
+- outliers which are greater than standard deviation 3 should be discarded when adjusting review intervals
+
