@@ -25,6 +25,7 @@ Public Class DBContext
     ''' <returns></returns>
     Public Function Update(ByVal obj As Object) As Boolean
         Try
+            obj.MaintTime = Now.ToString
             Return mDBConnection.Update(obj) > 0
         Catch ex As Exception
             Throw ex

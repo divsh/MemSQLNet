@@ -38,7 +38,7 @@ Public Interface IQuestionPresenter
     Function GetTopic(questionID As Integer) As clsTopic
     Function GetTopicFromTopicID(topicID As Integer) As clsTopic
     Sub OnSaveClicked(displayedBusinessObject As clsQuestion)
-    Sub OnResponseSelected(question As IBO, response As clsQuestion.RecallStrength)
+    Sub OnResponseSelected(question As IBO, response As clsQuestion.Recall)
     Sub OnCancelSelected(questionID As Integer, mode As QuestionViewMode)
     Sub OnPrevNextSelected(nextQuestionID As Integer)
     Sub OnReviewSelected(topicID As Integer)

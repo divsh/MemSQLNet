@@ -58,9 +58,9 @@ Public Class frmQuestionView
         txtTimeSinceLastReview.Text = DateDiff(DateInterval.Day, DisplayedQuestion.LastReviewDate, Now).ToString
         txtPrevRecall.Text = Convert.ToInt32(DisplayedQuestion.LastReviewResponse).ToString
         Try
-            rtbAnswer.Rtf = DisplayedQuestion.Ans
+            rtbAnswer.Rtf = DisplayedQuestion.Answer
         Catch ex As Exception
-            rtbAnswer.Rtf = FormatAsRTF(DisplayedQuestion.Ans)
+            rtbAnswer.Rtf = FormatAsRTF(DisplayedQuestion.Answer)
         End Try
         MyPresenter.OnDisplayedQuestionChange(currQuestion)
 
@@ -77,7 +77,7 @@ Public Class frmQuestionView
         mDisplayedQuestion = question
         txtTopic.Text = DisplayedTopic.Name
         txtQuestion.Text = question.Name
-        rtbAnswer.Rtf = question.Ans
+        rtbAnswer.Rtf = question.Answer
     End Sub
     Public Sub ChangeState(state As Object) Implements IQuestionView.ChangeState
         Throw New NotImplementedException()
@@ -144,7 +144,7 @@ Public Class frmQuestionView
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         DisplayedQuestion.Name = txtQuestion.Text
-        DisplayedQuestion.Ans = rtbAnswer.Rtf
+        DisplayedQuestion.Answer = rtbAnswer.Rtf
         MyPresenter.OnSaveClicked(DisplayedQuestion)
     End Sub
 
@@ -206,18 +206,18 @@ Public Class frmQuestionView
     End Sub
 
     Private Sub optAverage_Click(sender As Object, e As EventArgs) Handles optAverage.Click, optPoor.Click, optNull.Click, optExcellent.Click, optGood.Click
-        Dim responseSelected As clsQuestion.RecallStrength
+        Dim responseSelected As clsQuestion.Recall
         Select Case DirectCast(sender, Control).Name
             Case "optAverage"
-                responseSelected = clsQuestion.RecallStrength.Average
+                responseSelected = clsQuestion.Recall.Average
             Case "optPoor"
-                responseSelected = clsQuestion.RecallStrength.Poor
+                responseSelected = clsQuestion.Recall.Poor
             Case "optNull"
-                responseSelected = clsQuestion.RecallStrength.Null
+                responseSelected = clsQuestion.Recall.Null
             Case "optExcellent"
-                responseSelected = clsQuestion.RecallStrength.Best
+                responseSelected = clsQuestion.Recall.Best
             Case "optGood"
-                responseSelected = clsQuestion.RecallStrength.Good
+                responseSelected = clsQuestion.Recall.Good
         End Select
         MyPresenter.OnResponseSelected(DisplayedQuestion, responseSelected)
     End Sub

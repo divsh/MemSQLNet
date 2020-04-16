@@ -18,8 +18,8 @@ Public Class StartUp
 
 
         aQuestion.Name = "capital of new zeland"
-        aQuestion.Ans = "wellington"
-        aQuestion.NextReviewDate = Convert.ToDateTime("3/4/2020")
+        aQuestion.Answer = "wellington"
+        'aQuestion.nextreviewdate = Convert.ToDateTime("3/4/2020")
         aQuestion.Save()
 
         'aQuestion = dbContext.Table(Of Question)().Where(Function(x) x.Id = 2).ToList().Item(0)

@@ -79,15 +79,15 @@ Public Class QuestionPresenter
         result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0 OrElse Convert.ToDateTime(x.LastReviewDate).AddDays(clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.Sno = x.NextReviewIntervalSNo).FirstOrDefault().Interval) >= Today)
         mLastOverDueQuestionID = result.LastOrDefault().Id
 
-        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Null).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Poor).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Average).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Good).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Null).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Poor).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Average).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Good).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
         Return result
     End Function
 
     Private mUserConfirmedExtraQuestions As Boolean
-    Public Sub OnResponseSelected(question As IBO, response As clsQuestion.RecallStrength) Implements IQuestionPresenter.OnResponseSelected
+    Public Sub OnResponseSelected(question As IBO, response As clsQuestion.Recall) Implements IQuestionPresenter.OnResponseSelected
         mReviewPlanner.updateUserResponse(DirectCast(question, clsQuestion), response)
 
         If mReviewPlanner.LastOverDuedQuetionFetched Then
@@ -149,7 +149,7 @@ Public Class QuestionPresenter
     ''' <summary>
     ''' Save this instance of review to Review table
     ''' </summary>
-    Private Sub saveReviewInstance(question As clsQuestion, response As clsQuestion.RecallStrength)
+    Private Sub saveReviewInstance(question As clsQuestion, response As clsQuestion.Recall)
         Dim rr As clsReview = New clsReview(mDBContext)
         rr.QuestionID = question.Id
         rr.Response = response
@@ -160,7 +160,7 @@ Public Class QuestionPresenter
     ''' <summary>
     ''' Adjust the slope and review interval and schedule next review interval on the question
     ''' </summary>
-    Private Sub UpdateAdjustReviewScheduleAndInterval(question As clsQuestion, response As clsQuestion.RecallStrength)
+    Private Sub UpdateAdjustReviewScheduleAndInterval(question As clsQuestion, response As clsQuestion.Recall)
         If response >= 4 Then
             question.LastReviewDate = Now
             question.LastReviewResponse = response
@@ -225,7 +225,7 @@ Public Class QuestionPresenter
         question.Save()
     End Sub
 
-    Public Sub OnResponseSelected_old(questionID As Integer, response As clsQuestion.RecallStrength)
+    Public Sub OnResponseSelected_old(questionID As Integer, response As clsQuestion.Recall)
         mCurrentQuestionOnReviewPlan += 1
         If mCurrentQuestionOnReviewPlan > mFakeReviewPlan.Count - 1 Then Return
 

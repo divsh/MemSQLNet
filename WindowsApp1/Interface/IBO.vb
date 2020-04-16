@@ -1,15 +1,11 @@
 ﻿Public Interface IBO
-    Class DBObjectTYpe
-
-    End Class
-    Sub IBO_Initialize()
-    ReadOnly Property IBO_isStored As Boolean
-    ReadOnly Property IBO_dirty As Boolean
-    Function IBO_Save() As Boolean
-    Function IBO_Delete() As Boolean
-    ReadOnly Property IBO_Id As Integer
-    Function IBO_loadFromStorage() As Boolean
     Event IBO_Changed()
-    Function IBO_isValid() As Boolean
-
+    Sub Initialize()
+    ReadOnly Property IsStored As Boolean
+    ReadOnly Property IsDirty As Boolean
+    Function Save() As Boolean
+    Function Delete() As Boolean
+    ReadOnly Property IBO_ID As Integer
+    Function LoadFromStorage() As Boolean
+    Function IsValid() As Boolean
 End Interface

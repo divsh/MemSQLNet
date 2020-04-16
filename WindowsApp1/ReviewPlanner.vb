@@ -1,8 +1,8 @@
 ﻿
 ''' <summary>
-''' This class contains implementation for space repeatation study.
+''' This class contains implementation for space repeatation algorithm.
+''' provides the right sequence the questions should be studied for effective memorization.
 ''' it adjust/update the review interval based on user recall pattern of questions
-''' it also handles all db activity that should happen when user selects a recall strength for a question.
 ''' </summary>
 Public Class ReviewPlanner
     Private mDBContext As DBContext
@@ -25,10 +25,10 @@ Public Class ReviewPlanner
         _LastOverDuedQuetionFetched = False
         mLastOverDueQuestionID = result.FirstOrDefault().Id
         If appendNonOverdueQuestions Then
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Null).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Poor).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Average).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.RecallStrength.Good).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Null).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Poor).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Average).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Good).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
         End If
         _ReviewQuestions = result
         _QuestionsToReviewCount = result.Count
@@ -47,7 +47,7 @@ Public Class ReviewPlanner
         End If
     End Function
 
-    Public Sub updateUserResponse(question As clsQuestion, response As clsQuestion.RecallStrength)
+    Public Sub updateUserResponse(question As clsQuestion, response As clsQuestion.Recall)
         'Save Review Response To Review table
         saveReviewInstance(question, response)
         ' Adjust the slope and review interval and schedule next review interval on the question
@@ -57,7 +57,7 @@ Public Class ReviewPlanner
     ''' <summary>
     ''' Save this instance of review to Review table
     ''' </summary>
-    Private Sub saveReviewInstance(question As clsQuestion, response As clsQuestion.RecallStrength)
+    Private Sub saveReviewInstance(question As clsQuestion, response As clsQuestion.Recall)
         Dim rr As clsReview = New clsReview(mDBContext)
         rr.QuestionID = question.Id
         rr.Response = response
@@ -68,7 +68,7 @@ Public Class ReviewPlanner
     ''' <summary>
     ''' Adjust the slope and review interval and schedule next review interval on the question
     ''' </summary>
-    Private Sub UpdateAdjustReviewScheduleAndInterval(question As clsQuestion, response As clsQuestion.RecallStrength)
+    Private Sub UpdateAdjustReviewScheduleAndInterval(question As clsQuestion, response As clsQuestion.Recall)
         If response >= 4 Then
             question.LastReviewDate = Now
             question.LastReviewResponse = response

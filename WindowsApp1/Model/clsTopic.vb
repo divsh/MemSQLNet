@@ -62,33 +62,33 @@ Public Class clsTopic
     Public Event IBO_Changed() Implements IBO.IBO_Changed
 
 
-    Public Sub IBO_Initialize() Implements IBO.IBO_Initialize
+    Public Sub Initialize() Implements IBO.Initialize
 
     End Sub
 
     Private mIsDirty As Boolean
-    Public ReadOnly Property IBO_dirty As Boolean Implements IBO.IBO_dirty
+    Public ReadOnly Property IsDirty As Boolean Implements IBO.IsDirty
         Get
             Return mIsDirty
         End Get
     End Property
 
-    Public ReadOnly Property IBO_Id As Integer Implements IBO.IBO_Id
+    Public ReadOnly Property IBO_ID As Integer Implements IBO.IBO_ID
         Get
             Return mDBObject.ID
         End Get
     End Property
 
     Private mIsStored As Boolean
-    Public ReadOnly Property IBO_isStored As Boolean Implements IBO.IBO_isStored
+    Public ReadOnly Property IsStored As Boolean Implements IBO.IsStored
         Get
             Return mIsStored
         End Get
     End Property
 
-    Public Function IBO_loadFromStorage() As Boolean Implements IBO.IBO_loadFromStorage
+    Public Function LoadFromStorage() As Boolean Implements IBO.LoadFromStorage
         Dim dbObject As Topic
-        dbObject = FetchBusinessObjects(mDbContext, Function(x) x.ID = IBO_Id).FirstOrDefault().DBObject
+        dbObject = FetchBusinessObjects(mDbContext, Function(x) x.ID = IBO_ID).FirstOrDefault().DBObject
         mMapperFromDB.Map(dbObject, mDBObject)
         If (dbObject IsNot Nothing) Then
             mIsStored = True
@@ -97,7 +97,7 @@ Public Class clsTopic
         Return False
     End Function
 
-    Public Function Save() As Boolean Implements IBO.IBO_Save
+    Public Function Save() As Boolean Implements IBO.Save
         If mIsStored Then
             Return mDbContext.Update(mDBObject)
         Else
@@ -109,12 +109,12 @@ Public Class clsTopic
         End If
     End Function
 
-    Public Function Delete() As Boolean Implements IBO.IBO_Delete
+    Public Function Delete() As Boolean Implements IBO.Delete
         Return mDbContext.Delete(DBObject)
     End Function
 
 
-    Public Function IBO_isValid() As Boolean Implements IBO.IBO_isValid
+    Public Function IsValid() As Boolean Implements IBO.IsValid
         Throw New NotImplementedException()
     End Function
 #End Region

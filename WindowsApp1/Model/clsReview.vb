@@ -14,7 +14,7 @@ Public Class clsReview
         <NotNull>
         Property ReviewDateTime As String
 
-        Property Respose As clsQuestion.RecallStrength
+        Property Respose As clsQuestion.Recall
     End Class
 
 #Region "Model variables"
@@ -34,11 +34,11 @@ Public Class clsReview
 
     ReadOnly Property MaintTime As Date
 
-    Property Response As clsQuestion.RecallStrength
+    Property Response As clsQuestion.Recall
         Get
             Return mDBObject.Respose
         End Get
-        Set(value As clsQuestion.RecallStrength)
+        Set(value As clsQuestion.Recall)
             mDBObject.Respose = value
         End Set
     End Property
@@ -70,19 +70,19 @@ Public Class clsReview
     End Property
 
 
-    Public ReadOnly Property IBO_isStored As Boolean Implements IBO.IBO_isStored
+    Public ReadOnly Property IsStored As Boolean Implements IBO.IsStored
         Get
             Return mIsStored
         End Get
     End Property
 
-    Public ReadOnly Property IBO_dirty As Boolean Implements IBO.IBO_dirty
+    Public ReadOnly Property IsDirty As Boolean Implements IBO.IsDirty
         Get
             Throw New NotImplementedException()
         End Get
     End Property
 
-    Public ReadOnly Property IBO_Id As Integer Implements IBO.IBO_Id
+    Public ReadOnly Property IBO_ID As Integer Implements IBO.IBO_ID
         Get
             Throw New NotImplementedException()
         End Get
@@ -90,11 +90,11 @@ Public Class clsReview
 
     Public Event IBO_Changed() Implements IBO.IBO_Changed
 
-    Public Sub IBO_Initialize() Implements IBO.IBO_Initialize
+    Public Sub Initialize() Implements IBO.Initialize
         Throw New NotImplementedException()
     End Sub
 
-    Public Function Save() As Boolean Implements IBO.IBO_Save
+    Public Function Save() As Boolean Implements IBO.Save
         If mIsStored Then
             Return mDbContext.Update(mDBObject)
         Else
@@ -106,14 +106,14 @@ Public Class clsReview
         End If
     End Function
 
-    Public Function IBO_Delete() As Boolean Implements IBO.IBO_Delete
+    Public Function Delete() As Boolean Implements IBO.Delete
         Return mDbContext.Delete(mDBObject)
     End Function
 
     Private mIsStored As Boolean
-    Public Function IBO_loadFromStorage() As Boolean Implements IBO.IBO_loadFromStorage
+    Public Function LoadFromStorage() As Boolean Implements IBO.LoadFromStorage
         Dim dbObject As Review
-        dbObject = FetchBusinessObjects(mDbContext, Function(x) x.Id = IBO_Id).FirstOrDefault().mDBObject
+        dbObject = FetchBusinessObjects(mDbContext, Function(x) x.Id = IBO_ID).FirstOrDefault().mDBObject
         mMapperFromDB.Map(dbObject, mDBObject)
         If (dbObject IsNot Nothing) Then
             mIsStored = True
@@ -122,7 +122,7 @@ Public Class clsReview
         Return False
     End Function
 
-    Public Function IBO_isValid() As Boolean Implements IBO.IBO_isValid
+    Public Function IsValid() As Boolean Implements IBO.IsValid
         Throw New NotImplementedException()
     End Function
 

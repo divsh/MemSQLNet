@@ -201,6 +201,7 @@
     </None>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="SchemaDesign.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Register.txt" />
