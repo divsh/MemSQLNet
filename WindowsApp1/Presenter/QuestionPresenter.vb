@@ -181,10 +181,10 @@ Public Class QuestionPresenter
             Dim revInt As clsReviewInterval
             revInt = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.Sno = question.NextReviewIntervalSNo).FirstOrDefault()
             Dim NewRi As Integer
-            NewRi = (revInt.Interval * revInt.TotalSample + ri) / (revInt.TotalSample + 1)
+            NewRi = (revInt.Interval * revInt.SampleCount + ri) / (revInt.SampleCount + 1)
             revInt.Interval = NewRi
             revInt.Slope = m
-            revInt.TotalSample += 1
+            revInt.SampleCount += 1
             revInt.Save()
 
             'Schedule next review on the question.

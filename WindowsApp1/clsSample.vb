@@ -1,21 +1,17 @@
 ﻿Imports AutoMapper
 Imports SQLite
-Public Class clsReviewInterval
+Public Class clsSample
     Implements IBO
-    Public Class ReviewInterval
+    Public Class Sample
         Implements IDBObject
-        <PrimaryKey, AutoIncrement, Indexed>
+        <PrimaryKey, AutoIncrement>
         Property ID As Integer Implements IDBObject.ID
         <NotNull>
-        Property MaintTime As String Implements IDBObject.MaintTime
-        <NotNull>
-        Property SNo As Integer
-        <NotNull>
-        Property Interval As Integer
-        Property Slope As Double
-        <NotNull>
-        Property SampleCount As Integer
-        Property ForRecallStrengthPercentage As Double
+        Property Mainttime As String Implements IDBObject.MaintTime
+        '>> Model table columns
+        '###Replace with attrbiutes lists###
+        '<< Model table columns
+
     End Class
 
 #Region "Attributes enum types"
@@ -23,65 +19,16 @@ Public Class clsReviewInterval
 #End Region
 
 #Region "Model attributes and associations"
-    ReadOnly Property ID As Integer
-        Get
-            Return mDBObject.ID
-        End Get
-    End Property
-
-    ReadOnly Property MaintTime As Date
-        Get
-            Return Convert.ToDateTime(mDBObject.MaintTime)
-        End Get
-    End Property
-
-    Property SNo As Integer
-        Get
-            Return mDBObject.SNo
-        End Get
-        Set(value As Integer)
-            mDBObject.SNo = value
-        End Set
-    End Property
-    Property Interval As Integer
-        Get
-            Return mDBObject.Interval
-        End Get
-        Set(value As Integer)
-            mDBObject.Interval = value
-        End Set
-    End Property
-    Property Slope As Double
-        Get
-            Return mDBObject.Slope
-        End Get
-        Set(value As Double)
-            mDBObject.Slope = value
-        End Set
-    End Property
-    Property SampleCount As Integer
-        Get
-            Return mDBObject.SampleCount
-        End Get
-        Set(value As Integer)
-            mDBObject.SampleCount = value
-        End Set
-    End Property
-    Property ForRecallStrengthPercentage As Double
-        Get
-            Return mDBObject.ForRecallStrengthPercentage
-        End Get
-        Set(value As Double)
-            mDBObject.ForRecallStrengthPercentage = value
-        End Set
-    End Property
+    '>> Model attribues and association for each table column
+    '### Replace with properties for each model attributes and associations###
+    '>> Model attribues and association for each table column
 #End Region
 
 #Region "Business Object Setup and Creation"
     Private Shared nextAvailableID As Integer = 0
     Private mDbContext As DBContext
     Private mMapperToDB As Mapper
-    Private mDBObject As ReviewInterval
+    Private mDBObject As Sample
     Private Shared mMapperFromDB As Mapper
     Public Sub New(dbContext As DBContext)
         mDbContext = dbContext
@@ -89,12 +36,12 @@ Public Class clsReviewInterval
     End Sub
 
     Private Sub SetUp()
-        Dim mapConfigFromDB As MapperConfiguration = New MapperConfiguration(Function(x) x.CreateMap(Of ReviewInterval, ReviewInterval)())
-        Dim mapConfigToDB As MapperConfiguration = New MapperConfiguration(Function(x) x.CreateMap(Of clsReviewInterval, ReviewInterval)())
+        Dim mapConfigFromDB As MapperConfiguration = New MapperConfiguration(Function(x) x.CreateMap(Of Sample, Sample)())
+        Dim mapConfigToDB As MapperConfiguration = New MapperConfiguration(Function(x) x.CreateMap(Of clsSample, Sample)())
         mMapperFromDB = mapConfigFromDB.CreateMapper()
         mMapperToDB = mapConfigToDB.CreateMapper()
 
-        mDBObject = New ReviewInterval()
+        mDBObject = New Sample()
         mDBObject.ID = nextAvailableID
         nextAvailableID -= 1
 
@@ -103,13 +50,13 @@ Public Class clsReviewInterval
         Initialize()
     End Sub
 
-    Shared Function FetchBusinessObjects(dbContext As DBContext, x As Func(Of ReviewInterval, Boolean)) As List(Of clsReviewInterval)
-        Dim dbobjects As List(Of ReviewInterval)
-        Dim modelObjects As List(Of clsReviewInterval) = New List(Of clsReviewInterval)
-        dbobjects = dbContext.Table(Of ReviewInterval).Where(x).ToList()
-        For Each item As ReviewInterval In dbobjects
-            Dim businessObject As New clsReviewInterval(dbContext)
-            mMapperFromDB.Map(item, businessObject.mDBObject, GetType(ReviewInterval), GetType(ReviewInterval))
+    Shared Function FetchBusinessObjects(dbContext As DBContext, x As Func(Of Sample, Boolean)) As List(Of clsSample)
+        Dim dbobjects As List(Of Sample)
+        Dim modelObjects As List(Of clsSample) = New List(Of clsSample)
+        dbobjects = dbContext.Table(Of Sample).Where(x).ToList()
+        For Each item As Sample In dbobjects
+            Dim businessObject As New clsSample(dbContext)
+            mMapperFromDB.Map(item, businessObject.mDBObject, GetType(Sample), GetType(Sample))
             businessObject.mIsStored = True
             businessObject.mIsDirty = False
             modelObjects.Add(businessObject)
@@ -162,7 +109,7 @@ Public Class clsReviewInterval
                 mIsStored = result
             End If
         Catch ex As Exception
-            ex.Source = "clsReviewInterval.Save"
+            ex.Source = "clsSample.Save"
             Throw ex
         End Try
         If result Then
@@ -177,7 +124,7 @@ Public Class clsReviewInterval
         Try
             Return mDbContext.Delete(mDBObject)
         Catch ex As Exception
-            ex.Source = "clsReviewInterval.Delete"
+            ex.Source = "clsSample.Delete"
             Throw ex
         End Try
     End Function

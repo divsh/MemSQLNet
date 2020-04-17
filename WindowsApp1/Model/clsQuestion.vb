@@ -6,14 +6,15 @@ Public Class clsQuestion
     Public Class Question
         Implements IDBObject
 
-        <PrimaryKey, AutoIncrement>
+        <PrimaryKey, AutoIncrement, Indexed>
         Property ID As Integer Implements IDBObject.ID
         <NotNull>
-        Property Mainttime As String Implements IDBObject.MaintTime
+        Property MaintTime As String Implements IDBObject.MaintTime
         <NotNull>
         Property Name As String
         Property Answer As String
-        <NotNull>
+        Property AnswerText As String
+        <NotNull, Indexed>
         Property TopicID As Integer
         Property LastReviewDate As String
         Property LastReviewResponse As Integer
@@ -80,9 +81,9 @@ Public Class clsQuestion
         End Get
     End Property
 
-    ReadOnly Property Mainttime As String
+    ReadOnly Property MaintTime As String
         Get
-            Return Convert.ToDateTime(mDBObject.Mainttime) 'todo: what to return if string is null/empty
+            Return Convert.ToDateTime(mDBObject.MaintTime) 'todo: what to return if string is null/empty
         End Get
     End Property
 
@@ -103,7 +104,14 @@ Public Class clsQuestion
             mDBObject.Answer = value
         End Set
     End Property
-
+    Property AnswerText As String
+        Get
+            Return mDBObject.AnswerText
+        End Get
+        Set(value As String)
+            mDBObject.AnswerText = value
+        End Set
+    End Property
     Property TopicID As Integer
         Get
             Return mDBObject.TopicID
@@ -181,17 +189,16 @@ Public Class clsQuestion
 
     Public ReadOnly Property IBO_ID As Integer Implements IBO.IBO_ID
         Get
-            Throw New NotImplementedException()
+            Return mDBObject.ID
         End Get
     End Property
 
     Public Event IBO_Changed() Implements IBO.IBO_Changed
 
     Public Sub Initialize() Implements IBO.Initialize
-        Throw New NotImplementedException()
+        'Add any initialization code here
     End Sub
 
-    Dim mID As Integer
     Public Function Save() As Boolean Implements IBO.Save
         If Not IsValid() Then
             Throw New Exception("Object cannot be saved as not valid.")
@@ -205,7 +212,6 @@ Public Class clsQuestion
             Else
                 Dim IDCreated As Integer
                 result = mDbContext.Save(mDBObject, IDCreated)
-                mID = IDCreated
                 mIsStored = result
             End If
         Catch ex As Exception
