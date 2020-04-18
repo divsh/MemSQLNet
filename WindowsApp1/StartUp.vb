@@ -1,11 +1,19 @@
 ﻿Imports SQLite
 Public Class StartUp
     Public Shared Function Main() As Int32
-        Dim app As StartUp = New StartUp
-        Application.EnableVisualStyles()
-        Application.SetCompatibleTextRenderingDefault(False)
-        app.Run()
-        Return 0
+        Try
+            Logger.Log(Logger.LoggingLevel.Info, Application.ProductName & " Started.")
+            Dim app As StartUp = New StartUp
+            Application.EnableVisualStyles()
+            Application.SetCompatibleTextRenderingDefault(False)
+            app.Run()
+            Logger.Log(Logger.LoggingLevel.Info, Application.ProductName & " Ended.")
+            Return 0
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "Startup.Main")
+        Finally
+            Logger.Log(Logger.LoggingLevel.Info, Application.ProductName & " Ended.")
+        End Try
     End Function
 
     Private Sub Run1()

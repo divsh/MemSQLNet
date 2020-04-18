@@ -187,5 +187,20 @@ Public Class clsTopic
 
 #Region "Custom Types, members and methods"
 
+    Private _TopicFullPath As String
+    ReadOnly Property TopicFullPath As String
+        Get
+            If String.IsNullOrEmpty(_TopicFullPath) Then
+                Dim currentTopic As clsTopic
+                currentTopic = Me
+                _TopicFullPath = currentTopic.Name
+                While currentTopic.ParentTopicID <> 0
+                    currentTopic = currentTopic.ParentTopic
+                    _TopicFullPath = currentTopic.Name & ">" & _TopicFullPath
+                End While
+            End If
+            Return _TopicFullPath
+        End Get
+    End Property
 #End Region
 End Class

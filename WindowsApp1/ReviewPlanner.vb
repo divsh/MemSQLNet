@@ -81,7 +81,7 @@ Public Class ReviewPlanner
             question.ReviewCount = 0
             question.AverageReviewResponse = 0
             question.Save()
-            Logger.Log(Logger.LoggingLevel.Info, String.Format("Question saved:{0}", question.ToString))
+            Logger.LogObjectSaved(Logger.LoggingLevel.Info, question, question.Description)
             Logger.Log(Logger.LoggingLevel.Info, String.Format("End:Recording review for question {0} with response {1}", question.ID, response.ToString))
             Return
         End If
@@ -92,7 +92,7 @@ Public Class ReviewPlanner
             question.ReviewCount += 1
             question.AverageReviewResponse = (question.AverageReviewResponse * question.ReviewCount + response) / question.ReviewCount
             question.Save()
-            Logger.Log(Logger.LoggingLevel.Info, String.Format("Question saved:{0}", question.ToString))
+            Logger.LogObjectSaved(Logger.LoggingLevel.Info, question, question.Description)
             Logger.Log(Logger.LoggingLevel.Info, String.Format("End:Recording review for question {0} with response {1}", question.ID, response.ToString))
             Return
         End If
@@ -114,7 +114,7 @@ Public Class ReviewPlanner
             revInt.SampleCount += 1
             revInt.ForRecallStrengthPercentage = RECALL_PERCENTAGE_DESIRED
             revInt.Save()
-            Logger.Log(Logger.LoggingLevel.Info, String.Format("reviewInterval saved: {0}", revInt.ToString))
+            Logger.LogObjectSaved(Logger.LoggingLevel.Info, revInt, revInt.Description)
             Logger.Log(Logger.LoggingLevel.Info, String.Format("New {0}th Interval calculated = {1}", revInt.SNo.ToString, ri.ToString))
 
             'Schedule next review on the question.
@@ -178,7 +178,7 @@ Public Class ReviewPlanner
         question.ReviewCount += 1
         question.AverageReviewResponse = (question.AverageReviewResponse * question.ReviewCount + response) / question.ReviewCount
         question.Save()
-        Logger.Log("Question saved: {0}", question.ToString)
+        Logger.LogObjectSaved(Logger.LoggingLevel.Info, question, question.Description)
         Logger.Log(Logger.LoggingLevel.Info, String.Format("End:Recording review for question {0} with response {1}", question.ID, response.ToString))
     End Sub
 

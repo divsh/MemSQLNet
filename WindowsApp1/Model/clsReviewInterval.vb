@@ -192,6 +192,20 @@ Public Class clsReviewInterval
 #End Region
 
 #Region "Custom Types, members and methods"
-
+    ReadOnly Property DBObject As Object
+        Get
+            Return mDBObject
+        End Get
+    End Property
+    ReadOnly Property Description As String
+        Get
+            Return "(ID:" & Me.ID.ToString &
+               " SNo:" & Me.SNo.ToString &
+               " Slope:" & Me.Slope.ToString &
+               " Interval:" & Me.Interval.ToString &
+               " SampleCount:" & Me.SampleCount &
+               ")"
+        End Get
+    End Property
 #End Region
 End Class

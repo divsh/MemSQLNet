@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="clsSample.vb" />
     <Compile Include="Logger.vb" />
+    <Compile Include="MessageBoxEx.vb" />
     <Compile Include="Model\clsReview.vb" />
     <Compile Include="Model\clsReviewInterval.vb" />
     <Compile Include="Infra\DBAccess.vb" />

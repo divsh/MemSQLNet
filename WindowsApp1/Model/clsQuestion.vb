@@ -248,5 +248,24 @@ Public Class clsQuestion
         rtf.Rtf = RtfText
         Return rtf.Text
     End Function
+
+    ReadOnly Property DBObject As Object
+        Get
+            Return mDBObject
+        End Get
+    End Property
+
+    ReadOnly Property Description As String
+        Get
+            Return "ID:" & Me.ID.ToString &
+                " ReviewCount:" & Me.ReviewCount.ToString &
+                " NextReviewIntervalSNo:" & Me.NextReviewIntervalSNo.ToString &
+            " ReviewCount:" & Me.ReviewCount.ToString &
+            " AverageReviewResponse:" & Me.AverageReviewResponse.ToString &
+            " LastReviewDate:" & Me.LastReviewDate.ToString &
+            " LastReviewResponse:" & Me.LastReviewResponse.ToString() &
+            ")"
+        End Get
+    End Property
 #End Region
 End Class

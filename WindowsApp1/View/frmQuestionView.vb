@@ -53,7 +53,8 @@ Public Class frmQuestionView
         Dim currQuestion As clsQuestion
         currQuestion = DisplayedQuestion
         mDisplayedQuestion = question
-        txtTopic.Text = If(mDisplayedQuestion.TopicID > 0, MyPresenter.GetTopicFromTopicID(mDisplayedQuestion.TopicID).Name, "")
+        txtTopic.Text = DisplayedQuestion.Topic.TopicFullPath
+        'txtTopic.Text = If(mDisplayedQuestion.TopicID > 0, MyPresenter.GetTopicFromTopicID(mDisplayedQuestion.TopicID).Name, "")
         txtQuestion.Text = DisplayedQuestion.Name
         txtTimeSinceLastReview.Text = DateDiff(DateInterval.Day, DisplayedQuestion.LastReviewDate, Now).ToString
         txtPrevRecall.Text = Convert.ToInt32(DisplayedQuestion.LastReviewResponse).ToString
@@ -141,7 +142,7 @@ Public Class frmQuestionView
             Me.SetMode(QuestionViewMode.Detail)
             Me.Show()
         Catch ex As Exception
-            MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
+            MessageBoxEx.Show(ex, "frmQuestionView.Display")
         End Try
     End Sub
 
@@ -149,32 +150,42 @@ Public Class frmQuestionView
         Try
             MyPresenter.OnNewSelected()
         Catch ex As Exception
-            MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
+            MessageBoxEx.Show(ex, "frmQuestionView.btnNew_Click")
         End Try
     End Sub
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
-        DisplayedQuestion.Name = txtQuestion.Text
-        DisplayedQuestion.Answer = rtbAnswer.Rtf
-        MyPresenter.OnSaveClicked(DisplayedQuestion)
+        Try
+            DisplayedQuestion.Name = txtQuestion.Text
+            DisplayedQuestion.Answer = rtbAnswer.Rtf
+            MyPresenter.OnSaveClicked(DisplayedQuestion)
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "btnSave_Click")
+        End Try
     End Sub
 
     Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
         Try
             MyPresenter.OnCancelSelected(DisplayedQuestion.Id, CurrentMode)
         Catch ex As Exception
-            MessageBox.Show("Err:", ex.Message & Environment.NewLine & ex.StackTrace)
+            MessageBoxEx.Show(ex, "frmQuestionView.btnCancel_Click")
         End Try
     End Sub
 
     Private Sub btnPrev_Click(sender As Object, e As EventArgs) Handles btnPrev.Click
-        DisplayBusinessObject(mTopicQuestionView.SelectNthRowFromCurrent(-1))
-        ' MyPresenter.OnPrevNextSelected()
+        Try
+            DisplayBusinessObject(mTopicQuestionView.SelectNthRowFromCurrent(-1))
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "btnPrev_Click")
+        End Try
     End Sub
 
     Private Sub btnNext_Click(sender As Object, e As EventArgs) Handles btnNext.Click
-        DisplayBusinessObject(mTopicQuestionView.SelectNthRowFromCurrent(1))
-        'MyPresenter.OnPrevNextSelected()
+        Try
+            DisplayBusinessObject(mTopicQuestionView.SelectNthRowFromCurrent(1))
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "btnNext_Click")
+        End Try
     End Sub
 
     Private Sub btnReview_Click(sender As Object, e As EventArgs) Handles btnReview.Click
@@ -182,7 +193,7 @@ Public Class frmQuestionView
             If DisplayedTopic Is Nothing OrElse DisplayedTopic.Id <= 0 Then Return
             MyPresenter.OnReviewSelected(DisplayedTopic.Id)
         Catch ex As Exception
-            MessageBox.Show("Err:" & ex.Message)
+            MessageBoxEx.Show(ex, "btnReview_Click")
         End Try
     End Sub
 
@@ -201,7 +212,11 @@ Public Class frmQuestionView
     End Sub
 
     Private Sub btnStop_Click(sender As Object, e As EventArgs) Handles btnStop.Click
-        MyPresenter.OnStopReviewSelected()
+        Try
+            MyPresenter.OnStopReviewSelected()
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "btnStop_Click")
+        End Try
     End Sub
 
     Public Sub ResetResponse() Implements IQuestionView.ResetResponse
@@ -213,48 +228,72 @@ Public Class frmQuestionView
     End Sub
 
     Private Sub btnShowAnswer_Click(sender As Object, e As EventArgs) Handles btnShowAnswer.Click
-        ShowAnswer()
+        Try
+            ShowAnswer()
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "btnShowAnswer_Click")
+        End Try
     End Sub
 
     Private Sub optAverage_Click(sender As Object, e As EventArgs) Handles optAverage.Click, optPoor.Click, optNull.Click, optExcellent.Click, optGood.Click
         Dim responseSelected As clsQuestion.Recall
-        Select Case DirectCast(sender, Control).Name
-            Case "optAverage"
-                responseSelected = clsQuestion.Recall.Average
-            Case "optPoor"
-                responseSelected = clsQuestion.Recall.Poor
-            Case "optNull"
-                responseSelected = clsQuestion.Recall.Null
-            Case "optExcellent"
-                responseSelected = clsQuestion.Recall.Best
-            Case "optGood"
-                responseSelected = clsQuestion.Recall.Good
-        End Select
-        MyPresenter.OnResponseSelected(DisplayedQuestion, responseSelected)
+        Try
+            Select Case DirectCast(sender, Control).Name
+                Case "optAverage"
+                    responseSelected = clsQuestion.Recall.Average
+                Case "optPoor"
+                    responseSelected = clsQuestion.Recall.Poor
+                Case "optNull"
+                    responseSelected = clsQuestion.Recall.Null
+                Case "optExcellent"
+                    responseSelected = clsQuestion.Recall.Best
+                Case "optGood"
+                    responseSelected = clsQuestion.Recall.Good
+            End Select
+            MyPresenter.OnResponseSelected(DisplayedQuestion, responseSelected)
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "optAverage_Click")
+        End Try
     End Sub
 
     Private Sub grbResponse_KeyDown(sender As Object, e As KeyEventArgs) Handles grbResponse.KeyDown
-        Select Case e.KeyCode
-            Case Keys.D5 : optAverage_Click(optExcellent, Nothing)
-            Case Keys.D4 : optAverage_Click(optGood, Nothing)
-            Case Keys.D3 : optAverage_Click(optAverage, Nothing)
-            Case Keys.D2 : optAverage_Click(optPoor, Nothing)
-            Case Keys.D1 : optAverage_Click(optNull, Nothing)
-        End Select
+        Try
+            Select Case e.KeyCode
+                Case Keys.D5 : optAverage_Click(optExcellent, Nothing)
+                Case Keys.D4 : optAverage_Click(optGood, Nothing)
+                Case Keys.D3 : optAverage_Click(optAverage, Nothing)
+                Case Keys.D2 : optAverage_Click(optPoor, Nothing)
+                Case Keys.D1 : optAverage_Click(optNull, Nothing)
+            End Select
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "grbResponse_KeyDown")
+        End Try
     End Sub
 
     Private Sub grbResponse_GotFocus(sender As Object, e As EventArgs) Handles grbResponse.GotFocus
-        grbResponse.BackColor = Color.Yellow
+        Try
+            grbResponse.BackColor = Color.Yellow
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "grbResponse_GotFocus")
+        End Try
     End Sub
 
     Private Sub grbResponse_LostFocus(sender As Object, e As EventArgs) Handles grbResponse.LostFocus
-        grbResponse.BackColor = Color.BurlyWood
+        Try
+            grbResponse.BackColor = Color.BurlyWood
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "grbResponse_LostFocus")
+        End Try
     End Sub
 
     Private Sub rtbAnswer_DoubleClick(sender As Object, e As EventArgs) Handles rtbAnswer.DoubleClick
-        If Me.CurrentMode = QuestionViewMode.Review Then Return
-        Dim result As DialogResult
-        result = MessageBox.Show("Edit the question?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
-        If result = DialogResult.Yes Then MyPresenter.onQuestionEditRequest()
+        Try
+            If Me.CurrentMode = QuestionViewMode.Review Then Return
+            Dim result As DialogResult
+            result = MessageBox.Show("Do you want to edit the question?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+            If result = DialogResult.Yes Then MyPresenter.onQuestionEditRequest()
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "rtbAnswer_DoubleClick")
+        End Try
     End Sub
 End Class
