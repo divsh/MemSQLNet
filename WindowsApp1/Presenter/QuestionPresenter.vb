@@ -283,4 +283,8 @@ Public Class QuestionPresenter
     Public Sub OnStopReviewSelected() Implements IQuestionPresenter.OnStopReviewSelected
         MyView.SetMode(QuestionViewMode.Detail)
     End Sub
+
+    Public Sub onQuestionEditRequest() Implements IQuestionPresenter.onQuestionEditRequest
+        MyView.SetMode(QuestionViewMode.Edit)
+    End Sub
 End Class

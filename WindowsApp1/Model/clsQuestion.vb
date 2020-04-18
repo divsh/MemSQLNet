@@ -102,15 +102,13 @@ Public Class clsQuestion
         End Get
         Set(value As String)
             mDBObject.Answer = value
+            mDBObject.AnswerText = RTFToText(value)
         End Set
     End Property
-    Property AnswerText As String
+    ReadOnly Property AnswerText As String
         Get
             Return mDBObject.AnswerText
         End Get
-        Set(value As String)
-            mDBObject.AnswerText = value
-        End Set
     End Property
     Property TopicID As Integer
         Get
@@ -245,6 +243,10 @@ Public Class clsQuestion
 #End Region
 
 #Region "Custom Types, members and methods"
-
+    Private Function RTFToText(RtfText As String) As String
+        Dim rtf As System.Windows.Forms.RichTextBox = New RichTextBox()
+        rtf.Rtf = RtfText
+        Return rtf.Text
+    End Function
 #End Region
 End Class

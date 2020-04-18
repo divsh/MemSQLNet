@@ -49,6 +49,10 @@ Partial Class frmQuestionView
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtTimeSinceLastReview = New System.Windows.Forms.TextBox()
         Me.txtPrevRecall = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.txtTotalReview = New System.Windows.Forms.TextBox()
+        Me.txtAverageRecall = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.plnBrowseMode.SuspendLayout()
         Me.plnEditMode.SuspendLayout()
         Me.plnReviewMode.SuspendLayout()
@@ -94,7 +98,7 @@ Partial Class frmQuestionView
         Me.txtTopic.Multiline = True
         Me.txtTopic.Name = "txtTopic"
         Me.txtTopic.ReadOnly = True
-        Me.txtTopic.Size = New System.Drawing.Size(1082, 47)
+        Me.txtTopic.Size = New System.Drawing.Size(1353, 47)
         Me.txtTopic.TabIndex = 3
         '
         'txtQuestion
@@ -107,7 +111,7 @@ Partial Class frmQuestionView
         Me.txtQuestion.Multiline = True
         Me.txtQuestion.Name = "txtQuestion"
         Me.txtQuestion.ReadOnly = True
-        Me.txtQuestion.Size = New System.Drawing.Size(1146, 46)
+        Me.txtQuestion.Size = New System.Drawing.Size(1417, 46)
         Me.txtQuestion.TabIndex = 4
         '
         'rtbAnswer
@@ -116,11 +120,11 @@ Partial Class frmQuestionView
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rtbAnswer.BackColor = System.Drawing.Color.White
-        Me.rtbAnswer.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rtbAnswer.Font = New System.Drawing.Font("Verdana", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rtbAnswer.Location = New System.Drawing.Point(10, 194)
         Me.rtbAnswer.Name = "rtbAnswer"
         Me.rtbAnswer.ReadOnly = True
-        Me.rtbAnswer.Size = New System.Drawing.Size(1140, 341)
+        Me.rtbAnswer.Size = New System.Drawing.Size(1411, 341)
         Me.rtbAnswer.TabIndex = 5
         Me.rtbAnswer.Text = ""
         '
@@ -134,7 +138,7 @@ Partial Class frmQuestionView
         Me.plnBrowseMode.Controls.Add(Me.btnNext)
         Me.plnBrowseMode.Location = New System.Drawing.Point(8, 540)
         Me.plnBrowseMode.Name = "plnBrowseMode"
-        Me.plnBrowseMode.Size = New System.Drawing.Size(1140, 91)
+        Me.plnBrowseMode.Size = New System.Drawing.Size(1411, 91)
         Me.plnBrowseMode.TabIndex = 15
         '
         'btnNew
@@ -158,7 +162,7 @@ Partial Class frmQuestionView
         'btnPrev
         '
         Me.btnPrev.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnPrev.Location = New System.Drawing.Point(849, 25)
+        Me.btnPrev.Location = New System.Drawing.Point(1120, 25)
         Me.btnPrev.Name = "btnPrev"
         Me.btnPrev.Size = New System.Drawing.Size(141, 43)
         Me.btnPrev.TabIndex = 15
@@ -168,7 +172,7 @@ Partial Class frmQuestionView
         'btnNext
         '
         Me.btnNext.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnNext.Location = New System.Drawing.Point(996, 25)
+        Me.btnNext.Location = New System.Drawing.Point(1267, 25)
         Me.btnNext.Name = "btnNext"
         Me.btnNext.Size = New System.Drawing.Size(141, 43)
         Me.btnNext.TabIndex = 16
@@ -183,13 +187,13 @@ Partial Class frmQuestionView
         Me.plnEditMode.Controls.Add(Me.btnCancel)
         Me.plnEditMode.Location = New System.Drawing.Point(12, 411)
         Me.plnEditMode.Name = "plnEditMode"
-        Me.plnEditMode.Size = New System.Drawing.Size(1140, 91)
+        Me.plnEditMode.Size = New System.Drawing.Size(1411, 91)
         Me.plnEditMode.TabIndex = 16
         '
         'btnSave
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(849, 25)
+        Me.btnSave.Location = New System.Drawing.Point(1120, 25)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(141, 43)
         Me.btnSave.TabIndex = 15
@@ -199,7 +203,7 @@ Partial Class frmQuestionView
         'btnCancel
         '
         Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnCancel.Location = New System.Drawing.Point(996, 25)
+        Me.btnCancel.Location = New System.Drawing.Point(1267, 25)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(141, 43)
         Me.btnCancel.TabIndex = 16
@@ -215,13 +219,13 @@ Partial Class frmQuestionView
         Me.plnReviewMode.Controls.Add(Me.btnStop)
         Me.plnReviewMode.Location = New System.Drawing.Point(16, 303)
         Me.plnReviewMode.Name = "plnReviewMode"
-        Me.plnReviewMode.Size = New System.Drawing.Size(1140, 91)
+        Me.plnReviewMode.Size = New System.Drawing.Size(1411, 91)
         Me.plnReviewMode.TabIndex = 17
         '
         'btnShowAnswer
         '
         Me.btnShowAnswer.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnShowAnswer.Location = New System.Drawing.Point(10, 26)
+        Me.btnShowAnswer.Location = New System.Drawing.Point(281, 26)
         Me.btnShowAnswer.Name = "btnShowAnswer"
         Me.btnShowAnswer.Size = New System.Drawing.Size(970, 43)
         Me.btnShowAnswer.TabIndex = 22
@@ -236,7 +240,7 @@ Partial Class frmQuestionView
         Me.grbResponse.Controls.Add(Me.optAverage)
         Me.grbResponse.Controls.Add(Me.optPoor)
         Me.grbResponse.Controls.Add(Me.optNull)
-        Me.grbResponse.Location = New System.Drawing.Point(417, 0)
+        Me.grbResponse.Location = New System.Drawing.Point(688, 0)
         Me.grbResponse.Name = "grbResponse"
         Me.grbResponse.Size = New System.Drawing.Size(568, 91)
         Me.grbResponse.TabIndex = 21
@@ -300,7 +304,7 @@ Partial Class frmQuestionView
         'btnStop
         '
         Me.btnStop.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnStop.Location = New System.Drawing.Point(993, 26)
+        Me.btnStop.Location = New System.Drawing.Point(1264, 26)
         Me.btnStop.Name = "btnStop"
         Me.btnStop.Size = New System.Drawing.Size(141, 43)
         Me.btnStop.TabIndex = 16
@@ -321,7 +325,7 @@ Partial Class frmQuestionView
         '
         Me.Label2.AutoSize = True
         Me.Label2.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label2.Location = New System.Drawing.Point(418, 130)
+        Me.Label2.Location = New System.Drawing.Point(352, 130)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(138, 25)
         Me.Label2.TabIndex = 19
@@ -335,7 +339,7 @@ Partial Class frmQuestionView
         Me.txtTimeSinceLastReview.Multiline = True
         Me.txtTimeSinceLastReview.Name = "txtTimeSinceLastReview"
         Me.txtTimeSinceLastReview.ReadOnly = True
-        Me.txtTimeSinceLastReview.Size = New System.Drawing.Size(153, 37)
+        Me.txtTimeSinceLastReview.Size = New System.Drawing.Size(111, 37)
         Me.txtTimeSinceLastReview.TabIndex = 20
         Me.txtTimeSinceLastReview.Text = "tt"
         '
@@ -343,7 +347,7 @@ Partial Class frmQuestionView
         '
         Me.txtPrevRecall.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.txtPrevRecall.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPrevRecall.Location = New System.Drawing.Point(547, 133)
+        Me.txtPrevRecall.Location = New System.Drawing.Point(481, 133)
         Me.txtPrevRecall.Multiline = True
         Me.txtPrevRecall.Name = "txtPrevRecall"
         Me.txtPrevRecall.ReadOnly = True
@@ -351,11 +355,59 @@ Partial Class frmQuestionView
         Me.txtPrevRecall.TabIndex = 21
         Me.txtPrevRecall.Text = "tt"
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label1.Location = New System.Drawing.Point(630, 130)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(153, 25)
+        Me.Label1.TabIndex = 22
+        Me.Label1.Text = "Total reviews:"
+        '
+        'txtTotalReview
+        '
+        Me.txtTotalReview.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtTotalReview.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTotalReview.Location = New System.Drawing.Point(777, 130)
+        Me.txtTotalReview.Multiline = True
+        Me.txtTotalReview.Name = "txtTotalReview"
+        Me.txtTotalReview.ReadOnly = True
+        Me.txtTotalReview.Size = New System.Drawing.Size(153, 37)
+        Me.txtTotalReview.TabIndex = 23
+        Me.txtTotalReview.Text = "tt"
+        '
+        'txtAverageRecall
+        '
+        Me.txtAverageRecall.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.txtAverageRecall.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAverageRecall.Location = New System.Drawing.Point(1057, 130)
+        Me.txtAverageRecall.Multiline = True
+        Me.txtAverageRecall.Name = "txtAverageRecall"
+        Me.txtAverageRecall.ReadOnly = True
+        Me.txtAverageRecall.Size = New System.Drawing.Size(153, 37)
+        Me.txtAverageRecall.TabIndex = 25
+        Me.txtAverageRecall.Text = "tt"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Font = New System.Drawing.Font("Verdana", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label3.Location = New System.Drawing.Point(896, 130)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(166, 25)
+        Me.Label3.TabIndex = 24
+        Me.Label3.Text = "Average recall:"
+        '
         'frmQuestionView
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1161, 642)
+        Me.ClientSize = New System.Drawing.Size(1432, 642)
+        Me.Controls.Add(Me.txtAverageRecall)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.txtTotalReview)
+        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.txtPrevRecall)
         Me.Controls.Add(Me.txtTimeSinceLastReview)
         Me.Controls.Add(Me.Label2)
@@ -408,4 +460,8 @@ Partial Class frmQuestionView
     Friend WithEvents Label2 As Label
     Friend WithEvents txtTimeSinceLastReview As TextBox
     Friend WithEvents txtPrevRecall As TextBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents txtTotalReview As TextBox
+    Friend WithEvents txtAverageRecall As TextBox
+    Friend WithEvents Label3 As Label
 End Class

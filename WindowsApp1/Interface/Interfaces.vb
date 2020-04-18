@@ -45,6 +45,7 @@ Public Interface IQuestionPresenter
     Sub OnNewSelected()
     Sub OnStopReviewSelected()
     Sub OnDisplayedQuestionChange(lastquestion As clsQuestion)
+    Sub onQuestionEditRequest()
 End Interface
 #End Region
 

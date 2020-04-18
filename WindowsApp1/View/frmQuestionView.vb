@@ -57,6 +57,8 @@ Public Class frmQuestionView
         txtQuestion.Text = DisplayedQuestion.Name
         txtTimeSinceLastReview.Text = DateDiff(DateInterval.Day, DisplayedQuestion.LastReviewDate, Now).ToString
         txtPrevRecall.Text = Convert.ToInt32(DisplayedQuestion.LastReviewResponse).ToString
+        txtTotalReview.Text = DisplayedQuestion.ReviewCount.ToString
+        txtAverageRecall.Text = String.Format("{0:F1}", DisplayedQuestion.AverageReviewResponse)
         Try
             rtbAnswer.Rtf = DisplayedQuestion.Answer
         Catch ex As Exception
@@ -92,6 +94,10 @@ Public Class frmQuestionView
         plnReviewMode.Enabled = False
         plnBrowseMode.Enabled = False
 
+        rtbAnswer.BackColor = Color.White
+        txtQuestion.BackColor = Color.White
+
+
         Select Case mode
             Case QuestionViewMode.Create
                 plnEditMode.Visible = True
@@ -99,6 +105,9 @@ Public Class frmQuestionView
 
                 txtQuestion.ReadOnly = False
                 rtbAnswer.ReadOnly = False
+                txtQuestion.BackColor = Color.LightYellow
+                rtbAnswer.BackColor = Color.LightYellow
+
                 rtbAnswer.Show()
             Case QuestionViewMode.Detail
                 plnBrowseMode.Visible = True
@@ -112,6 +121,8 @@ Public Class frmQuestionView
 
                 txtQuestion.ReadOnly = False
                 rtbAnswer.ReadOnly = False
+                txtQuestion.BackColor = Color.LightYellow
+                rtbAnswer.BackColor = Color.LightYellow
             Case QuestionViewMode.Review
                 plnReviewMode.Visible = True
                 plnReviewMode.Enabled = True
@@ -238,5 +249,12 @@ Public Class frmQuestionView
 
     Private Sub grbResponse_LostFocus(sender As Object, e As EventArgs) Handles grbResponse.LostFocus
         grbResponse.BackColor = Color.BurlyWood
+    End Sub
+
+    Private Sub rtbAnswer_DoubleClick(sender As Object, e As EventArgs) Handles rtbAnswer.DoubleClick
+        If Me.CurrentMode = QuestionViewMode.Review Then Return
+        Dim result As DialogResult
+        result = MessageBox.Show("Edit the question?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
+        If result = DialogResult.Yes Then MyPresenter.onQuestionEditRequest()
     End Sub
 End Class
