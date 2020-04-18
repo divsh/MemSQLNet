@@ -2,12 +2,14 @@
 Mem Functions - https://trello.com/b/TomCejAe/mem-functions
 
 Todos in order
-1. fix message prompt on review past overdue questions
-2. finalize table columns.column names, size etc.finalieze database structure, so it will not require any change later
-3. clean and finalize model class code/structure
-4. clean code and make it final for the first cut.
+1.k fix message prompt on review past overdue questions
+2.k finalize table columns.column names, size etc.finalieze database structure, so it will not require any change later
+3.k clean and finalize model class code/structure
+4.k clean code and make it final for the first cut.
 5. Add questions and practice...
 
 Todos after first cut
 - outliers which are greater than standard deviation 3 should be discarded when adjusting review intervals
+- run only one instance of application.
+- The Topic node names should be <Topic>(25/50):25 is the question count with last recall>=4 and 50 is the total questions of that topic. 
 

@@ -57,9 +57,9 @@ Public Class frmQuestionView
         'txtTopic.Text = If(mDisplayedQuestion.TopicID > 0, MyPresenter.GetTopicFromTopicID(mDisplayedQuestion.TopicID).Name, "")
         txtQuestion.Text = DisplayedQuestion.Name
         txtTimeSinceLastReview.Text = DateDiff(DateInterval.Day, DisplayedQuestion.LastReviewDate, Now).ToString
-        txtPrevRecall.Text = Convert.ToInt32(DisplayedQuestion.LastReviewResponse).ToString
+        txtPrevRecall.Text = Convert.ToInt32(DisplayedQuestion.LastReviewResponse + 1).ToString
         txtTotalReview.Text = DisplayedQuestion.ReviewCount.ToString
-        txtAverageRecall.Text = String.Format("{0:F1}", DisplayedQuestion.AverageReviewResponse)
+        txtAverageRecall.Text = String.Format("{0:F1}", DisplayedQuestion.AverageReviewResponse + 1)
         Try
             rtbAnswer.Rtf = DisplayedQuestion.Answer
         Catch ex As Exception

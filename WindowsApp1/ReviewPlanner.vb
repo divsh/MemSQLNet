@@ -86,11 +86,11 @@ Public Class ReviewPlanner
             Return
         End If
 
-        If response = 5 Then
+        If response >= 4 Then
             question.LastReviewDate = Now
             question.LastReviewResponse = response
             question.ReviewCount += 1
-            question.AverageReviewResponse = (question.AverageReviewResponse * question.ReviewCount + response) / question.ReviewCount
+            question.AverageReviewResponse = (question.AverageReviewResponse * (question.ReviewCount - 1) + response) / question.ReviewCount
             question.Save()
             Logger.LogObjectSaved(Logger.LoggingLevel.Info, question, question.Description)
             Logger.Log(Logger.LoggingLevel.Info, String.Format("End:Recording review for question {0} with response {1}", question.ID, response.ToString))
@@ -176,7 +176,7 @@ Public Class ReviewPlanner
         question.LastReviewDate = Now
         question.LastReviewResponse = response
         question.ReviewCount += 1
-        question.AverageReviewResponse = (question.AverageReviewResponse * question.ReviewCount + response) / question.ReviewCount
+        question.AverageReviewResponse = (question.AverageReviewResponse * (question.ReviewCount - 1) + response) / question.ReviewCount
         question.Save()
         Logger.LogObjectSaved(Logger.LoggingLevel.Info, question, question.Description)
         Logger.Log(Logger.LoggingLevel.Info, String.Format("End:Recording review for question {0} with response {1}", question.ID, response.ToString))

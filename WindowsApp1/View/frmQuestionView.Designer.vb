@@ -119,11 +119,14 @@ Partial Class frmQuestionView
         Me.rtbAnswer.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.rtbAnswer.AutoWordSelection = True
         Me.rtbAnswer.BackColor = System.Drawing.Color.White
+        Me.rtbAnswer.EnableAutoDragDrop = True
         Me.rtbAnswer.Font = New System.Drawing.Font("Verdana", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rtbAnswer.Location = New System.Drawing.Point(10, 194)
         Me.rtbAnswer.Name = "rtbAnswer"
         Me.rtbAnswer.ReadOnly = True
+        Me.rtbAnswer.ShowSelectionMargin = True
         Me.rtbAnswer.Size = New System.Drawing.Size(1411, 341)
         Me.rtbAnswer.TabIndex = 5
         Me.rtbAnswer.Text = ""
