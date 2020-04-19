@@ -1,6 +1,4 @@
-﻿Imports WindowsApp1
-
-Public Class frmTopicQuestionView
+﻿Public Class frmTopicQuestionView
     Implements ITopicQuestionView
 
     Private myPresenter As ITopicQuestionPresenter
@@ -33,7 +31,7 @@ Public Class frmTopicQuestionView
         trvTopic.Nodes.Add(rootNode)
 
         For Each t As clsTopic In topics
-            If addedID.Contains(t.Id) Then Continue For
+            If addedID.Contains(t.ID) Then Continue For
             Dim node As TreeNode = New TreeNode(t.Name)
             node.Tag = t.ID
             addNodeToParent(rootNode, node, t.ParentTopicID, topics, addedID)
@@ -48,6 +46,7 @@ Public Class frmTopicQuestionView
                                                         If x.Tag IsNot Nothing Then
                                                             Return DirectCast(x.Tag, Integer) = topicID
                                                         End If
+                                                        Return False
                                                     End Function).FirstOrDefault()
         trvTopic.SelectedNode = tn
     End Sub
@@ -69,9 +68,9 @@ Public Class frmTopicQuestionView
         Else
             'create parent node and add it first.
             Dim parentTopic As clsTopic
-            parentTopic = topics.Where(Function(x) x.Id = parentNodeID).FirstOrDefault()
+            parentTopic = topics.Where(Function(x) x.ID = parentNodeID).FirstOrDefault()
             Dim parentNode As TreeNode = New TreeNode(parentTopic.Name)
-            node.Tag = parentTopic.Id
+            node.Tag = parentTopic.ID
             addNodeToParent(rootnode, parentNode, parentTopic.ParentTopicID, topics, addedID)
         End If
     End Sub
@@ -111,7 +110,11 @@ Public Class frmTopicQuestionView
 #End Region
 
     Private Sub trvTopic_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles trvTopic.AfterSelect
-        myPresenter.OnTopicSelectionChanged(e.Node.Tag)
+        Try
+            myPresenter.OnTopicSelectionChanged(e.Node.Tag)
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "trvTopic_AfterSelect")
+        End Try
     End Sub
 
     Private Sub trvTopic_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles trvTopic.AfterLabelEdit
@@ -121,17 +124,9 @@ Public Class frmTopicQuestionView
 
     Private Sub grdQuestion_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseDoubleClick
         Try
-            myPresenter.OnQuestionDoubleClicked(DirectCast(grdQuestion.SelectedRows(0).DataBoundItem, clsQuestion).Id)
+            myPresenter.OnQuestionDoubleClicked(DirectCast(grdQuestion.SelectedRows(0).DataBoundItem, clsQuestion).ID)
         Catch
         End Try
-    End Sub
-
-    Private Sub grdQuestion_MouseClick(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseClick
-
-    End Sub
-
-    Private Sub grdQuestion_MouseDown(sender As Object, e As MouseEventArgs) Handles grdQuestion.MouseDown
-
     End Sub
 
     ''' <summary>
