@@ -45,7 +45,7 @@ Public Class TopicQuestionPresenter
             mQuestionView = New frmQuestionView(mdbContext, MyView)
         End If
         mQuestionView.Display(questionID)
-
+        DirectCast(mQuestionView, Form).Focus()
     End Sub
 
     Public Function GetAllTopics() As List(Of clsTopic) Implements ITopicQuestionPresenter.GetAllTopics
