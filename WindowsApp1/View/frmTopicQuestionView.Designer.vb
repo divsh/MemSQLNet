@@ -22,15 +22,24 @@ Partial Class frmTopicQuestionView
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.trvTopic = New System.Windows.Forms.TreeView()
         Me.grdQuestion = New System.Windows.Forms.DataGridView()
+        Me.mnuTreeView = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuItemAddTopic = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuItemDeleteTopic = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuQuestionGrid = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.mnuItemAddQuestion = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuItemDeleteQuestion = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.grdQuestion, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.mnuTreeView.SuspendLayout()
+        Me.mnuQuestionGrid.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -46,18 +55,19 @@ Partial Class frmTopicQuestionView
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.grdQuestion)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1078, 579)
-        Me.SplitContainer1.SplitterDistance = 400
+        Me.SplitContainer1.Size = New System.Drawing.Size(970, 526)
+        Me.SplitContainer1.SplitterDistance = 359
         Me.SplitContainer1.TabIndex = 6
         '
         'trvTopic
         '
+        Me.trvTopic.ContextMenuStrip = Me.mnuTreeView
         Me.trvTopic.Dock = System.Windows.Forms.DockStyle.Fill
         Me.trvTopic.Font = New System.Drawing.Font("Verdana", 10.02532!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.trvTopic.LabelEdit = True
         Me.trvTopic.Location = New System.Drawing.Point(0, 0)
         Me.trvTopic.Name = "trvTopic"
-        Me.trvTopic.Size = New System.Drawing.Size(400, 579)
+        Me.trvTopic.Size = New System.Drawing.Size(359, 526)
         Me.trvTopic.TabIndex = 5
         '
         'grdQuestion
@@ -69,6 +79,7 @@ Partial Class frmTopicQuestionView
         Me.grdQuestion.CellBorderStyle = System.Windows.Forms.DataGridViewCellBorderStyle.None
         Me.grdQuestion.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
         Me.grdQuestion.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.grdQuestion.ContextMenuStrip = Me.mnuQuestionGrid
         DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
         DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window
         DataGridViewCellStyle1.Font = New System.Drawing.Font("Verdana", 10.02532!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -84,16 +95,55 @@ Partial Class frmTopicQuestionView
         Me.grdQuestion.Name = "grdQuestion"
         Me.grdQuestion.RowHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.[Single]
         Me.grdQuestion.RowHeadersVisible = False
+        Me.grdQuestion.RowHeadersWidth = 62
         Me.grdQuestion.RowTemplate.Height = 30
         Me.grdQuestion.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.grdQuestion.Size = New System.Drawing.Size(674, 579)
+        Me.grdQuestion.Size = New System.Drawing.Size(607, 526)
         Me.grdQuestion.TabIndex = 8
+        '
+        'mnuTreeView
+        '
+        Me.mnuTreeView.ImageScalingSize = New System.Drawing.Size(24, 24)
+        Me.mnuTreeView.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemAddTopic, Me.mnuItemDeleteTopic})
+        Me.mnuTreeView.Name = "mnuTreeView"
+        Me.mnuTreeView.Size = New System.Drawing.Size(181, 68)
+        '
+        'mnuItemAddTopic
+        '
+        Me.mnuItemAddTopic.Name = "mnuItemAddTopic"
+        Me.mnuItemAddTopic.Size = New System.Drawing.Size(180, 32)
+        Me.mnuItemAddTopic.Text = "&Add Topic"
+        '
+        'mnuItemDeleteTopic
+        '
+        Me.mnuItemDeleteTopic.Name = "mnuItemDeleteTopic"
+        Me.mnuItemDeleteTopic.Size = New System.Drawing.Size(180, 32)
+        Me.mnuItemDeleteTopic.Text = "&Delete Topic"
+        '
+        'mnuQuestionGrid
+        '
+        Me.mnuQuestionGrid.ImageScalingSize = New System.Drawing.Size(24, 24)
+        Me.mnuQuestionGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuItemAddQuestion, Me.mnuItemDeleteQuestion})
+        Me.mnuQuestionGrid.Name = "mnuQuestionGrid"
+        Me.mnuQuestionGrid.Size = New System.Drawing.Size(212, 68)
+        '
+        'mnuItemAddQuestion
+        '
+        Me.mnuItemAddQuestion.Name = "mnuItemAddQuestion"
+        Me.mnuItemAddQuestion.Size = New System.Drawing.Size(211, 32)
+        Me.mnuItemAddQuestion.Text = "&Add Question"
+        '
+        'mnuItemDeleteQuestion
+        '
+        Me.mnuItemDeleteQuestion.Name = "mnuItemDeleteQuestion"
+        Me.mnuItemDeleteQuestion.Size = New System.Drawing.Size(211, 32)
+        Me.mnuItemDeleteQuestion.Text = "&Delete Question"
         '
         'frmTopicQuestionView
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(10.0!, 22.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1078, 579)
+        Me.ClientSize = New System.Drawing.Size(970, 526)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmTopicQuestionView"
         Me.Text = "frmTopicQuestionView"
@@ -102,10 +152,18 @@ Partial Class frmTopicQuestionView
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.grdQuestion, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.mnuTreeView.ResumeLayout(False)
+        Me.mnuQuestionGrid.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents trvTopic As TreeView
     Friend WithEvents grdQuestion As DataGridView
+    Friend WithEvents mnuTreeView As ContextMenuStrip
+    Friend WithEvents mnuItemAddTopic As ToolStripMenuItem
+    Friend WithEvents mnuItemDeleteTopic As ToolStripMenuItem
+    Friend WithEvents mnuQuestionGrid As ContextMenuStrip
+    Friend WithEvents mnuItemAddQuestion As ToolStripMenuItem
+    Friend WithEvents mnuItemDeleteQuestion As ToolStripMenuItem
 End Class

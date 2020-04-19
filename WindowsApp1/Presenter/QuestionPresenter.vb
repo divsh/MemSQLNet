@@ -257,6 +257,8 @@ Public Class QuestionPresenter
     Public Sub OnSaveClicked(displayedBusinessObject As clsQuestion) Implements IQuestionPresenter.OnSaveClicked
         displayedBusinessObject.Save()
         MyView.SetMode(QuestionViewMode.Detail)
+        MyView.CallQuestionTopicGridRefresh()
+
     End Sub
 
     Public Sub OnDisplayedQuestionChange(lastquestion As clsQuestion) Implements IQuestionPresenter.OnDisplayedQuestionChange

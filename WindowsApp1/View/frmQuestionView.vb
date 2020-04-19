@@ -13,7 +13,8 @@ Public Class frmQuestionView
         initButtonPanels()
         mTopicQuestionView = topicQuestionView
         MyPresenter = New QuestionPresenter(dbContext, Me)
-
+        Me.Icon = My.Resources.sync
+        Me.Text = "Question"
     End Sub
     Private Sub initButtonPanels()
         Dim top, left As Integer
@@ -63,18 +64,11 @@ Public Class frmQuestionView
         Try
             rtbAnswer.Rtf = DisplayedQuestion.Answer
         Catch ex As Exception
-            rtbAnswer.Rtf = FormatAsRTF(DisplayedQuestion.Answer)
+            rtbAnswer.Rtf = clsQuestion.TextToRTF(DisplayedQuestion.Answer)
         End Try
         MyPresenter.OnDisplayedQuestionChange(currQuestion)
 
     End Sub
-
-    Private Function FormatAsRTF(dirtyText As String) As String
-        Dim rtf As System.Windows.Forms.RichTextBox = New RichTextBox()
-        rtf.Text = dirtyText
-        Return rtf.Rtf
-    End Function
-
 
     Public Sub SetBusinessObjectOnView(question As clsQuestion) Implements IQuestionView.SetBusinessObjectOnView
         mDisplayedQuestion = question
@@ -288,12 +282,16 @@ Public Class frmQuestionView
 
     Private Sub rtbAnswer_DoubleClick(sender As Object, e As EventArgs) Handles rtbAnswer.DoubleClick
         Try
-            If Me.CurrentMode = QuestionViewMode.Review Then Return
+            If Me.CurrentMode = QuestionViewMode.Review OrElse Me.CurrentMode = QuestionViewMode.Edit Then Return
             Dim result As DialogResult
             result = MessageBox.Show("Do you want to edit the question?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
             If result = DialogResult.Yes Then MyPresenter.onQuestionEditRequest()
         Catch ex As Exception
             MessageBoxEx.Show(ex, "rtbAnswer_DoubleClick")
         End Try
+    End Sub
+
+    Public Sub CallQuestionTopicGridRefresh() Implements IQuestionView.CallQuestionTopicGridRefresh
+        mTopicQuestionView.RefeshQuestionsGrid(DisplayedQuestion.TopicID)
     End Sub
 End Class

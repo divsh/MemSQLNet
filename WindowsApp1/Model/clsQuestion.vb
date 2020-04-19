@@ -243,10 +243,16 @@ Public Class clsQuestion
 #End Region
 
 #Region "Custom Types, members and methods"
-    Private Function RTFToText(RtfText As String) As String
+    Public Shared Function RTFToText(RtfText As String) As String
         Dim rtf As System.Windows.Forms.RichTextBox = New RichTextBox()
         rtf.Rtf = RtfText
         Return rtf.Text
+    End Function
+
+    Public Shared Function TextToRTF(NormalText As String) As String
+        Dim rtf As System.Windows.Forms.RichTextBox = New RichTextBox()
+        rtf.Text = NormalText
+        Return rtf.Rtf
     End Function
 
     ReadOnly Property DBObject As Object
@@ -265,6 +271,12 @@ Public Class clsQuestion
             " LastReviewDate:" & Me.LastReviewDate.ToString &
             " LastReviewResponse:" & Me.LastReviewResponse.ToString() &
             ")"
+        End Get
+    End Property
+
+    ReadOnly Property DBContext As DBContext
+        Get
+            Return mDbContext
         End Get
     End Property
 #End Region

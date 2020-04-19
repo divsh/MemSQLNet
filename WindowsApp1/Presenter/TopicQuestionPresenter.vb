@@ -52,6 +52,26 @@ Public Class TopicQuestionPresenter
         Dim allTopics = clsTopic.FetchBusinessObjects(mdbContext, Function(x) x.ID > 0)
         Return allTopics
     End Function
+
+    Public Sub OnMenuAddQuestion(topicID As Integer, question As String) Implements ITopicQuestionPresenter.OnMenuAddQuestion
+        Dim newQ As clsQuestion
+        newQ = New clsQuestion(mdbContext)
+        newQ.Name = question
+        newQ.Answer = clsQuestion.TextToRTF("Edit to provide an answer to this question.")
+        newQ.TopicID = topicID
+        newQ.Save()
+        MyView.RefeshQuestionsGrid(topicID)
+    End Sub
+
+    Public Sub OnMenuAddTopic(ParentTopicID As Integer, topic As String) Implements ITopicQuestionPresenter.OnMenuAddTopic
+        Dim newTopic As clsTopic
+        newTopic = New clsTopic(mdbContext)
+        newTopic.Name = topic
+        newTopic.ParentTopicID = ParentTopicID
+        newTopic.Save()
+        MyView.populateTopicTree(clsTopic.FetchBusinessObjects(mdbContext, Function(x) True))
+        MyView.RefeshQuestionsGrid(ParentTopicID)
+    End Sub
 #End Region
 
 End Class

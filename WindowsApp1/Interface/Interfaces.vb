@@ -2,6 +2,7 @@
 Public Interface ITopicQuestionView
     Sub Display()
     Sub RefeshQuestionsGrid(questions As List(Of clsQuestion))
+    Sub RefeshQuestionsGrid(TopicID As Integer)
     Function getSelectedTopicID() As Integer
     Sub populateTopicTree(topics As List(Of clsTopic))
     Function SelectNthRowFromCurrent(positionFromCurrent As Integer) As clsQuestion
@@ -16,6 +17,8 @@ Public Interface ITopicQuestionPresenter
     Sub OnTopicParentTopicChanged(topicIDChanged As Integer, newParentTopicID As Integer)
     Sub OnQuestionsDroppedOnTopic(quesions As Integer(), droppedOnTopicID As Integer)
     Sub OnQuestionDelete(questionID As Integer)
+    Sub OnMenuAddQuestion(topicID As Integer, question As String)
+    Sub OnMenuAddTopic(topicID As Integer, topic As String)
 End Interface
 
 Public Interface IQuestionView
@@ -30,6 +33,7 @@ Public Interface IQuestionView
     Sub HideAnswer()
     Sub ShowAnswer()
     Sub ResetResponse()
+    Sub CallQuestionTopicGridRefresh()
 End Interface
 
 

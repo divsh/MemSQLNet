@@ -4,12 +4,13 @@ Public Class frmTopicQuestionView
     Implements ITopicQuestionView
 
     Private myPresenter As ITopicQuestionPresenter
-
+    Private mDBContext As DBContext
     Public Sub New(dbContext As DBContext)
         ' This call is required by the designer.
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
         initGrid(grdQuestion)
+        mDBContext = dbContext
         myPresenter = New TopicQuestionPresenter(dbContext, Me)
     End Sub
 
@@ -34,9 +35,21 @@ Public Class frmTopicQuestionView
         For Each t As clsTopic In topics
             If addedID.Contains(t.Id) Then Continue For
             Dim node As TreeNode = New TreeNode(t.Name)
-            node.Tag = t.Id
+            node.Tag = t.ID
             addNodeToParent(rootNode, node, t.ParentTopicID, topics, addedID)
         Next
+    End Sub
+
+    Public Sub selectTopicNode(topicID As Integer)
+        Dim e As IEnumerable
+        Dim tn As TreeNode
+        e = trvTopic.Nodes
+        tn = e.OfType(Of TreeNode)().ToList().Where(Function(x)
+                                                        If x.Tag IsNot Nothing Then
+                                                            Return DirectCast(x.Tag, Integer) = topicID
+                                                        End If
+                                                    End Function).FirstOrDefault()
+        trvTopic.SelectedNode = tn
     End Sub
 
     Private Sub addNodeToParent(rootnode As TreeNode, node As TreeNode, parentNodeID As Integer, topics As List(Of clsTopic), addedID As List(Of Integer))
@@ -102,7 +115,7 @@ Public Class frmTopicQuestionView
     End Sub
 
     Private Sub trvTopic_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles trvTopic.AfterLabelEdit
-        If e.Label Is Nothing OrElse e.Label.Length > 0 Then Return
+        If e.Label Is Nothing OrElse e.Label.Length = 0 Then Return
         myPresenter.OnTopicRenamed(e.Node.Tag, e.Label)
     End Sub
 
@@ -142,4 +155,35 @@ Public Class frmTopicQuestionView
         End If
 
     End Function
+
+    Private Sub mnuItemAddQuestion_Click(sender As Object, e As EventArgs) Handles mnuItemAddQuestion.Click
+        Try
+            Dim q As String
+            q = InputBox("Enter the question:", "New Question", String.Empty)
+            If String.IsNullOrEmpty(q) Then Return
+            myPresenter.OnMenuAddQuestion(trvTopic.SelectedNode.Tag, q)
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "mnuItemAddQuestion_Click")
+        End Try
+    End Sub
+
+    Public Sub RefeshQuestionsGrid(TopicID As Integer) Implements ITopicQuestionView.RefeshQuestionsGrid
+        RefeshQuestionsGrid(clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.TopicID = TopicID))
+    End Sub
+
+    Private Sub mnuItemAddTopic_Click(sender As Object, e As EventArgs) Handles mnuItemAddTopic.Click
+        Try
+            Dim topic As String
+            Dim selectedTopicID As Integer
+            selectedTopicID = If(trvTopic.SelectedNode.Tag, 0)
+
+            topic = InputBox("Enter the topic Name:", "New Topic", String.Empty)
+
+            If String.IsNullOrEmpty(topic) Then Return
+            myPresenter.OnMenuAddTopic(selectedTopicID, topic)
+            selectTopicNode(selectedTopicID)
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "mnuItemAddQuestion_Click")
+        End Try
+    End Sub
 End Class
