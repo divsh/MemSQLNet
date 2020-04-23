@@ -89,7 +89,9 @@ Public Class QuestionPresenter
     Private mUserConfirmedExtraQuestions As Boolean
     Public Sub OnResponseSelected(question As IBO, response As clsQuestion.Recall) Implements IQuestionPresenter.OnResponseSelected
         mReviewPlanner.updateUserResponse(DirectCast(question, clsQuestion), response)
-
+        displayNextReviewQuestion()
+    End Sub
+    Private Sub displayNextReviewQuestion()
         If mReviewPlanner.LastOverDuedQuetionFetched Then
             If mUserConfirmedExtraQuestions Then
                 displayNextQuestion()
@@ -106,6 +108,10 @@ Public Class QuestionPresenter
         Else
             MyView.DisplayBusinessObject(mReviewPlanner.fetchNextQuestionForReview)
         End If
+    End Sub
+
+    Public Sub OnSkipReviewQuestion() Implements IQuestionPresenter.OnSkipReviewQuestion
+        displayNextReviewQuestion()
     End Sub
 
 
@@ -289,4 +295,5 @@ Public Class QuestionPresenter
     Public Sub onQuestionEditRequest() Implements IQuestionPresenter.onQuestionEditRequest
         MyView.SetMode(QuestionViewMode.Edit)
     End Sub
+
 End Class

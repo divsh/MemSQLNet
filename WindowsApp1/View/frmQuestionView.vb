@@ -258,6 +258,8 @@ Public Class frmQuestionView
                 Case Keys.D3 : optAverage_Click(optAverage, Nothing)
                 Case Keys.D2 : optAverage_Click(optPoor, Nothing)
                 Case Keys.D1 : optAverage_Click(optNull, Nothing)
+                Case Keys.Escape
+                    MyPresenter.OnSkipReviewQuestion()
             End Select
         Catch ex As Exception
             MessageBoxEx.Show(ex, "grbResponse_KeyDown")
