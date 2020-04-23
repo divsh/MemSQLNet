@@ -1,5 +1,4 @@
 ﻿Imports Mem
-
 Public Class QuestionPresenter
     Implements IQuestionPresenter
     Private mDBContext As DBContext
@@ -17,7 +16,7 @@ Public Class QuestionPresenter
         If MyView.CurrentMode = QuestionViewMode.Create Then
             MyView.DisplayBusinessObject(mLastDisplayedQuestion)
         ElseIf MyView.CurrentMode = QuestionViewMode.Edit Then
-            MyView.DisplayBusinessObject(clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.Id = questionID).FirstOrDefault)
+            MyView.DisplayBusinessObject(clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.ID = questionID).FirstOrDefault)
         End If
     End Sub
 
@@ -56,33 +55,22 @@ Public Class QuestionPresenter
     Private mReviewPlanner As ReviewPlanner
 
     Public Sub OnReviewSelected(topicID As Integer) Implements IQuestionPresenter.OnReviewSelected
-        mReviewPlanner = New ReviewPlanner(mDBContext, True)
+        mReviewPlanner = New ReviewPlanner(mDBContext, appendNonOverdueQuestions:=True)
         mUserConfirmedExtraQuestions = False
-        displayNextQuestion()
+        displayNextReviewQuestion()
 
-        'mLastOverDueQuestionPlayed = False
-        'mUserSelectedToKeepReviewing = False
-        'mQuestionReviewList = getQuestionsOverdueForReview()
-        'mQuestionReviewListEnumerator = mQuestionReviewList.GetEnumerator()
-        'If mQuestionReviewListEnumerator.MoveNext() Then
-        '    MyView.DisplayBusinessObject(mQuestionReviewListEnumerator.Current)
-        'End If
-
-        ''todo: index out of bound exception may happen
-        '' MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
-        Return
     End Sub
 
     Private Function getQuestionsOverdueForReview() As List(Of clsQuestion)
         Dim result As List(Of clsQuestion)
         'fetch overdue to review questions 
-        result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0 OrElse Convert.ToDateTime(x.LastReviewDate).AddDays(clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.Sno = x.NextReviewIntervalSNo).FirstOrDefault().Interval) >= Today)
-        mLastOverDueQuestionID = result.LastOrDefault().Id
+        result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0 OrElse Convert.ToDateTime(x.LastReviewDate).AddDays(clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.SNo = x.NextReviewIntervalSNo).FirstOrDefault().Interval) >= Today)
+        mLastOverDueQuestionID = result.LastOrDefault().ID
 
-        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Null).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Poor).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Average).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
-        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Good).ForEach(Sub(y) If Not result.Exists(Function(x) x.Id = y.Id) Then result.Add(y))
+        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Null).ForEach(Sub(y) If Not result.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
+        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Poor).ForEach(Sub(y) If Not result.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
+        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Average).ForEach(Sub(y) If Not result.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
+        clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Good).ForEach(Sub(y) If Not result.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
         Return result
     End Function
 
@@ -92,7 +80,11 @@ Public Class QuestionPresenter
         displayNextReviewQuestion()
     End Sub
     Private Sub displayNextReviewQuestion()
-        If mReviewPlanner.LastOverDuedQuetionFetched Then
+        Dim nextQ As clsQuestion = mReviewPlanner.fetchNextQuestionForReview
+        If nextQ Is Nothing Then
+            MessageBox.Show("Review Completes! The Review will stop now.", "Information!")
+            OnStopReviewSelected()
+        ElseIf mReviewPlanner.LastOverDuedQuetionFetched Then
             If mUserConfirmedExtraQuestions Then
                 displayNextQuestion()
             Else
@@ -106,14 +98,13 @@ Public Class QuestionPresenter
                 End If
             End If
         Else
-            MyView.DisplayBusinessObject(mReviewPlanner.fetchNextQuestionForReview)
+            MyView.DisplayBusinessObject(nextQ)
         End If
     End Sub
 
     Public Sub OnSkipReviewQuestion() Implements IQuestionPresenter.OnSkipReviewQuestion
         displayNextReviewQuestion()
     End Sub
-
 
     Private Sub displayNextQuestion()
         Dim nextQ As clsQuestion = mReviewPlanner.fetchNextQuestionForReview
@@ -157,7 +148,7 @@ Public Class QuestionPresenter
     ''' </summary>
     Private Sub saveReviewInstance(question As clsQuestion, response As clsQuestion.Recall)
         Dim rr As clsReview = New clsReview(mDBContext)
-        rr.QuestionID = question.Id
+        rr.QuestionID = question.ID
         rr.Response = response
         rr.ReviewDateTime = Date.Now
         rr.Save()
@@ -185,7 +176,7 @@ Public Class QuestionPresenter
             ri = 20 / m
 
             Dim revInt As clsReviewInterval
-            revInt = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.Sno = question.NextReviewIntervalSNo).FirstOrDefault()
+            revInt = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.SNo = question.NextReviewIntervalSNo).FirstOrDefault()
             Dim NewRi As Integer
             NewRi = (revInt.Interval * revInt.SampleCount + ri) / (revInt.SampleCount + 1)
             revInt.Interval = NewRi
@@ -198,7 +189,7 @@ Public Class QuestionPresenter
                 'Post-term review
                 Dim daysGap As Integer = DateDiff(DateInterval.Day, question.LastReviewDate, Today)
                 Dim rTmp As List(Of clsReviewInterval)
-                rTmp = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.Sno >= question.NextReviewIntervalSNo)
+                rTmp = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.SNo >= question.NextReviewIntervalSNo)
 
                 Dim totalJumpedInterval As Integer
                 Dim sumOfDays As Integer = 0
@@ -218,7 +209,7 @@ Public Class QuestionPresenter
             Else 'Pre-term review
 
                 'This review must be after previous interval for question to progress to next review interval
-                revInt = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.Sno = question.NextReviewIntervalSNo).FirstOrDefault()
+                revInt = clsReviewInterval.FetchBusinessObjects(mDBContext, Function(x) x.SNo = question.NextReviewIntervalSNo).FirstOrDefault()
                 If DateDiff(DateInterval.Day, question.LastReviewDate, Date.Today) >= revInt.Interval Then
                     question.NextReviewIntervalSNo += 1
                 End If
@@ -255,7 +246,7 @@ Public Class QuestionPresenter
 
     Public Sub OnNewSelected() Implements IQuestionPresenter.OnNewSelected
         Dim newQuestion As clsQuestion = New clsQuestion(mDBContext)
-        newQuestion.TopicID = MyView.DisplayedTopic.Id
+        newQuestion.TopicID = MyView.DisplayedTopic.ID
         MyView.SetMode(QuestionViewMode.Create)
         MyView.DisplayBusinessObject(newQuestion)
     End Sub
@@ -272,13 +263,13 @@ Public Class QuestionPresenter
     End Sub
 
     Public Function getQuestion(questionID As Integer) As clsQuestion Implements IQuestionPresenter.getQuestion
-        Return clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.Id = questionID).FirstOrDefault
+        Return clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.ID = questionID).FirstOrDefault
     End Function
 
     Public Function GetTopic(questionID As Integer) As clsTopic Implements IQuestionPresenter.GetTopic
         Dim t As clsTopic
         Try
-            t = clsTopic.FetchBusinessObjects(mDBContext, Function(x) x.ID = clsQuestion.FetchBusinessObjects(mDBContext, Function(y) y.Id = questionID).FirstOrDefault.TopicID).FirstOrDefault
+            t = clsTopic.FetchBusinessObjects(mDBContext, Function(x) x.ID = clsQuestion.FetchBusinessObjects(mDBContext, Function(y) y.ID = questionID).FirstOrDefault.TopicID).FirstOrDefault
         Catch ex As Exception
 
         End Try

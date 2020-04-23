@@ -110,6 +110,7 @@ Public Class frmQuestionView
 
                 txtQuestion.ReadOnly = True
                 rtbAnswer.ReadOnly = True
+                rtbAnswer.Visible = True
             Case QuestionViewMode.Edit
                 plnEditMode.Visible = True
                 plnEditMode.Enabled = True
@@ -183,11 +184,16 @@ Public Class frmQuestionView
     End Sub
 
     Private Sub btnReview_Click(sender As Object, e As EventArgs) Handles btnReview.Click
+        Dim cur As Object = DirectCast(Me, Form).Cursor
         Try
-            If DisplayedTopic Is Nothing OrElse DisplayedTopic.Id <= 0 Then Return
-            MyPresenter.OnReviewSelected(DisplayedTopic.Id)
+            DirectCast(Me, Form).Cursor = Cursors.WaitCursor
+            If DisplayedTopic Is Nothing OrElse DisplayedTopic.ID <= 0 Then Return
+            MyPresenter.OnReviewSelected(DisplayedTopic.ID)
+            DirectCast(Me, Form).Cursor = DirectCast(cur, Cursor)
         Catch ex As Exception
             MessageBoxEx.Show(ex, "btnReview_Click")
+        Finally
+            DirectCast(Me, Form).Cursor = DirectCast(cur, Cursor)
         End Try
     End Sub
 
@@ -258,8 +264,7 @@ Public Class frmQuestionView
                 Case Keys.D3 : optAverage_Click(optAverage, Nothing)
                 Case Keys.D2 : optAverage_Click(optPoor, Nothing)
                 Case Keys.D1 : optAverage_Click(optNull, Nothing)
-                Case Keys.Escape
-                    MyPresenter.OnSkipReviewQuestion()
+                Case Keys.Escape : MyPresenter.OnSkipReviewQuestion()
             End Select
         Catch ex As Exception
             MessageBoxEx.Show(ex, "grbResponse_KeyDown")
