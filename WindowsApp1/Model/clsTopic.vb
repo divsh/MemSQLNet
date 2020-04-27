@@ -169,6 +169,9 @@ Public Class clsTopic
 
     Public Function Delete() As Boolean Implements IBO.Delete
         Try
+            If Not canDelete() Then
+                Throw New Exception("Cannot be deleted. Remove any child topic or question to delete it.")
+            End If
             Return mDbContext.Delete(mDBObject)
         Catch ex As Exception
             ex.Source = "clsTopic.Delete"
@@ -186,6 +189,12 @@ Public Class clsTopic
 #End Region
 
 #Region "Custom Types, members and methods"
+    Public Function canDelete() As Boolean
+        If clsQuestion.FetchBusinessObjects(mDbContext, Function(x) x.TopicID = Me.ID).Count > 0 Then Return False
+        If clsTopic.FetchBusinessObjects(mDbContext, Function(x) x.ParentTopicID = Me.ID).Count > 0 Then Return False
+        Return True
+    End Function
+
 
     Private _TopicFullPath As String
     ReadOnly Property TopicFullPath As String

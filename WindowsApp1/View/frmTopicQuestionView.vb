@@ -191,4 +191,8 @@
             MessageBoxEx.Show(ex, "mnuItemAddQuestion_Click")
         End Try
     End Sub
+
+    Private Sub mnuItemDeleteTopic_Click(sender As Object, e As EventArgs) Handles mnuItemDeleteTopic.Click
+
+    End Sub
 End Class
