@@ -63,6 +63,12 @@ Public Class TopicQuestionPresenter
         MyView.RefeshQuestionsGrid(topicID)
     End Sub
 
+    Public Sub OnMenuDeleteQuestion(question As clsQuestion) Implements ITopicQuestionPresenter.OnMenuDeleteQuestion
+        Dim selectedTopic As clsTopic = question.Topic
+        question.Delete()
+        MyView.RefeshQuestionsGrid(selectedTopic.ID)
+    End Sub
+
     Public Sub OnMenuAddTopic(ParentTopicID As Integer, topic As String) Implements ITopicQuestionPresenter.OnMenuAddTopic
         Dim newTopic As clsTopic
         newTopic = New clsTopic(mdbContext)

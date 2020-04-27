@@ -181,4 +181,14 @@
             MessageBoxEx.Show(ex, "mnuItemAddQuestion_Click")
         End Try
     End Sub
+
+    Private Sub mnuItemDeleteQuestion_Click(sender As Object, e As EventArgs) Handles mnuItemDeleteQuestion.Click
+        Try
+            If MessageBox.Show("Do you want to delete question?" & Environment.NewLine & DirectCast(grdQuestion.SelectedRows.Item(0).DataBoundItem, clsQuestion).Name, "Confirm", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+                myPresenter.OnMenuDeleteQuestion(DirectCast(grdQuestion.SelectedRows.Item(0).DataBoundItem, clsQuestion))
+            End If
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "mnuItemAddQuestion_Click")
+        End Try
+    End Sub
 End Class

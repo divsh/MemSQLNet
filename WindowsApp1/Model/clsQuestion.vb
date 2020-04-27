@@ -21,6 +21,7 @@ Public Class clsQuestion
         Property NextReviewIntervalSNo As Integer
         Property ReviewCount As Integer
         Property AverageReviewResponse As Double
+        Property NextReviewDate As String
     End Class
 
 #Region "Attributes enum types"
@@ -168,6 +169,15 @@ Public Class clsQuestion
             mDBObject.AverageReviewResponse = value
         End Set
     End Property
+
+    Property NextReviewDate As Date
+        Get
+            Return Convert.ToDateTime(mDBObject.NextReviewDate)
+        End Get
+        Set(value As Date)
+            mDBObject.NextReviewDate = value.ToString
+        End Set
+    End Property
 #End Region
 
 #Region "IBO implementation"
@@ -226,6 +236,7 @@ Public Class clsQuestion
 
     Public Function Delete() As Boolean Implements IBO.Delete
         Try
+            deleteRelatedReviews()
             Return mDbContext.Delete(mDBObject)
         Catch ex As Exception
             ex.Source = "clsQuestion.Delete"
@@ -243,6 +254,19 @@ Public Class clsQuestion
 #End Region
 
 #Region "Custom Types, members and methods"
+
+    Public Sub deleteRelatedReviews() 'todo: provide a better implementaion; make it a function if any delete fails return false
+        clsReview.FetchBusinessObjects(mDbContext, Function(x) x.QuestionID = ID).ForEach(Sub(x) x.Delete())
+    End Sub
+    Public Function CanExecute(ByVal action As String)
+        Select Case action
+            Case "delete"
+
+            Case Else
+                Throw New Exception("action not implemented")
+        End Select
+    End Function
+
     Public Shared Function RTFToText(RtfText As String) As String
         Dim rtf As System.Windows.Forms.RichTextBox = New RichTextBox()
         rtf.Rtf = RtfText

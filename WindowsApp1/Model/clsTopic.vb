@@ -12,7 +12,7 @@ Public Class clsTopic
         Property Name As String
         Property Description As String
         <Indexed>
-        Property ParentTopicID As Integer
+        Property ParentTopicID As Integer?
     End Class
 
 #Region "Attributes enum types"
@@ -51,10 +51,10 @@ Public Class clsTopic
     End Property
     Property ParentTopicID As Integer
         Get
-            Return mDBObject.ParentTopicID
+            Return If(mDBObject.ParentTopicID Is Nothing, 0, mDBObject.ParentTopicID)
         End Get
         Set(value As Integer)
-            mDBObject.ParentTopicID = value
+            mDBObject.ParentTopicID = If(value = 0, Nothing, value)
         End Set
     End Property
 

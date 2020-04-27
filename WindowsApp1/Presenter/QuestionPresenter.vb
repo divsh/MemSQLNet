@@ -33,32 +33,12 @@ Public Class QuestionPresenter
     Private mLastOverDueQuestionPlayed As Boolean = False
     Private mUserSelectedToKeepReviewing As Boolean = False
 
-    Public Sub OnReviewSelected_Old(topicID As Integer)
-        If mFakeReviewPlan Is Nothing Then
-            mFakeReviewPlan = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.TopicID = topicID)
-        End If
-        mCurrentQuestionOnReviewPlan += 1
-
-        'todo: index out of bound exception may happen
-        MyView.DisplayBusinessObject(mFakeReviewPlan.Item(mCurrentQuestionOnReviewPlan))
-        MyView.HideAnswer()
-        MyView.SetMode(QuestionViewMode.Review)
-        Return
-        'Create Question review plan
-        MyView.SetMode(QuestionViewMode.Review)
-        mReviewPlan.ReviewPlan.GetEnumerator.MoveNext()
-        MyView.HideAnswer()
-        MyView.DisplayBusinessObject(mReviewPlan.ReviewPlan.GetEnumerator.Current)
-
-    End Sub
-
     Private mReviewPlanner As ReviewPlanner
 
     Public Sub OnReviewSelected(topicID As Integer) Implements IQuestionPresenter.OnReviewSelected
         mReviewPlanner = New ReviewPlanner(mDBContext, appendNonOverdueQuestions:=True)
         mUserConfirmedExtraQuestions = False
         displayNextReviewQuestion()
-
     End Sub
 
     Private Function getQuestionsOverdueForReview() As List(Of clsQuestion)
