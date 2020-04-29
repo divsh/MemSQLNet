@@ -20,19 +20,31 @@ Public Class ReviewPlanner
         buildQuestionsOverdueForReview(appendNonOverdueQuestions)
     End Sub
     Private Sub buildQuestionsOverdueForReview(appendNonOverdueQuestions As Boolean)
+        'review question are arranged in order
+        ' all never reviewed questions then,
+        ' all overdue question arranged with highest nextReviewIntervalSNo on top then,
+        ' all underdue question in with lowest recall response on top.
         Dim result As List(Of clsQuestion)
+        Dim arrangedResult As List(Of clsQuestion) = New List(Of clsQuestion)
         'fetch overdue to review questions 
         result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0 OrElse Convert.ToDateTime(x.LastReviewDate).AddDays(clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.SNo = x.NextReviewIntervalSNo).FirstOrDefault().Interval) >= Today)
+        arrangedResult = Utility.Shuffle(Of clsQuestion)(clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0))
+        result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewDate IsNot Nothing AndAlso Convert.ToDateTime(x.LastReviewDate).AddDays(clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.SNo = x.NextReviewIntervalSNo).FirstOrDefault().Interval) >= Today)
+        'result = Utility.Shuffle(Of clsQuestion)(result)
+        arrangedResult.AddRange(result.OrderBy(Of Integer)(Function(x) x.NextReviewIntervalSNo))
         _LastOverDuedQuetionFetched = False
         mLastOverDueQuestionID = result.FirstOrDefault().ID
+        result = Nothing
         If appendNonOverdueQuestions Then
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Null).ForEach(Sub(y) If Not result.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Poor).ForEach(Sub(y) If Not result.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Average).ForEach(Sub(y) If Not result.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Good).ForEach(Sub(y) If Not result.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Null).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then arrangedResult.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Poor).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then arrangedResult.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Average).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then arrangedResult.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Good).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then arrangedResult.Add(y))
         End If
-        _ReviewQuestions = result
-        _QuestionsToReviewCount = result.Count
+
+        _ReviewQuestions = arrangedResult
+        arrangedResult.ForEach(Sub(x) Logger.Log(Logger.LoggingLevel.Info, x.Name & ", "))
+        _QuestionsToReviewCount = arrangedResult.Count
         mReviewQuestionEnumarator = _ReviewQuestions.GetEnumerator
     End Sub
 
@@ -220,6 +232,7 @@ Public Class ReviewPlanner
             q.NextReviewIntervalSNo += 1
         End If
     End Sub
+
 End Class
 
 

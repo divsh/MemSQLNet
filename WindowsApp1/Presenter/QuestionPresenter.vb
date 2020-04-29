@@ -66,7 +66,7 @@ Public Class QuestionPresenter
             OnStopReviewSelected()
         ElseIf mReviewPlanner.LastOverDuedQuetionFetched Then
             If mUserConfirmedExtraQuestions Then
-                displayNextQuestion()
+                displayQuestionForReview(nextQ)
             Else
                 Dim user As DialogResult
                 user = MessageBox.Show("All overdued question reviewed. Do you still want to keep om reviewing?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
@@ -74,16 +74,21 @@ Public Class QuestionPresenter
                     OnStopReviewSelected()
                 Else
                     mUserConfirmedExtraQuestions = True
-                    displayNextQuestion()
+                    displayQuestionForReview(nextQ)
                 End If
             End If
         Else
-            MyView.DisplayBusinessObject(nextQ)
+            displayQuestionForReview(nextQ)
         End If
     End Sub
 
     Public Sub OnSkipReviewQuestion() Implements IQuestionPresenter.OnSkipReviewQuestion
         displayNextReviewQuestion()
+    End Sub
+
+    Private Sub displayQuestionForReview(ByVal question As clsQuestion)
+        MyView.SetMode(QuestionViewMode.Review)
+        MyView.DisplayBusinessObject(question)
     End Sub
 
     Private Sub displayNextQuestion()
@@ -92,10 +97,7 @@ Public Class QuestionPresenter
             MessageBox.Show("Review Completes! The Review will stop now.", "Information!")
             OnStopReviewSelected()
         Else
-            MyView.ResetResponse()
-            MyView.SetMode(QuestionViewMode.Review)
-            MyView.HideAnswer()
-            MyView.DisplayBusinessObject(nextQ)
+            displayQuestionForReview(nextQ)
         End If
     End Sub
     Private muserResponse As Boolean = False

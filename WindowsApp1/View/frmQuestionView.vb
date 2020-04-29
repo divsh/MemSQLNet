@@ -125,6 +125,8 @@ Public Class frmQuestionView
 
                 txtQuestion.ReadOnly = True
                 rtbAnswer.ReadOnly = True
+                ResetResponse()
+                HideAnswer()
         End Select
         mCurrentMode = mode
     End Sub
