@@ -20,8 +20,12 @@
 #Region "View Interface Implementation"
     Public Sub RefeshQuestionsGrid(questions As List(Of clsQuestion)) Implements ITopicQuestionView.RefeshQuestionsGrid
         Dim bs As BindingSource = New BindingSource()
-        questions.ForEach(Sub(x) bs.Add(x))
+        bs.DataSource = questions
         grdQuestion.DataSource = bs
+        grdQuestion.Columns.Remove("answer")
+        grdQuestion.Columns.Remove("dbobject")
+        grdQuestion.Columns.Remove("topic")
+        grdQuestion.Columns.Remove("dbcontext")
     End Sub
 
     Public Sub populateTopicTree(topics As List(Of clsTopic)) Implements ITopicQuestionView.populateTopicTree

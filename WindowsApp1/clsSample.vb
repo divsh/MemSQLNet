@@ -55,14 +55,19 @@ Public Class clsSample
         Dim modelObjects As List(Of clsSample) = New List(Of clsSample)
         dbobjects = dbContext.Table(Of Sample).Where(x).ToList()
         For Each item As Sample In dbobjects
-            Dim businessObject As New clsSample(dbContext)
-            mMapperFromDB.Map(item, businessObject.mDBObject, GetType(Sample), GetType(Sample))
-            businessObject.mIsStored = True
-            businessObject.mIsDirty = False
-            modelObjects.Add(businessObject)
+            modelObjects.Add(clsSample.CreateBusinessObject(dbContext, item))
         Next
         Return modelObjects
     End Function
+
+    Public Shared Function CreateBusinessObject(dbcontext As DBContext, ByVal DBObject As Sample) As clsSample
+        Dim businessObject As New clsSample(dbcontext)
+        mMapperFromDB.Map(DBObject, businessObject.mDBObject, GetType(Sample), GetType(Sample))
+        businessObject.mIsStored = True
+        businessObject.mIsDirty = False
+        Return businessObject
+    End Function
+
 #End Region
 
 #Region "IBO implementation"
@@ -136,6 +141,14 @@ Public Class clsSample
     Public Function IsValid() As Boolean Implements IBO.IsValid
         Return True
     End Function
+
+    ReadOnly Property DBObject As Sample
+        Get
+            Return mDBObject
+        End Get
+    End Property
+
+
 #End Region
 
 #Region "Custom Types, members and methods"
