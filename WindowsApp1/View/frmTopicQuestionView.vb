@@ -236,4 +236,41 @@
             MessageBoxEx.Show(ex, "grdQuestion_ColumnHeaderMouseClick")
         End Try
     End Sub
+
+    ''' <summary>
+    ''' https://stackoverflow.com/questions/9581626/show-row-number-in-row-header-of-a-datagridview
+    ''' </summary>
+    Private Sub grdQuestion_RowPostPaint(sender As Object, e As DataGridViewRowPostPaintEventArgs) Handles grdQuestion.RowPostPaint
+        '' Automatically maintains a Row Header Index Number 
+        ''   like the Excel row number, independent of sort order
+
+        'Dim grid As DataGridView = CType(sender, DataGridView)
+        'Dim rowIdx As String = (e.RowIndex + 1).ToString()
+        'Dim rowFont As New System.Drawing.Font("Tahoma", 8.0!,
+        '    System.Drawing.FontStyle.Bold,
+        '    System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+
+        'Dim centerFormat = New StringFormat()
+        'centerFormat.Alignment = StringAlignment.Far
+        'centerFormat.LineAlignment = StringAlignment.Near
+
+        'Dim headerBounds As Rectangle = New Rectangle(e.RowBounds.Left, e.RowBounds.Top,
+        'grid.RowHeadersWidth, e.RowBounds.Height)
+        'e.Graphics.DrawString(rowIdx, rowFont, SystemBrushes.ControlText,
+        'headerBounds, centerFormat)
+
+
+
+
+        Dim grid As DataGridView = sender
+        Dim rowIdx = (e.RowIndex + 1).ToString()
+
+        Dim centerFormat = New StringFormat()
+        With centerFormat
+            .Alignment = StringAlignment.Center
+            .LineAlignment = StringAlignment.Center
+        End With
+        Dim headerBounds = New Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
+        e.Graphics.DrawString(rowIdx, Me.Font, SystemBrushes.ControlText, headerBounds, centerFormat)
+    End Sub
 End Class
