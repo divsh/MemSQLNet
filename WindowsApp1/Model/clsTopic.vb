@@ -49,11 +49,11 @@ Public Class clsTopic
             mDBObject.Description = value
         End Set
     End Property
-    Property ParentTopicID As Integer
+    Property ParentTopicID As Integer?
         Get
             Return If(mDBObject.ParentTopicID Is Nothing, 0, mDBObject.ParentTopicID)
         End Get
-        Set(value As Integer)
+        Set(value As Integer?)
             mDBObject.ParentTopicID = If(value = 0, Nothing, value)
         End Set
     End Property
@@ -191,7 +191,7 @@ Public Class clsTopic
 #Region "Custom Types, members and methods"
     Public Function canDelete() As Boolean
         If clsQuestion.FetchBusinessObjects(mDbContext, Function(x) x.TopicID = Me.ID).Count > 0 Then Return False
-        If clsTopic.FetchBusinessObjects(mDbContext, Function(x) x.ParentTopicID = Me.ID).Count > 0 Then Return False
+        If clsTopic.FetchBusinessObjects(mDbContext, Function(x) x.ParentTopicID IsNot Nothing AndAlso x.ParentTopicID = Me.ID).Count > 0 Then Return False
         Return True
     End Function
 

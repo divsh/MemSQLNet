@@ -78,6 +78,11 @@ Public Class TopicQuestionPresenter
         MyView.populateTopicTree(clsTopic.FetchBusinessObjects(mdbContext, Function(x) True))
         MyView.RefeshQuestionsGrid(ParentTopicID)
     End Sub
+
+    Public Sub OnMenuDeleteTopic(ByVal selectedTopicID As Integer) Implements ITopicQuestionPresenter.OnMenuDeleteTopic
+        clsTopic.FetchBusinessObjects(mdbContext, Function(x) x.ID = selectedTopicID).FirstOrDefault().Delete()
+        MyView.populateTopicTree(clsTopic.FetchBusinessObjects(mdbContext, Function(x) True))
+    End Sub
 #End Region
 
 End Class

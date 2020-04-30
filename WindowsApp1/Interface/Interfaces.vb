@@ -20,6 +20,7 @@ Public Interface ITopicQuestionPresenter
     Sub OnMenuAddQuestion(topicID As Integer, question As String)
     Sub OnMenuAddTopic(topicID As Integer, topic As String)
     Sub OnMenuDeleteQuestion(question As clsQuestion)
+    Sub OnMenuDeleteTopic(selectedTopicID As Integer)
 End Interface
 
 Public Interface IQuestionView

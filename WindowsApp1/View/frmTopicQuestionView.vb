@@ -198,7 +198,13 @@
     End Sub
 
     Private Sub mnuItemDeleteTopic_Click(sender As Object, e As EventArgs) Handles mnuItemDeleteTopic.Click
-
+        Dim selectedTopicID As Integer
+        Try
+            selectedTopicID = DirectCast(trvTopic.SelectedNode.Tag, Integer)
+            myPresenter.OnMenuDeleteTopic(selectedTopicID)
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "mnuItemDeleteTopic_Click")
+        End Try
     End Sub
 
     Private Sub grdQuestion_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles grdQuestion.ColumnHeaderMouseClick
