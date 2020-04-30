@@ -26,6 +26,7 @@
         grdQuestion.Columns.Remove("dbobject")
         grdQuestion.Columns.Remove("topic")
         grdQuestion.Columns.Remove("dbcontext")
+
     End Sub
 
     Public Sub populateTopicTree(topics As List(Of clsTopic)) Implements ITopicQuestionView.populateTopicTree
@@ -198,5 +199,35 @@
 
     Private Sub mnuItemDeleteTopic_Click(sender As Object, e As EventArgs) Handles mnuItemDeleteTopic.Click
 
+    End Sub
+
+    Private Sub grdQuestion_ColumnHeaderMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles grdQuestion.ColumnHeaderMouseClick
+        Try
+            Dim newColumn As DataGridViewColumn = grdQuestion.Columns(e.ColumnIndex)
+            Dim oldColumn As DataGridViewColumn = grdQuestion.SortedColumn
+            Dim direction As SortOrder
+
+            ' If oldColumn Is null, then the DataGridView Is Not sorted.
+            If (oldColumn IsNot Nothing) Then
+                ' Sort the same column again, reversing the SortOrder.
+                If oldColumn Is newColumn AndAlso grdQuestion.SortOrder = SortOrder.Ascending Then
+                    direction = SortOrder.Descending
+                Else
+                    'Sort a New column And remove the old SortGlyph.
+                    direction = SortOrder.Ascending
+                    oldColumn.HeaderCell.SortGlyphDirection = SortOrder.None
+                End If
+
+            Else
+
+                direction = SortOrder.Ascending
+            End If
+
+            'Sort the selected column.
+            grdQuestion.Sort(newColumn, direction)
+            newColumn.HeaderCell.SortGlyphDirection = If(direction = SortOrder.Ascending, SortOrder.Ascending, SortOrder.Descending)
+        Catch ex As Exception
+            MessageBoxEx.Show(ex, "grdQuestion_ColumnHeaderMouseClick")
+        End Try
     End Sub
 End Class

@@ -20,32 +20,60 @@ Public Class ReviewPlanner
         buildQuestionsOverdueForReview(appendNonOverdueQuestions)
     End Sub
     Private Sub buildQuestionsOverdueForReview(appendNonOverdueQuestions As Boolean)
-        'review question are arranged in order
+        'Initilizing
+        _LastOverDuedQuetionFetched = False
+
+        'Review question are arranged in order
         ' all never reviewed questions then,
         ' all overdue question arranged with highest nextReviewIntervalSNo on top then,
         ' all underdue question in with lowest recall response on top.
         Dim result As List(Of clsQuestion)
         Dim arrangedResult As List(Of clsQuestion) = New List(Of clsQuestion)
-        'fetch overdue to review questions 
-        result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0 OrElse Convert.ToDateTime(x.LastReviewDate).AddDays(clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.SNo = x.NextReviewIntervalSNo).FirstOrDefault().Interval) >= Today)
-        arrangedResult = Utility.Shuffle(Of clsQuestion)(clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0))
+
+
+        'Fetch never studied questions and shuffle
+        result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.NextReviewIntervalSNo = 0)
+        shuffleAndAdd(arrangedResult, result)
+
+        'Fetch overdue questions and dont shuffle
         result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewDate IsNot Nothing AndAlso Convert.ToDateTime(x.LastReviewDate).AddDays(clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.SNo = x.NextReviewIntervalSNo).FirstOrDefault().Interval) >= Today)
-        'result = Utility.Shuffle(Of clsQuestion)(result)
-        arrangedResult.AddRange(result.OrderBy(Of Integer)(Function(x) x.NextReviewIntervalSNo))
-        _LastOverDuedQuetionFetched = False
-        mLastOverDueQuestionID = result.FirstOrDefault().ID
-        result = Nothing
+        result = clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewDate IsNot Nothing AndAlso
+            DateDiff(DateInterval.Day, Convert.ToDateTime(x.LastReviewDate), Today) >= clsReviewInterval.FetchBusinessObjects(mDBContext, Function(y) y.SNo = x.NextReviewIntervalSNo).FirstOrDefault().Interval)
+        arrangedResult.AddRange(result)
+        result.Clear()
+
+
+        mLastOverDueQuestionID = arrangedResult.LastOrDefault().ID
+
+        'Fetch non overdue question in order of last review response with worst on top.
         If appendNonOverdueQuestions Then
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Null).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then arrangedResult.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Poor).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then arrangedResult.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Average).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then arrangedResult.Add(y))
-            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Good).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then arrangedResult.Add(y))
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Null).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
+            shuffleAndAdd(arrangedResult, result)
+
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Poor).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
+            shuffleAndAdd(arrangedResult, result)
+
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Average).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
+            shuffleAndAdd(arrangedResult, result)
+
+            clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.LastReviewResponse = clsQuestion.Recall.Good).ForEach(Sub(y) If Not arrangedResult.Exists(Function(x) x.ID = y.ID) Then result.Add(y))
+            shuffleAndAdd(arrangedResult, result)
         End If
 
+        'Log all questions selected to review.
+        arrangedResult.ForEach(Sub(x) Logger.Log(Logger.LoggingLevel.Info, x.Name))
+
+        'Initialize
         _ReviewQuestions = arrangedResult
-        arrangedResult.ForEach(Sub(x) Logger.Log(Logger.LoggingLevel.Info, x.Name & ", "))
         _QuestionsToReviewCount = arrangedResult.Count
         mReviewQuestionEnumarator = _ReviewQuestions.GetEnumerator
+    End Sub
+
+    Private Sub shuffleAndAdd(ByVal containerCollection As List(Of clsQuestion), ByVal collection As List(Of clsQuestion))
+        Dim mixer As IList
+        mixer = Utility.Shuffle(Of clsQuestion)(collection)
+        containerCollection.AddRange(mixer)
+        collection.Clear()
     End Sub
 
     Public Function fetchNextQuestionForReview() As clsQuestion
@@ -217,7 +245,9 @@ Public Class ReviewPlanner
 
         Dim nextRevIntCondition1 As Boolean
         Dim nextRevIntCondition2 As Boolean
-        Dim nextIntervalGapFromPrev As Integer = prevRevIntervals.OrderByDescending(Of Integer)(Function(x) x.SNo).ElementAt(0).Interval - prevRevIntervals.OrderByDescending(Of Integer)(Function(x) x.Interval).ElementAt(1).Interval
+        Dim nextIntervalGapFromPrev As Integer =
+            prevRevIntervals.OrderByDescending(Of Integer)(Function(x) x.SNo).ElementAt(0).Interval -
+             If(prevRevIntervals.Count >= 2, prevRevIntervals.OrderByDescending(Of Integer)(Function(x) x.Interval).ElementAt(1).Interval, 0)
         If DateDiff(DateInterval.Day,
                     clsReview.FetchBusinessObjects(mDBContext, Function(x) x.QuestionID = q.ID).OrderBy(Of Integer)(Function(x) x.ID).First().MaintTime,
                     Now) >= intervalsSum Then
