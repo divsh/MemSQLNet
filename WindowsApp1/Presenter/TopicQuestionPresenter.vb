@@ -39,28 +39,33 @@ Public Class TopicQuestionPresenter
     Public Sub OnQuestionDelete(questionID As Integer) Implements ITopicQuestionPresenter.OnQuestionDelete
         Throw New NotImplementedException()
     End Sub
+
     Private mQuestionView As IQuestionView
     Public Sub OnQuestionDoubleClicked(questionID As Integer) Implements ITopicQuestionPresenter.OnQuestionDoubleClicked
+        Dim qv As IQuestionView = getQuestionView()
+        qv.Display(questionID)
+        DirectCast(qv, Form).Focus()
+    End Sub
+
+    Private Function getQuestionView() As IQuestionView
         If mQuestionView Is Nothing OrElse DirectCast(mQuestionView, Form).IsDisposed Then
             mQuestionView = New frmQuestionView(mdbContext, MyView)
         End If
-        mQuestionView.Display(questionID)
-        DirectCast(mQuestionView, Form).Focus()
-    End Sub
-
+        Return mQuestionView
+    End Function
     Public Function GetAllTopics() As List(Of clsTopic) Implements ITopicQuestionPresenter.GetAllTopics
         Dim allTopics = clsTopic.FetchBusinessObjects(mdbContext, Function(x) x.ID > 0)
         Return allTopics
     End Function
 
-    Public Sub OnMenuAddQuestion(topicID As Integer, question As String) Implements ITopicQuestionPresenter.OnMenuAddQuestion
+    Public Sub OnMenuAddQuestion(topicID As Integer) Implements ITopicQuestionPresenter.OnMenuAddQuestion
         Dim newQ As clsQuestion
         newQ = New clsQuestion(mdbContext)
-        newQ.Name = question
-        newQ.Answer = clsQuestion.TextToRTF("Edit to provide an answer to this question.")
         newQ.TopicID = topicID
-        newQ.Save()
-        MyView.RefeshQuestionsGrid(topicID)
+        Dim qv As IQuestionView = getQuestionView()
+        qv.DisplayBusinessObject(newQ)
+        DirectCast(qv, frmQuestionView).Show()
+        qv.SetMode(QuestionViewMode.Create)
     End Sub
 
     Public Sub OnMenuDeleteQuestion(question As clsQuestion) Implements ITopicQuestionPresenter.OnMenuDeleteQuestion

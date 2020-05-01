@@ -17,7 +17,7 @@ Public Interface ITopicQuestionPresenter
     Sub OnTopicParentTopicChanged(topicIDChanged As Integer, newParentTopicID As Integer)
     Sub OnQuestionsDroppedOnTopic(quesions As Integer(), droppedOnTopicID As Integer)
     Sub OnQuestionDelete(questionID As Integer)
-    Sub OnMenuAddQuestion(topicID As Integer, question As String)
+    Sub OnMenuAddQuestion(topicID As Integer)
     Sub OnMenuAddTopic(topicID As Integer, topic As String)
     Sub OnMenuDeleteQuestion(question As clsQuestion)
     Sub OnMenuDeleteTopic(selectedTopicID As Integer)
@@ -28,6 +28,7 @@ Public Interface IQuestionView
     ReadOnly Property CurrentMode As QuestionViewMode
     ReadOnly Property DisplayedQuestion As clsQuestion
     ReadOnly Property DisplayedTopic As clsTopic
+    ReadOnly Property LastDisplayedStoredBusinessObject As clsQuestion
     Sub SetBusinessObjectOnView(question As clsQuestion)
     Sub DisplayBusinessObject(question As clsQuestion)
     Sub ChangeState(state As Object)
@@ -50,7 +51,6 @@ Public Interface IQuestionPresenter
     Sub OnReviewSelected(topicID As Integer)
     Sub OnNewSelected()
     Sub OnStopReviewSelected()
-    Sub OnDisplayedQuestionChange(lastquestion As clsQuestion)
     Sub onQuestionEditRequest()
     Sub OnSkipReviewQuestion()
 End Interface

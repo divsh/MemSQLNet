@@ -33,6 +33,9 @@ Partial Class frmTopicQuestionView
         Me.mnuQuestionGrid = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.mnuItemAddQuestion = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuItemDeleteQuestion = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.sbTotalQuestions = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.sbMemorize = New System.Windows.Forms.ToolStripStatusLabel()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -40,6 +43,7 @@ Partial Class frmTopicQuestionView
         Me.mnuTreeView.SuspendLayout()
         CType(Me.grdQuestion, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.mnuQuestionGrid.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -139,11 +143,34 @@ Partial Class frmTopicQuestionView
         Me.mnuItemDeleteQuestion.Size = New System.Drawing.Size(211, 32)
         Me.mnuItemDeleteQuestion.Text = "&Delete Question"
         '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(24, 24)
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.sbTotalQuestions, Me.sbMemorize})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 494)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Size = New System.Drawing.Size(970, 32)
+        Me.StatusStrip1.TabIndex = 7
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'sbTotalQuestions
+        '
+        Me.sbTotalQuestions.Name = "sbTotalQuestions"
+        Me.sbTotalQuestions.Size = New System.Drawing.Size(134, 25)
+        Me.sbTotalQuestions.Text = "Total Questions"
+        '
+        'sbMemorize
+        '
+        Me.sbMemorize.Name = "sbMemorize"
+        Me.sbMemorize.Size = New System.Drawing.Size(91, 25)
+        Me.sbMemorize.Text = "Memorize"
+        '
         'frmTopicQuestionView
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(970, 526)
+        Me.Controls.Add(Me.StatusStrip1)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmTopicQuestionView"
         Me.Text = "frmTopicQuestionView"
@@ -154,7 +181,10 @@ Partial Class frmTopicQuestionView
         Me.mnuTreeView.ResumeLayout(False)
         CType(Me.grdQuestion, System.ComponentModel.ISupportInitialize).EndInit()
         Me.mnuQuestionGrid.ResumeLayout(False)
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents SplitContainer1 As SplitContainer
@@ -166,4 +196,7 @@ Partial Class frmTopicQuestionView
     Friend WithEvents mnuQuestionGrid As ContextMenuStrip
     Friend WithEvents mnuItemAddQuestion As ToolStripMenuItem
     Friend WithEvents mnuItemDeleteQuestion As ToolStripMenuItem
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents sbTotalQuestions As ToolStripStatusLabel
+    Friend WithEvents sbMemorize As ToolStripStatusLabel
 End Class

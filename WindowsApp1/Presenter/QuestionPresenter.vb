@@ -12,12 +12,12 @@ Public Class QuestionPresenter
     End Sub
 
     Public Sub OnCancelSelected(questionID As Integer, mode As QuestionViewMode) Implements IQuestionPresenter.OnCancelSelected
-        MyView.SetMode(QuestionViewMode.Detail)
-        If MyView.CurrentMode = QuestionViewMode.Create Then
-            MyView.DisplayBusinessObject(mLastDisplayedQuestion)
+        If MyView.CurrentMode = QuestionViewMode.Create OrElse MyView.CurrentMode = QuestionViewMode.Edit Then
+            MyView.DisplayBusinessObject(MyView.LastDisplayedStoredBusinessObject)
         ElseIf MyView.CurrentMode = QuestionViewMode.Edit Then
             MyView.DisplayBusinessObject(clsQuestion.FetchBusinessObjects(mDBContext, Function(x) x.ID = questionID).FirstOrDefault)
         End If
+        MyView.SetMode(QuestionViewMode.Detail)
     End Sub
 
     Public Sub OnPrevNextSelected(nextQuestionID As Integer) Implements IQuestionPresenter.OnPrevNextSelected
@@ -233,15 +233,12 @@ Public Class QuestionPresenter
         MyView.DisplayBusinessObject(newQuestion)
     End Sub
 
+
     Public Sub OnSaveClicked(displayedBusinessObject As clsQuestion) Implements IQuestionPresenter.OnSaveClicked
         displayedBusinessObject.Save()
         MyView.SetMode(QuestionViewMode.Detail)
         MyView.CallQuestionTopicGridRefresh()
 
-    End Sub
-
-    Public Sub OnDisplayedQuestionChange(lastquestion As clsQuestion) Implements IQuestionPresenter.OnDisplayedQuestionChange
-        mLastDisplayedQuestion = lastquestion
     End Sub
 
     Public Function getQuestion(questionID As Integer) As clsQuestion Implements IQuestionPresenter.getQuestion

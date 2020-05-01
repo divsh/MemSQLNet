@@ -12,6 +12,11 @@
         myPresenter = New TopicQuestionPresenter(dbContext, Me)
     End Sub
 
+    Public Sub SetStatusBarInformations(totalQuestions As Integer, memorize As Double)
+        sbMemorize.Text = "Memorized:" & memorize & "%"
+        sbTotalQuestions.Text = "Total Questions:" & totalQuestions.ToString
+    End Sub
+
     Private Sub initGrid(ByVal grd As DataGridView)
         grd.AutoGenerateColumns = True
         grd.AutoSize = True
@@ -158,10 +163,7 @@
 
     Private Sub mnuItemAddQuestion_Click(sender As Object, e As EventArgs) Handles mnuItemAddQuestion.Click
         Try
-            Dim q As String
-            q = InputBox("Enter the question:", "New Question", String.Empty)
-            If String.IsNullOrEmpty(q) Then Return
-            myPresenter.OnMenuAddQuestion(trvTopic.SelectedNode.Tag, q)
+            myPresenter.OnMenuAddQuestion(trvTopic.SelectedNode.Tag)
         Catch ex As Exception
             MessageBoxEx.Show(ex, "mnuItemAddQuestion_Click")
         End Try

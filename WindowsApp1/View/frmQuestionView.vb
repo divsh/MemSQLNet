@@ -1,5 +1,4 @@
-﻿Imports WindowsApp1
-
+﻿
 Public Class frmQuestionView
     Implements IQuestionView
 
@@ -15,6 +14,14 @@ Public Class frmQuestionView
         MyPresenter = New QuestionPresenter(dbContext, Me)
         Me.Icon = My.Resources.sync
         Me.Text = "Question"
+        setupBulletingOnRichTextControl()
+    End Sub
+
+    Private Sub setupBulletingOnRichTextControl()
+        rtbAnswer.SelectionBullet = True
+        rtbAnswer.SelectionIndent = 8
+        rtbAnswer.SelectionRightIndent = 12
+        rtbAnswer.SelectionHangingIndent = 3
     End Sub
     Private Sub initButtonPanels()
         Dim top, left As Integer
@@ -50,7 +57,11 @@ Public Class frmQuestionView
         End Get
     End Property
 
+    Public ReadOnly Property LastDisplayedStoredBusinessObject As clsQuestion Implements IQuestionView.LastDisplayedStoredBusinessObject
+
     Public Sub DisplayBusinessObject(question As clsQuestion) Implements IQuestionView.DisplayBusinessObject
+        If question Is Nothing Then Return
+        If DisplayedQuestion IsNot Nothing AndAlso DisplayedQuestion.IsStored Then _LastDisplayedStoredBusinessObject = DisplayedQuestion
         Dim currQuestion As clsQuestion
         currQuestion = DisplayedQuestion
         mDisplayedQuestion = question
@@ -66,8 +77,6 @@ Public Class frmQuestionView
         Catch ex As Exception
             rtbAnswer.Rtf = clsQuestion.TextToRTF(DisplayedQuestion.Answer)
         End Try
-        MyPresenter.OnDisplayedQuestionChange(currQuestion)
-
     End Sub
 
     Public Sub SetBusinessObjectOnView(question As clsQuestion) Implements IQuestionView.SetBusinessObjectOnView
@@ -104,6 +113,7 @@ Public Class frmQuestionView
                 rtbAnswer.BackColor = Color.LightYellow
 
                 rtbAnswer.Show()
+                txtQuestion.Focus()
             Case QuestionViewMode.Detail
                 plnBrowseMode.Visible = True
                 plnBrowseMode.Enabled = True
@@ -272,7 +282,11 @@ Public Class frmQuestionView
             MessageBoxEx.Show(ex, "grbResponse_KeyDown")
         End Try
     End Sub
-
+    Private Sub btnShowAnswer_PreviewKeyDown(sender As Object, e As PreviewKeyDownEventArgs) Handles btnShowAnswer.PreviewKeyDown
+        If e.KeyCode = Keys.Escape Then
+            MyPresenter.OnSkipReviewQuestion()
+        End If
+    End Sub
     Private Sub grbResponse_GotFocus(sender As Object, e As EventArgs) Handles grbResponse.GotFocus
         Try
             grbResponse.BackColor = Color.Yellow
@@ -291,7 +305,10 @@ Public Class frmQuestionView
 
     Private Sub rtbAnswer_DoubleClick(sender As Object, e As EventArgs) Handles rtbAnswer.DoubleClick
         Try
-            If Me.CurrentMode = QuestionViewMode.Review OrElse Me.CurrentMode = QuestionViewMode.Edit Then Return
+            If Me.CurrentMode = QuestionViewMode.Review OrElse
+                Me.CurrentMode = QuestionViewMode.Edit OrElse
+                Me.CurrentMode = QuestionViewMode.Create Then Return
+
             Dim result As DialogResult
             result = MessageBox.Show("Do you want to edit the question?", "Question", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1)
             If result = DialogResult.Yes Then MyPresenter.onQuestionEditRequest()
@@ -303,4 +320,6 @@ Public Class frmQuestionView
     Public Sub CallQuestionTopicGridRefresh() Implements IQuestionView.CallQuestionTopicGridRefresh
         mTopicQuestionView.RefeshQuestionsGrid(DisplayedQuestion.TopicID)
     End Sub
+
+
 End Class
