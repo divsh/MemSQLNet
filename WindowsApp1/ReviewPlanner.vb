@@ -127,7 +127,7 @@ Public Class ReviewPlanner
             Return
         End If
 
-        If response >= clsQuestion.Recall.Good Then
+        If response >= clsQuestion.Recall.Best Then
             question.LastReviewDate = Now
             question.LastReviewResponse = response
             question.ReviewCount += 1

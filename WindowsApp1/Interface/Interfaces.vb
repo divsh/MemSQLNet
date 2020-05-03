@@ -13,6 +13,7 @@ Public Interface ITopicQuestionPresenter
     Sub OnQuestionDoubleClicked(questionID As Integer)
     Sub OnTopicSelectionChanged(selectedTopicID As Integer)
     Sub OnQuestionsDroppedOnTopic(questionIDs As List(Of Integer))
+    Function getStatusBarInfo() As Tuple(Of Integer, Integer)
     Sub OnTopicRenamed(topicIDRenamed As Integer, newName As String)
     Sub OnTopicParentTopicChanged(topicIDChanged As Integer, newParentTopicID As Integer)
     Sub OnQuestionsDroppedOnTopic(quesions As Integer(), droppedOnTopicID As Integer)

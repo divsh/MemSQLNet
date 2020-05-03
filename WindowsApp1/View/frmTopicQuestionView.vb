@@ -10,11 +10,11 @@
         initGrid(grdQuestion)
         mDBContext = dbContext
         myPresenter = New TopicQuestionPresenter(dbContext, Me)
+        updateStatusBarInformation()
     End Sub
-
-    Public Sub SetStatusBarInformations(totalQuestions As Integer, memorize As Double)
-        sbMemorize.Text = "Memorized:" & memorize & "%"
-        sbTotalQuestions.Text = "Total Questions:" & totalQuestions.ToString
+    Sub updateStatusBarInformation()
+        Dim statusInfo As Tuple(Of Integer, Integer) = myPresenter.getStatusBarInfo()
+        sbTotalQuestions.Text = "Total Questions:" & statusInfo.Item1
     End Sub
 
     Private Sub initGrid(ByVal grd As DataGridView)

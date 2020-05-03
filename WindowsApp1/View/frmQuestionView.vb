@@ -14,7 +14,7 @@ Public Class frmQuestionView
         MyPresenter = New QuestionPresenter(dbContext, Me)
         Me.Icon = My.Resources.sync
         Me.Text = "Question"
-        setupBulletingOnRichTextControl()
+        'setupBulletingOnRichTextControl()
     End Sub
 
     Private Sub setupBulletingOnRichTextControl()
@@ -196,6 +196,7 @@ Public Class frmQuestionView
     End Sub
 
     Private Sub btnReview_Click(sender As Object, e As EventArgs) Handles btnReview.Click
+        Logger.Log(Logger.LoggingLevel.Debug, "Begin:btnReview_Click")
         Dim cur As Object = DirectCast(Me, Form).Cursor
         Try
             DirectCast(Me, Form).Cursor = Cursors.WaitCursor
@@ -206,6 +207,7 @@ Public Class frmQuestionView
             MessageBoxEx.Show(ex, "btnReview_Click")
         Finally
             DirectCast(Me, Form).Cursor = DirectCast(cur, Cursor)
+            Logger.Log(Logger.LoggingLevel.Debug, "End:btnReview_Click")
         End Try
     End Sub
 

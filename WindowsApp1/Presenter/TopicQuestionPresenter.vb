@@ -1,5 +1,4 @@
-﻿Imports WindowsApp1
-
+﻿Imports System.Tuple
 Public Class TopicQuestionPresenter
     Implements ITopicQuestionPresenter
     Private mdbContext As DBContext
@@ -11,10 +10,14 @@ Public Class TopicQuestionPresenter
 
 
 #Region "Presenter Interface Implementation"
+
     Public Sub OnTopicSelectionChanged(selectedTopicID As Integer) Implements ITopicQuestionPresenter.OnTopicSelectionChanged
         Dim questions As List(Of clsQuestion)
+        Application.DoEvents()
         questions = clsQuestion.FetchBusinessObjects(mdbContext, Function(x) x.TopicID = selectedTopicID)
+        Application.DoEvents()
         MyView.RefeshQuestionsGrid(questions)
+        Application.DoEvents()
     End Sub
 
     Public Sub OnQuestionsDroppedOnTopic(questionIDs As List(Of Integer)) Implements ITopicQuestionPresenter.OnQuestionsDroppedOnTopic
@@ -88,6 +91,13 @@ Public Class TopicQuestionPresenter
         clsTopic.FetchBusinessObjects(mdbContext, Function(x) x.ID = selectedTopicID).FirstOrDefault().Delete()
         MyView.populateTopicTree(clsTopic.FetchBusinessObjects(mdbContext, Function(x) True))
     End Sub
+
+    Public Function getStatusBarInfo() As Tuple(Of Integer, Integer) Implements ITopicQuestionPresenter.getStatusBarInfo
+        Dim questionCount As Integer = mdbContext.ExecuteScalar(Of Integer)("select count(*) from question")
+        Dim memorize As Integer
+        'memorize = mdbContext.ExecuteScalar(Of Double)("")
+        Return New Tuple(Of Integer, Integer)(questionCount, memorize)
+    End Function
 #End Region
 
 End Class

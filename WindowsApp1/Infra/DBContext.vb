@@ -46,4 +46,8 @@ Public Class DBContext
         mDBConnection.CreateTable(Of clsReview.Review)()
         mDBConnection.CreateTable(Of clsReviewInterval.ReviewInterval)()
     End Sub
+
+    Public Function ExecuteScalar(Of T)(ByVal query As String) As T
+        Return mDBConnection.ExecuteScalar(Of T)(query)
+    End Function
 End Class
