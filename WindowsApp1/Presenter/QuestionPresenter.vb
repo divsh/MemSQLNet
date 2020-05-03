@@ -228,10 +228,15 @@ Public Class QuestionPresenter
     End Sub
 
     Public Sub OnNewSelected() Implements IQuestionPresenter.OnNewSelected
+        Debug.WriteLine(Now.ToString & "-----")
         Dim newQuestion As clsQuestion = New clsQuestion(mDBContext)
+        Debug.WriteLine(Now.ToString)
         newQuestion.TopicID = MyView.DisplayedTopic.ID
+        Debug.WriteLine(Now.ToString)
         MyView.SetMode(QuestionViewMode.Create)
+        Debug.WriteLine(Now.ToString)
         MyView.DisplayBusinessObject(newQuestion)
+        Debug.WriteLine(Now.ToString)
     End Sub
 
 

@@ -51,7 +51,7 @@ Public Class TopicQuestionPresenter
     End Sub
 
     Private Function getQuestionView() As IQuestionView
-        If mQuestionView Is Nothing OrElse DirectCast(mQuestionView, Form).IsDisposed Then
+        If mQuestionView Is Nothing OrElse DirectCast(mQuestionView, frmQuestionView).IsDisposed Then
             mQuestionView = New frmQuestionView(mdbContext, MyView)
         End If
         Return mQuestionView

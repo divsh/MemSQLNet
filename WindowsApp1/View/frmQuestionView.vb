@@ -45,8 +45,9 @@ Public Class frmQuestionView
 
     Public ReadOnly Property DisplayedTopic As clsTopic Implements IQuestionView.DisplayedTopic
         Get
-            If mDisplayedQuestion.Id <= 0 Then Return Nothing
-            Return MyPresenter.GetTopic(mDisplayedQuestion.Id)
+            If mDisplayedQuestion.ID <= 0 Then Return Nothing
+            Return mDisplayedQuestion.Topic
+            'Return MyPresenter.GetTopic(mDisplayedQuestion.Id)
         End Get
     End Property
 
@@ -155,9 +156,12 @@ Public Class frmQuestionView
 
     Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
         Try
+            Logger.Log(Logger.LoggingLevel.Info, "Begin:btnNew_Click")
             MyPresenter.OnNewSelected()
         Catch ex As Exception
             MessageBoxEx.Show(ex, "frmQuestionView.btnNew_Click")
+        Finally
+            Logger.Log(Logger.LoggingLevel.Info, "End:btnNew_Click")
         End Try
     End Sub
 
