@@ -24,6 +24,7 @@ Partial Class frmTopicQuestionView
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmTopicQuestionView))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.trvTopic = New System.Windows.Forms.TreeView()
         Me.mnuTreeView = New System.Windows.Forms.ContextMenuStrip(Me.components)
@@ -36,6 +37,7 @@ Partial Class frmTopicQuestionView
         Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
         Me.sbTotalQuestions = New System.Windows.Forms.ToolStripStatusLabel()
         Me.sbMemorize = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.ImageList1 = New System.Windows.Forms.ImageList(Me.components)
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -68,9 +70,12 @@ Partial Class frmTopicQuestionView
         Me.trvTopic.ContextMenuStrip = Me.mnuTreeView
         Me.trvTopic.Dock = System.Windows.Forms.DockStyle.Fill
         Me.trvTopic.Font = New System.Drawing.Font("Verdana", 10.02532!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.trvTopic.ImageIndex = 0
+        Me.trvTopic.ImageList = Me.ImageList1
         Me.trvTopic.LabelEdit = True
         Me.trvTopic.Location = New System.Drawing.Point(0, 0)
         Me.trvTopic.Name = "trvTopic"
+        Me.trvTopic.SelectedImageIndex = 0
         Me.trvTopic.Size = New System.Drawing.Size(359, 526)
         Me.trvTopic.TabIndex = 5
         '
@@ -165,6 +170,14 @@ Partial Class frmTopicQuestionView
         Me.sbMemorize.Size = New System.Drawing.Size(91, 25)
         Me.sbMemorize.Text = "Memorize"
         '
+        'ImageList1
+        '
+        Me.ImageList1.ImageStream = CType(resources.GetObject("ImageList1.ImageStream"), System.Windows.Forms.ImageListStreamer)
+        Me.ImageList1.TransparentColor = System.Drawing.Color.Transparent
+        Me.ImageList1.Images.SetKeyName(0, "folderClose")
+        Me.ImageList1.Images.SetKeyName(1, "folderOpen")
+        Me.ImageList1.Images.SetKeyName(2, "folderClose2")
+        '
         'frmTopicQuestionView
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
@@ -199,4 +212,5 @@ Partial Class frmTopicQuestionView
     Friend WithEvents StatusStrip1 As StatusStrip
     Friend WithEvents sbTotalQuestions As ToolStripStatusLabel
     Friend WithEvents sbMemorize As ToolStripStatusLabel
+    Friend WithEvents ImageList1 As ImageList
 End Class

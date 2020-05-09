@@ -7,10 +7,16 @@
         ' This call is required by the designer.
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
-        initGrid(grdQuestion)
         mDBContext = dbContext
         myPresenter = New TopicQuestionPresenter(dbContext, Me)
+        initUI()
+    End Sub
+
+    Sub initUI()
+        initGrid(grdQuestion)
         updateStatusBarInformation()
+        trvTopic.SelectedImageIndex = 1
+        trvTopic.ImageIndex = 2
     End Sub
     Sub updateStatusBarInformation()
         Dim statusInfo As Tuple(Of Integer, Integer) = myPresenter.getStatusBarInfo()
