@@ -17,6 +17,7 @@
         updateStatusBarInformation()
         trvTopic.SelectedImageIndex = 1
         trvTopic.ImageIndex = 2
+
     End Sub
     Sub updateStatusBarInformation()
         Dim statusInfo As Tuple(Of Integer, Integer) = myPresenter.getStatusBarInfo()
@@ -42,6 +43,7 @@
 
     Public Sub populateTopicTree(topics As List(Of clsTopic)) Implements ITopicQuestionView.populateTopicTree
         Dim addedID As List(Of Integer) = New List(Of Integer)
+        trvTopic.BeginUpdate()
         trvTopic.Nodes.Clear()
         Dim rootNode As TreeNode = New TreeNode("Root")
         trvTopic.Nodes.Add(rootNode)
@@ -52,6 +54,7 @@
             node.Tag = t.ID
             addNodeToParent(rootNode, node, t.ParentTopicID, topics, addedID)
         Next
+        trvTopic.EndUpdate()
     End Sub
 
     Public Sub selectTopicNode(topicID As Integer)
@@ -127,10 +130,13 @@
 
     Private Sub trvTopic_AfterSelect(sender As Object, e As TreeViewEventArgs) Handles trvTopic.AfterSelect
         Try
+            trvTopic.SelectedNode.BackColor = Color.LightCyan
             myPresenter.OnTopicSelectionChanged(e.Node.Tag)
         Catch ex As Exception
             MessageBoxEx.Show(ex, "trvTopic_AfterSelect")
+        Finally
         End Try
+
     End Sub
 
     Private Sub trvTopic_AfterLabelEdit(sender As Object, e As NodeLabelEditEventArgs) Handles trvTopic.AfterLabelEdit
@@ -280,5 +286,10 @@
         End With
         Dim headerBounds = New Rectangle(e.RowBounds.Left, e.RowBounds.Top, grid.RowHeadersWidth, e.RowBounds.Height)
         e.Graphics.DrawString(rowIdx, Me.Font, SystemBrushes.ControlText, headerBounds, centerFormat)
+    End Sub
+
+    Private Sub trvTopic_BeforeSelect(sender As Object, e As TreeViewCancelEventArgs) Handles trvTopic.BeforeSelect
+        If trvTopic.SelectedNode Is Nothing Then Return
+        trvTopic.SelectedNode.BackColor = Color.White
     End Sub
 End Class
