@@ -111,7 +111,7 @@ Partial Class frmQuestionView
         Me.txtQuestion.Multiline = True
         Me.txtQuestion.Name = "txtQuestion"
         Me.txtQuestion.ReadOnly = True
-        Me.txtQuestion.Size = New System.Drawing.Size(1417, 46)
+        Me.txtQuestion.Size = New System.Drawing.Size(1413, 46)
         Me.txtQuestion.TabIndex = 4
         '
         'rtbAnswer
@@ -122,6 +122,7 @@ Partial Class frmQuestionView
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.rtbAnswer.AutoWordSelection = True
         Me.rtbAnswer.BackColor = System.Drawing.Color.White
+        Me.rtbAnswer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.rtbAnswer.EnableAutoDragDrop = True
         Me.rtbAnswer.Font = New System.Drawing.Font("Verdana", 11.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rtbAnswer.Location = New System.Drawing.Point(10, 194)

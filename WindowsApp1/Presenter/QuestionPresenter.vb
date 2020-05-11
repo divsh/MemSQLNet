@@ -239,12 +239,15 @@ Public Class QuestionPresenter
         Debug.WriteLine(Now.ToString)
     End Sub
 
-
     Public Sub OnSaveClicked(displayedBusinessObject As clsQuestion) Implements IQuestionPresenter.OnSaveClicked
         displayedBusinessObject.Save()
-        MyView.SetMode(QuestionViewMode.Detail)
-        MyView.CallQuestionTopicGridRefresh()
-
+        If _LastMode = QuestionViewMode.Review Then
+            MyView.SetMode(QuestionViewMode.Review)
+            MyView.ShowAnswer() 'The edit mode was entered from review mode with answer shown.
+        Else
+            MyView.SetMode(QuestionViewMode.Detail)
+            If _LastMode = QuestionViewMode.Create Then MyView.CallQuestionTopicGridRefresh()
+        End If
     End Sub
 
     Public Function getQuestion(questionID As Integer) As clsQuestion Implements IQuestionPresenter.getQuestion
@@ -272,4 +275,5 @@ Public Class QuestionPresenter
         MyView.SetMode(QuestionViewMode.Edit)
     End Sub
 
+    Public Property LastMode As QuestionViewMode Implements IQuestionPresenter.LastMode
 End Class

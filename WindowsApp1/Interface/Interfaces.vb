@@ -42,6 +42,7 @@ End Interface
 
 
 Public Interface IQuestionPresenter
+    Property LastMode As QuestionViewMode
     Function getQuestion(questionID As Integer) As clsQuestion
     Function GetTopic(questionID As Integer) As clsTopic
     Function GetTopicFromTopicID(topicID As Integer) As clsTopic

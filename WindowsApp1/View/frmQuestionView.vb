@@ -139,7 +139,9 @@ Public Class frmQuestionView
                 ResetResponse()
                 HideAnswer()
         End Select
+        MyPresenter.LastMode = mCurrentMode
         mCurrentMode = mode
+
     End Sub
 
     Public Sub Display(questionID As Integer) Implements IQuestionView.Display
@@ -311,8 +313,7 @@ Public Class frmQuestionView
 
     Private Sub rtbAnswer_DoubleClick(sender As Object, e As EventArgs) Handles rtbAnswer.DoubleClick
         Try
-            If Me.CurrentMode = QuestionViewMode.Review OrElse
-                Me.CurrentMode = QuestionViewMode.Edit OrElse
+            If Me.CurrentMode = QuestionViewMode.Edit OrElse
                 Me.CurrentMode = QuestionViewMode.Create Then Return
 
             Dim result As DialogResult

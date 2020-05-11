@@ -83,8 +83,8 @@ Public Class ReviewPlanner
                 _LastOverDuedQuetionFetched = True
             End If
             Return DirectCast(mReviewQuestionEnumarator.Current, clsQuestion)
-            Else
-                Return Nothing
+        Else
+            Return Nothing
         End If
     End Function
 
