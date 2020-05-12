@@ -5,5 +5,8 @@
     <Setting Name="DBPath" Type="System.String" Scope="Application">
       <Value Profile="(Default)">C:\A1\Work\MemSQLNet\WindowsApp1\foofoo.db</Value>
     </Setting>
+    <Setting Name="TopicsToSpeak" Type="System.String" Scope="User">
+      <Value Profile="(Default)">English Vocabulary</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

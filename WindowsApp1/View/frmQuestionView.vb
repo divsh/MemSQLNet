@@ -60,8 +60,14 @@ Public Class frmQuestionView
 
     Public ReadOnly Property LastDisplayedStoredBusinessObject As clsQuestion Implements IQuestionView.LastDisplayedStoredBusinessObject
 
+    Private Sub CheckAndSpeak(ByVal question As clsQuestion)
+        If My.Settings.TopicsToSpeak.Split(",").Contains(question.Topic.Name) Then
+            Speak.Text(question.Name)
+        End If
+    End Sub
     Public Sub DisplayBusinessObject(question As clsQuestion) Implements IQuestionView.DisplayBusinessObject
         If question Is Nothing Then Return
+        CheckAndSpeak(question)
         If DisplayedQuestion IsNot Nothing AndAlso DisplayedQuestion.IsStored Then _LastDisplayedStoredBusinessObject = DisplayedQuestion
         Dim currQuestion As clsQuestion
         currQuestion = DisplayedQuestion

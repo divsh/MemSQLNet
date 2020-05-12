@@ -62,6 +62,18 @@ Namespace My
                 Return CType(Me("DBPath"),String)
             End Get
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("English Vocabulary")>  _
+        Public Property TopicsToSpeak() As String
+            Get
+                Return CType(Me("TopicsToSpeak"),String)
+            End Get
+            Set
+                Me("TopicsToSpeak") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

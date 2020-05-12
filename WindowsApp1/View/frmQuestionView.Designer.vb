@@ -129,7 +129,7 @@ Partial Class frmQuestionView
         Me.rtbAnswer.Name = "rtbAnswer"
         Me.rtbAnswer.ReadOnly = True
         Me.rtbAnswer.ShowSelectionMargin = True
-        Me.rtbAnswer.Size = New System.Drawing.Size(1411, 341)
+        Me.rtbAnswer.Size = New System.Drawing.Size(1411, 409)
         Me.rtbAnswer.TabIndex = 5
         Me.rtbAnswer.Text = ""
         '
@@ -141,7 +141,7 @@ Partial Class frmQuestionView
         Me.plnBrowseMode.Controls.Add(Me.btnReview)
         Me.plnBrowseMode.Controls.Add(Me.btnPrev)
         Me.plnBrowseMode.Controls.Add(Me.btnNext)
-        Me.plnBrowseMode.Location = New System.Drawing.Point(8, 540)
+        Me.plnBrowseMode.Location = New System.Drawing.Point(8, 608)
         Me.plnBrowseMode.Name = "plnBrowseMode"
         Me.plnBrowseMode.Size = New System.Drawing.Size(1411, 91)
         Me.plnBrowseMode.TabIndex = 15
@@ -190,7 +190,7 @@ Partial Class frmQuestionView
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.plnEditMode.Controls.Add(Me.btnSave)
         Me.plnEditMode.Controls.Add(Me.btnCancel)
-        Me.plnEditMode.Location = New System.Drawing.Point(12, 411)
+        Me.plnEditMode.Location = New System.Drawing.Point(12, 479)
         Me.plnEditMode.Name = "plnEditMode"
         Me.plnEditMode.Size = New System.Drawing.Size(1411, 91)
         Me.plnEditMode.TabIndex = 16
@@ -222,7 +222,7 @@ Partial Class frmQuestionView
         Me.plnReviewMode.Controls.Add(Me.btnShowAnswer)
         Me.plnReviewMode.Controls.Add(Me.grbResponse)
         Me.plnReviewMode.Controls.Add(Me.btnStop)
-        Me.plnReviewMode.Location = New System.Drawing.Point(16, 303)
+        Me.plnReviewMode.Location = New System.Drawing.Point(16, 371)
         Me.plnReviewMode.Name = "plnReviewMode"
         Me.plnReviewMode.Size = New System.Drawing.Size(1411, 91)
         Me.plnReviewMode.TabIndex = 17
@@ -408,7 +408,7 @@ Partial Class frmQuestionView
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 20.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1432, 642)
+        Me.ClientSize = New System.Drawing.Size(1432, 710)
         Me.Controls.Add(Me.txtAverageRecall)
         Me.Controls.Add(Me.Label3)
         Me.Controls.Add(Me.txtTotalReview)
