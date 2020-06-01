@@ -7,6 +7,7 @@ Public Class Speak
     Private Shared p As Prompt
     'Private Shared pOld As Prompt
     Public Shared Sub Text(ByVal text As String)
+        If String.IsNullOrEmpty(text) Then Return
         Static pOld As Prompt
         If ss Is Nothing Then
             ss = New Speech.Synthesis.SpeechSynthesizer()
